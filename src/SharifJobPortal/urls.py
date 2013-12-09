@@ -1,10 +1,14 @@
 from django.conf.urls import patterns, include, url
 
+from ui_test.views import show_template
+
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
 # admin.autodiscover()
 
+
 urlpatterns = patterns('',
+	url(r'^(?P<template>\w+)/$', show_template),
     # Examples:
     # url(r'^$', 'SharifJobPortal.views.home', name='home'),
     # url(r'^SharifJobPortal/', include('SharifJobPortal.foo.urls')),
