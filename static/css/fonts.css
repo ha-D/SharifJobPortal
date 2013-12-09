@@ -1,0 +1,45 @@
+/*******************************
+            Foints
+*******************************/
+
+@font-face
+{
+font-family: koodak;
+src: url('../fonts/koodak.ttf');
+}
+
+@font-face
+{
+font-family: titr;
+src: url('../fonts/titr.ttf');
+}
+
+@font-face
+{
+font-family: nazli;
+src: url('../fonts/nazli.ttf');
+}
+
+@font-face
+{
+font-family: terafik;
+src: url('../fonts/terafik.ttf');
+}
+
+@font-face
+{
+font-family: roya;
+src: url('../fonts/roya.ttf');
+}
+
+@font-face
+{
+font-family: yekan;
+src: url('../fonts/BYekan.woff');
+}
+
+@font-face
+{
+font-family: elham;
+src: url('../fonts/elham.woff');
+}
