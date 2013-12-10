@@ -80,6 +80,13 @@
 	margin-top: 5px;
 	font-size: small;
 }
+
+#opp-pagination{
+	direction: ltr;
+	margin-right: 180px;
+	margin-top: 10px;
+}
+
 .clearfix{
 	clear: both;
 }
