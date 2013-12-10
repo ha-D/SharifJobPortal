@@ -1,0 +1,32 @@
+.ui.steps {
+
+} 
+
+.register {
+	margin: 0 auto;
+	direction: rtl;
+	width: 800px;
+}
+
+.register h2 {
+	margin-right: 30px;
+}
+
+.register .ui.steps .step:after {
+	border-bottom: 1.8em solid transparent;
+}
+
+.register .steps .icon {
+	margin-right: 20px;
+	padding: 0px;
+}
+
+.register .content {
+	border: 1px solid rgb(210, 210, 210);
+	border-top: none;
+	min-height: 200px;
+	padding: 30px;
+
+	border-bottom-right-radius: 3px;
+	border-bottom-left-radius: 3px;
+}

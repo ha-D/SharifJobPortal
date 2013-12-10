@@ -1,0 +1,51 @@
+{% extends "page.html" %}
+{% load staticfiles %}
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+{% endblock style %}
+
+{% block script %}
+
+{% endblock script %}
+
+
+{% block page %}
+	<div class="ui grid">
+		<div class="three wide column">
+			مهارت‌ها
+		</div>
+		<div class="thirteen wide column">
+			<table class="ui basic table segment" id="searchresult">
+			  <thead>
+			    <tr>
+					<th>نام شغل</th>
+					<th>کارفرما</th>
+					<th>مکان</th>
+			  </tr>
+  			 </thead>
+			  <tbody>
+			    <tr>
+			      <td>برنامه‌نویس پایتون</td>
+			      <td>عرش</td>
+			      <td>نزدیک دانشگا</td>
+			    </tr>
+			    <tr >
+			      <td>طراح صفحات سایت</td>
+			      <td>بیان</td>
+			      <td>تو شرکت</td>
+			    </tr>
+			    <tr>
+			      <td>برنامه نویس Android و IOS</td>
+			      <td>کافه بازار</td>
+			      <td>نموی‌دونم</td>
+			    </tr>
+			    <tr>
+			      <td>Jill</td>
+			      <td>Unknown</td>
+			      <td>None</td>
+			    </tr>
+			  </tbody>
+			</table>
+		</div>
+	</div>
+{% endblock page %}

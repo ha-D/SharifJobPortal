@@ -1,0 +1,50 @@
+{% load staticfiles %}
+<html>
+	<head>
+		<title></title>
+
+		<link rel="stylesheet" type="text/css" href="{% static 'css/fonts.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/semantic.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
+		{% block style %}
+
+		{% endblock style %}
+
+		<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
+		<script type="text/javascript" src="{% static 'js/semantic.js' %}"></script>
+		{% block script %}
+
+		{% endblock script %}
+	</head>
+	<body>
+		<div id="top-menu" class="ui fixed transparent inverted main menu">
+			<div class="left menu">
+
+				<div class="ui small icon input rtl searchbox">
+					  <input type="text" placeholder="جستجو شغل...">
+					  <i class="circular search icon"></i>
+				</div>
+
+			</div>
+			<div class="right menu">
+				  <a class="item">
+					<i class="settings icon"></i>
+				  </a>
+				  <a class="item">
+					<div class="ui label">51</div>
+					<i class="mail icon"></i>
+				  </a>
+
+			</div>
+		</div>
+		<div class="main container rtl">
+			{% block main-container %}
+
+			{% endblock %}
+		</div>
+
+		<div class="footer">
+
+		</div>
+	</body>
+</html>

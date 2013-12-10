@@ -23,7 +23,7 @@ body {
 *******************************/
 
 .ui.header {
-  font-family: yekan, 'Source Sans Pro', "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  /*font-family: yekan, 'Source Sans Pro', "Helvetica Neue", "Helvetica", "Arial", sans-serif;*/
 }
 
 .ui.header,
@@ -34,6 +34,7 @@ h2 {
 
 h1.ui.header {
   font-size: 3em;
+    margin-right: 80px;
 }
 
 h4.ui.header,
