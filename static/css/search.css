@@ -1,3 +1,7 @@
+#main{
+	margin-right: auto;
+	margin-left: auto;
+}
 #searchresult thead th{
 	padding-bottom: 20px;
 	font-size: 18px;
@@ -5,4 +9,77 @@
 
 #searchresult td{
 	font-family: koodak;
+}
+
+#main .skill-tag{
+	margin-top: 10px;
+	/*float:right;*/
+	direction: rtl;
+}
+
+#main .skill-tag:first-child{
+	margin-right: 3px;
+}
+
+#main .skill-tag i{
+	margin-left: 5px;
+	margin-right: -3px;
+}
+
+#add-sign{
+	font-size: 23px;
+}
+
+#tag-search-input{
+	width: 220px;
+}
+
+#main .tag-search-input-parent{
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 20px;
+	width: 220px;
+}
+
+#tag-search-list{
+	margin-right: 8px;
+}
+
+#main .add-tag-icon{
+	color: #CF2929;
+}
+
+#main .opportunity{
+
+}
+
+#main .opp-header{
+	margin-right: 0px;
+}
+
+#main .opp-action{
+	text-align: left;
+}
+
+#main .rating{
+	direction: ltr;
+}
+
+#main .opp-rating{
+	display: block;
+}
+
+#main .opp-request{
+	margin-top: 15px;
+	width: 100px;
+	font-size: small;
+}
+
+#main .opp-more{
+	width: 100px;
+	margin-top: 5px;
+	font-size: small;
+}
+.clearfix{
+	clear: both;
 }
