@@ -1,5 +1,6 @@
 {% extends "page.html" %}
 {% load staticfiles %}
+
 {% block style %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
 {% endblock style %}
@@ -10,42 +11,110 @@
 
 
 {% block page %}
-	<div class="ui grid">
-		<div class="three wide column">
-			مهارت‌ها
+	<div class="ui grid" id="main">
+		<div class="four wide column">
+			<h4 class="ui top attached inverted red header">
+			  مهارت‌ها
+			</h4>
+			<div class="ui segment attached">
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	پرستاری
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	برنامه
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	سلام
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	مهارت
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	تحلیل
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	فاز اول
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	فاز دوم
+				</div>
+
+				<div class="ui horizontal divider">
+				  <i class="add sign icon" id="add-sign"></i>
+				</div>
+
+				<div class="tag-search-input-parent">
+					<div class="ui small icon input" id="tag-search-input">
+					  <input type="text" placeholder="جستجو...">
+					  <i class="search icon"></i>
+					</div>
+				</div>
+
+				<div class="ui list" id="tag-search-list">
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۱
+				  </a>
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۲
+				  </a>
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۳
+				  </a>
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۴
+				  </a>
+				</div>
+				
+			</div>
 		</div>
-		<div class="thirteen wide column">
-			<table class="ui basic table segment" id="searchresult">
-			  <thead>
-			    <tr>
-					<th>نام شغل</th>
-					<th>کارفرما</th>
-					<th>مکان</th>
-			  </tr>
-  			 </thead>
-			  <tbody>
-			    <tr>
-			      <td>برنامه‌نویس پایتون</td>
-			      <td>عرش</td>
-			      <td>نزدیک دانشگا</td>
-			    </tr>
-			    <tr >
-			      <td>طراح صفحات سایت</td>
-			      <td>بیان</td>
-			      <td>تو شرکت</td>
-			    </tr>
-			    <tr>
-			      <td>برنامه نویس Android و IOS</td>
-			      <td>کافه بازار</td>
-			      <td>نموی‌دونم</td>
-			    </tr>
-			    <tr>
-			      <td>Jill</td>
-			      <td>Unknown</td>
-			      <td>None</td>
-			    </tr>
-			  </tbody>
-			</table>
+		<div class="ten wide column">
+			<h4 class="ui top attached inverted black header">
+			  نتایج جستجو
+			</h4>
+			<div class="ui segment attached">
+				<table class="ui basic table segment" id="searchresult">
+				  <thead>
+				    <tr>
+						<th>نام شغل</th>
+						<th>کارفرما</th>
+						<th>مکان</th>
+				  </tr>
+	  			 </thead>
+				  <tbody>
+				    <tr>
+				      <td>برنامه‌نویس پایتون</td>
+				      <td>عرش</td>
+				      <td>نزدیک دانشگا</td>
+				    </tr>
+				    <tr >
+				      <td>طراح صفحات سایت</td>
+				      <td>بیان</td>
+				      <td>تو شرکت</td>
+				    </tr>
+				    <tr>
+				      <td>برنامه نویس Android و IOS</td>
+				      <td>کافه بازار</td>
+				      <td>نموی‌دونم</td>
+				    </tr>
+				    <tr>
+				      <td>Jill</td>
+				      <td>Unknown</td>
+				      <td>None</td>
+				    </tr>
+				  </tbody>
+				</table>
+			</div>
 		</div>
 	</div>
 {% endblock page %}
