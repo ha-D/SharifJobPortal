@@ -17,34 +17,8 @@
 		{% endblock script %}
 	</head>
 	<body>
-		<div id="top-menu" class="ui fixed transparent inverted main menu">
-			<div class="left menu">
+		{% block body %}
 
-				<div class="ui small icon input rtl searchbox">
-					  <input type="text" placeholder="جستجو شغل...">
-					  <i class="circular search icon"></i>
-				</div>
-
-			</div>
-			<div class="right menu">
-				  <a class="item">
-					<i class="settings icon"></i>
-				  </a>
-				  <a class="item">
-					<div class="ui label">51</div>
-					<i class="mail icon"></i>
-				  </a>
-
-			</div>
-		</div>
-		<div class="main container rtl">
-			{% block main-container %}
-
-			{% endblock %}
-		</div>
-
-		<div class="footer">
-
-		</div>
+		{% endblock %}
 	</body>
 </html>
