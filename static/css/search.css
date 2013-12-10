@@ -49,6 +49,37 @@
 	color: #CF2929;
 }
 
+#main .opportunity{
+
+}
+
+#main .opp-header{
+	margin-right: 0px;
+}
+
+#main .opp-action{
+	text-align: left;
+}
+
+#main .rating{
+	direction: ltr;
+}
+
+#main .opp-rating{
+	display: block;
+}
+
+#main .opp-request{
+	margin-top: 15px;
+	width: 100px;
+	font-size: small;
+}
+
+#main .opp-more{
+	width: 100px;
+	margin-top: 5px;
+	font-size: small;
+}
 .clearfix{
 	clear: both;
 }
