@@ -1,51 +1,367 @@
 {% extends "page.html" %}
 {% load staticfiles %}
+
 {% block style %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
 {% endblock style %}
 
 {% block script %}
-
+<script type="text/javascript" src="{% static 'js/search.js' %}"></script>
 {% endblock script %}
 
 
 {% block page %}
-	<div class="ui grid">
-		<div class="three wide column">
-			مهارت‌ها
+	<div class="ui grid" id="main">
+		<div class="four wide column">
+			<h4 class="ui top attached inverted red header">
+			  مهارت‌ها
+			</h4>
+			<div class="ui segment attached">
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	پرستاری
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	برنامه
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	سلام
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	مهارت
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	تحلیل
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	فاز اول
+				</div>
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	فاز دوم
+				</div>
+
+				<div class="ui horizontal divider">
+				  <i class="add sign icon" id="add-sign"></i>
+				</div>
+
+				<div class="tag-search-input-parent">
+					<div class="ui small icon input" id="tag-search-input">
+					  <input type="text" placeholder="جستجو...">
+					  <i class="search icon"></i>
+					</div>
+				</div>
+
+				<div class="ui animated list" id="tag-search-list">
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۱
+				  </a>
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۲
+				  </a>
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۳
+				  </a>
+				  <a class="item">
+				    <i class="add icon add-tag-icon"></i>
+				    مهارت ۴
+				  </a>
+				</div>
+				
+			</div>
 		</div>
-		<div class="thirteen wide column">
-			<table class="ui basic table segment" id="searchresult">
-			  <thead>
-			    <tr>
-					<th>نام شغل</th>
-					<th>کارفرما</th>
-					<th>مکان</th>
-			  </tr>
-  			 </thead>
-			  <tbody>
-			    <tr>
-			      <td>برنامه‌نویس پایتون</td>
-			      <td>عرش</td>
-			      <td>نزدیک دانشگا</td>
-			    </tr>
-			    <tr >
-			      <td>طراح صفحات سایت</td>
-			      <td>بیان</td>
-			      <td>تو شرکت</td>
-			    </tr>
-			    <tr>
-			      <td>برنامه نویس Android و IOS</td>
-			      <td>کافه بازار</td>
-			      <td>نموی‌دونم</td>
-			    </tr>
-			    <tr>
-			      <td>Jill</td>
-			      <td>Unknown</td>
-			      <td>None</td>
-			    </tr>
-			  </tbody>
-			</table>
+		<div class="ten wide column">
+			<h4 class="ui top attached inverted black header">
+			  نتایج جستجو
+			</h4>
+			<div class="ui segment attached">
+				<div class="ui grid opportunity">
+					<div class="ten wide column opp-info">
+						<h4 class="ui header opp-header">برنامه‌نویسی</h4>
+						<div class="ui list">
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    کارفرما : شرکت حصین
+						  </div>
+						  <div class="item">
+						  	<i class="Triangle Left icon"></i>
+						  	امتیاز کارفرما: <div class="ui small star rating" data-rating="3">
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							</div>
+						  </div>
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    مکان: دانشگاه صنعتی شریف
+						  </div>
+
+						</div>
+					</div>
+					<div class="five wide column opp-action">
+						<div class="ui star rating opp-rating" data-rating="4">
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						</div>
+						<div class="ui green vertical animated button opp-request">
+						  <div class="hidden content">
+						  	<i class="large mail icon"></i>
+						  </div>
+						  <div class="visible content">
+						    ارسال درخواست
+						  </div>
+						</div>
+
+						<div class="ui teal button opp-more">
+						    اطلاعات کامل
+						</div>
+					</div>
+				</div>
+
+				<div class="ui divider"></div>
+				<!-- opp2 -->
+
+				<div class="ui grid opportunity">
+					<div class="ten wide column opp-info">
+						<h4 class="ui header opp-header">توسعه سیستم</h4>
+						<div class="ui list">
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    کارفرما : شرکت عرش
+						  </div>
+						  <div class="item">
+						  	<i class="Triangle Left icon"></i>
+						  	امتیاز کارفرما: <div class="ui small star rating" data-rating="2">
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							</div>
+						  </div>
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    مکان: دانشگاه صنعتی شریف
+						  </div>
+
+						</div>
+					</div>
+					<div class="five wide column opp-action">
+						<div class="ui star rating opp-rating" data-rating="3">
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						</div>
+						<div class="ui green vertical animated button opp-request">
+						  <div class="hidden content">
+						  	<i class="large mail icon"></i>
+						  </div>
+						  <div class="visible content">
+						    ارسال درخواست
+						  </div>
+						</div>
+
+						<div class="ui teal button opp-more">
+						    اطلاعات کامل
+						</div>
+					</div>
+				</div>
+
+
+				<div class="ui divider"></div>
+				<!-- opp3 -->
+
+				<div class="ui grid opportunity">
+					<div class="ten wide column opp-info">
+						<h4 class="ui header opp-header">موتور جستجو</h4>
+						<div class="ui list">
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    کارفرما : شرکت بیان
+						  </div>
+						  <div class="item">
+						  	<i class="Triangle Left icon"></i>
+						  	امتیاز کارفرما: <div class="ui small star rating" data-rating="4">
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							</div>
+						  </div>
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    مکان: دانشگاه صنعتی شریف
+						  </div>
+
+						</div>
+					</div>
+					<div class="five wide column opp-action">
+						<div class="ui star rating opp-rating" data-rating="5">
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						</div>
+						<div class="ui red vertical animated button opp-request">
+						  <div class="hidden content">
+						  	<i class="large remove icon"></i>
+						  </div>
+						  <div class="visible content">
+						    لغو درخواست
+						  </div>
+						</div>
+
+						<div class="ui teal button opp-more">
+						    اطلاعات کامل
+						</div>
+					</div>
+				</div>
+
+				<div class="ui divider"></div>
+				<!-- opp4 -->
+
+				<div class="ui grid opportunity">
+					<div class="ten wide column opp-info">
+						<h4 class="ui header opp-header">برنامه‌نویسی</h4>
+						<div class="ui list">
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    کارفرما : شرکت بیان
+						  </div>
+						  <div class="item">
+						  	<i class="Triangle Left icon"></i>
+						  	امتیاز کارفرما: <div class="ui small star rating" data-rating="4">
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							</div>
+						  </div>
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    مکان: دانشگاه صنعتی شریف
+						  </div>
+
+						</div>
+					</div>
+					<div class="five wide column opp-action">
+						<div class="ui star rating opp-rating" data-rating="4">
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						</div>
+						<div class="ui green vertical animated button opp-request">
+						  <div class="hidden content">
+						  	<i class="large mail icon"></i>
+						  </div>
+						  <div class="visible content">
+						    ارسال درخواست
+						  </div>
+						</div>
+
+						<div class="ui teal button opp-more">
+						    اطلاعات کامل
+						</div>
+					</div>
+				</div>
+
+				<div class="ui divider"></div>
+				<!-- opp5 -->
+
+				<div class="ui grid opportunity">
+					<div class="ten wide column opp-info">
+						<h4 class="ui header opp-header">برنامه‌نویسی</h4>
+						<div class="ui list">
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    کارفرما : شرکت عرش
+						  </div>
+						  <div class="item">
+						  	<i class="Triangle Left icon"></i>
+						  	امتیاز کارفرما: <div class="ui small star rating" data-rating="2">
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							</div>
+						  </div>
+						  <div class="item">
+						    <i class="Triangle Left icon"></i>
+						    مکان: دانشگاه صنعتی شریف
+						  </div>
+
+						</div>
+					</div>
+					<div class="five wide column opp-action">
+						<div class="ui star rating opp-rating" data-rating="4">
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						</div>
+						<div class="ui green vertical animated button opp-request">
+						  <div class="hidden content">
+						  	<i class="large mail icon"></i>
+						  </div>
+						  <div class="visible content">
+						    ارسال درخواست
+						  </div>
+						</div>
+
+						<div class="ui teal button opp-more">
+						    اطلاعات کامل
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+			<div class="ui pagination menu" id="opp-pagination">
+			  <a class="icon item">
+			    <i class="icon left arrow"></i>
+			  </a>
+			  <a class="active item">
+			    1
+			  </a>
+			  <a class="item">
+			    2
+			  </a>
+			  <a class="item">
+			    3
+			  </a>
+			  <div class="disabled item">
+			    ...
+			  </div>
+			  <a class="item">
+			    12
+			  </a>
+			  <a class="icon item">
+			    <i class="icon right arrow"></i>
+			  </a>
+			</div>
 		</div>
 	</div>
 {% endblock page %}
