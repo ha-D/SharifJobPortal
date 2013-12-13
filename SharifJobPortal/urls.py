@@ -8,7 +8,8 @@ from ui_test.views import show_template
 
 
 urlpatterns = patterns('',
-	url(r'^(?P<template>\w+)/$', show_template),
+	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
+	url(r'^(?P<template>\w+)/', show_template),
     # Examples:
     # url(r'^$', 'SharifJobPortal.views.home', name='home'),
     # url(r'^SharifJobPortal/', include('SharifJobPortal.foo.urls')),

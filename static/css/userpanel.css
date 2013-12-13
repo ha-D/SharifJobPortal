@@ -5,9 +5,8 @@
 }
 
 #userpanel {
-	margin-top: 10px;
-	margin-right: 10px;
-	
+	/*margin-top: 10px;*/
+	margin-right: 10px;	
 }
 
 #userpanel .username {
@@ -47,13 +46,23 @@
 	clear: both;
 }
 
-#userpanel .rightmenu {
+#userpanel #panelmenu {
 	/*margin-top: 30px;*/
+	position: fixed;
+	z-index: 800;
 }
 
-#userpanel #leftcolumn {
-	margin-top: 40px;
-	margin-right: 20px;
+#userpanel .content-container {
+	margin-top: 20px;
+	margin-right: 260px;
+	margin-left: 50px;
+
+	padding: 20px;
+	/*width: 800px;*/
+}
+
+#userpanel .ui.segment {
+	z-index: 800;
 }
 
 #userpanel .event {
@@ -87,4 +96,109 @@
 #userpanel .news.elem.center{
 	float: none;
 	margin-right: 20px;
+}
+
+
+/**********/
+/* Inbox **/
+/**********/
+
+#userpanel #inbox .main {
+	/*min-height: 400px;*/
+}
+
+#userpanel #inbox .table.inbox {
+	font-family: terafik;
+}
+
+#userpanel #inbox .table.inbox {
+	font-family: terafik;
+}
+
+#userpanel #inbox .table .from {
+	width: 20%;
+}
+
+#userpanel #inbox .table .subject {
+	/*width: 30%;*/
+}
+
+#userpanel #inbox .table .time {
+	width: 10%;
+	text-align: left;
+}
+
+#userpanel #inbox .table .reply {
+	width: 20px;
+}
+
+#userpanel #inbox .header {
+	font-family: yekan;
+	font-size: 16px;
+	/*padding-bottom: 20px;*/
+}
+
+#userpanel #inbox .toolbar input[type='text'] {
+	width: 300px;
+} 
+
+#userpanel #inbox .send.button {
+	/*text-align: left;*/
+	/*display: none;*/
+	float: left;
+}
+
+#userpanel #inbox tr{
+	cursor: hand;
+}
+
+#userpanel #inbox tr:hover{
+	background-color: rgba(0, 0, 50, 0.1);
+}
+
+#userpanel #inbox thead tr th{
+	color: white;	
+}
+
+#userpanel .mail {
+	font-family: terafik;
+}
+
+#userpanel .mail .subject {
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 40px;
+}
+
+#userpanel .mail .heading {
+	margin-right: 15px;
+	font-weight: bold;
+	font-family: yekan;
+}
+
+#userpanel .sendmail {
+	padding-top: 20px;
+}
+
+#userpanel .sendmail .message {
+	font-family: koodak;
+}
+
+#userpanel .sendmail .submit {
+	/*float: left;*/
+}
+
+#userpanel .sendmail input[type="text"]:focus,
+#userpanel .sendmail textarea:focus {
+	color: rgba(0, 0, 0, 0.85);
+	border-color: rgba(0, 0, 0, 0.2);
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	-webkit-appearance: none;
+	-webkit-box-shadow: -0.3em 0em 0em 0em rgba(250, 0, 0, 0.2) inset;
+	box-shadow: -0.3em 0em 0em 0em rgba(250, 0, 0, 0.2) inset;
+}
+
+.ui.segment.nopadding {
+	padding: 0px;
 }
