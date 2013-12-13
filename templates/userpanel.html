@@ -5,9 +5,8 @@
 {% endblock style %}
 
 {% block script %}
-	<script type="text/javascript">
-
-	</script>
+	<script type="text/javascript" src="{% static 'js/userpanel.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/davis.min.js' %}"></script>
 {% endblock script %}
 
 
@@ -15,189 +14,44 @@
 	<div id="userpanel">
 		<div id="panelmenu">
 			<div class="username">
-				<a href="#" class="avatar">
+				<a href="/userpanel" class="avatar">
 					<img src="{% static 'images/hadi.png' %}">
 				</a>
-				<a href="#" class="name"><h2>هادی ذوالفقاری</h2></a>
+				<a href="/userpanel" class="name"><h2>هادی ذوالفقاری</h2></a>
 				<div class="clear"></div>
 			</div>
 			<div class="ui small secondary vertical menu">
-			  <a class="item">
-			    <i class="mail icon"></i>
+			  <a class="item" page="inbox" href="/userpanel/inbox">
+			    <i class="inbox icon"></i>
 			    پیغام‌ها
 			  </a>
-	  		  <a class="item">
+	  		  <a class="item" page="jobs" href="/userpanel/jobs">
 			    <i class="doctor icon"></i>
 			    فرصت‌های شغلی
 			  </a>
-			  <a class="item">
+			  <a class="item" page="friends" href="/userpanel/friends">
 			    <i class="users icon"></i>
 			    دوستان
 			  </a>
-			  <a class="item">
+			  <a class="item" page="search" href="/userpanel/search">
 			    <i class="search icon"></i>
 			    جستجو
 			  </a>
-			  <a class="item">
+			  <a class="item" page="profile" href="/userpanel/profile">
 			    <i class="user icon"></i> 
 			    مشخصات
 			  </a>
-			  <a class="item">
+			  <a class="item" page="settings" href="/userpanel/settings">
 			    <i class="settings icon"></i> 
 			    تنظیمات
 			  </a>
 			</div>
 		</div>
-		<div id="contents">
-			<div class="ui relaxed grid">
-					<div class="row">
-						<div class="eight wide column">
-							<div class="ui small purple feed segment eventlist">
-							  <h4 class="ui header">
-							    فعالیت‌ها
-							  </h4>
-							  <div class="ui divider"> </div>
-							  <div class="event">
-							    <div class="label">
-							      <img src="{% static 'images/hessam.jpg' %}">
-							    </div>
-							    <div class="content">
-							      <div class="date">
-							        چند لحظه پیش
-							      </div>
-							      <div class="summary">
-							         <a>حسام باقری‌نژاد</a> در فرصت شغلی <a>آبدارچی بیان</a> استخدام شد
-							      </div>
-							    </div>
-							  </div>
-							  <div class="event">
-							    <div class="label">
-							      <i class="comment icon"></i>
-							    </div>
-							    <div class="content">
-							      <div class="date">
-							        ۳ روز پیش
-							      </div>
-							      <div class="summary">
-							        به فرصت شغلی <a> برنامه نویس پایتون </a> نظر دادید
-							      </div>
-							      <div class="extra text">
-										این جا استخدام نشید، خیلی بده!!!				     
-							      </div>
-							    </div>
-							  </div>
-							  <div class="event">
-							    <div class="label">
-							      <i class="wrench icon"></i>
-							    </div>
-							    <div class="content">
-							      <div class="date">
-							        یک هفته پیش
-							      </div>
-							      <div class="summary">
-									برنامه نویسی Django به مهارت‌های شما اضافه شد		        
-							      </div>
-							    </div>
-							  </div>
-							</div>
-						</div>
-						<div class="eight wide column">
-							<div class="ui small purple feed segment eventlist">
-							  <h4 class="ui header">
-							    فعالیت‌ها
-							  </h4>
-							  <div class="ui divider"> </div>
-								  <div class="event">
-								    <div class="label">
-								      <img src="{% static 'images/hessam.jpg' %}">
-								    </div>
-								    <div class="content">
-								      <div class="date">
-								        چند لحظه پیش
-								      </div>
-								      <div class="summary">
-								         <a>حسام باقری‌نژاد</a> فعالیت‌های شما را دنبال می‌کند
-								      </div>
-								    </div>
-								  </div>
-								  <div class="event">
-								    <div class="label">
-								      <i class="comment icon"></i>
-								    </div>
-								    <div class="content">
-								      <div class="date">
-								        ۳ روز پیش
-								      </div>
-								      <div class="summary">
-								        به فرصت شغلی <a> برنامه نویس پایتون </a> نظر دادید
-								      </div>
-								      <div class="extra text">
-											این جا استخدام نشید، خیلی بده!!!				     
-								      </div>
-								    </div>
-								  </div>
-								  <div class="event">
-								    <div class="label">
-								      <i class="wrench icon"></i>
-								    </div>
-								    <div class="content">
-								      <div class="date">
-								        یک هفته پیش
-								      </div>
-								      <div class="summary">
-										برنامه نویسی Django به مهارت‌های شما اضافه شد		        
-								      </div>
-								    </div>
-								  </div>
-							</div>
-						</div>
-					</div>
-					<div class="row newsrow">
-						<div class="sixteen wide column">
-							<div class="ui small purple segment">
-								
-								<div class="ui two column middle aligned relaxed grid basic segment">
-									<div class="column">
-										<h3 class="news heading">بیان در نمایشگاه دانشگاه صنعتی شریف</h3>
-										<div class="news">
-											<div class="news elem center">
-												<img src="{% static 'images/bayan.jpg' %}" height="200" width="300"></img>
-											</div>
-											<div class="news elem">
-	از یک شنبه تا سه شنبه (پنجم تا هفتم آبان) نمایشگاهی با موضوع کار و فرصت
-	 های شغلی در دانشگاه صنعتی شریف در حال برگزاری است که شرکت بیان نیز در آن حضور دارد.
-
-	علاقمندان برای حضور در این نمایشگاه و بازدید از غرفه بیان می توانند از 9 صبح تا 5 بعد از ظهر به دانشگاه صنعتی شریف مراجعه کنند.
-											</div>
-										</div>
-										<div class="news continue">
-											<a href="#">ادامه مطلب...</a>
-										</div>
-									</div>
-									<div class="ui vertical divider">
-									</div>
-								
-									<div class="column">
-										<h3 class="news heading">عدد در یک نگاه</h3>
-										<div class="news">
-											<div class="news elem">
-											<div class="news elem">
-												<img src="{% static 'images/adad.png' %}" height="300" width="200"></img>
-											</div>
-عدد بهترین راه‌حل برای تبلیغ محصولات شما بر روی گوشی‌های موبایل و دستگاه‌های تبلت است. عدد فرصت متفاوتی است برای رساندن صدای شما و تبلیغ کالا، خدمات، وب‌سایت و یا نرم‌افزار‌‌تان به کاربران پرشمار موبایل‌ها و تبلت‌ها. فرصتی که بر بستر نویی با عدد ممکن می‌شود.
-
-بررسی آنی میزان تاثیرگذاری تبلیغ شما، گزارش‌های مختلف از فعالیت‌های تبلیغاتی و قالب‌های مختلف برای انتشار تبلیغات و مدیریت آسان بودجه‌ به صورت روزانه و کلی، عدد را برای کسب و کارهای کوچک و بزرگ، کارا می‌سازد.
-											</div>
-										</div>
-										<div class="news continue">
-											<a href="#">ادامه مطلب...</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-		
+		<div class="ui basic segment content-container">
+			<div class="ui active inverted dimmer" id="dimmer">
+			</div>
+			<div id="content">
+				
 			</div>
 		</div>
 	</div>

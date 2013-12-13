@@ -6,8 +6,7 @@
 
 #userpanel {
 	/*margin-top: 10px;*/
-	margin-right: 10px;
-	
+	margin-right: 10px;	
 }
 
 #userpanel .username {
@@ -50,15 +49,20 @@
 #userpanel #panelmenu {
 	/*margin-top: 30px;*/
 	position: fixed;
+	z-index: 800;
 }
 
-#userpanel #contents {
+#userpanel .content-container {
 	margin-top: 20px;
-	margin-right: 300px;
+	margin-right: 260px;
 	margin-left: 50px;
 
-	padding-top: 30px;
+	padding: 20px;
 	/*width: 800px;*/
+}
+
+#userpanel .ui.segment {
+	z-index: 800;
 }
 
 #userpanel .event {
@@ -92,4 +96,66 @@
 #userpanel .news.elem.center{
 	float: none;
 	margin-right: 20px;
+}
+
+
+/**********/
+/* Inbox **/
+/**********/
+
+#userpanel #inbox .main {
+	/*min-height: 400px;*/
+}
+
+#userpanel #inbox .table.inbox {
+	font-family: terafik;
+}
+
+#userpanel #inbox .table.inbox {
+	font-family: terafik;
+}
+
+#userpanel #inbox .table .from {
+	width: 20%;
+}
+
+#userpanel #inbox .table .subject {
+	/*width: 30%;*/
+}
+
+#userpanel #inbox .table .time {
+	width: 10%;
+	text-align: left;
+}
+
+#userpanel #inbox .table .reply {
+	width: 20px;
+}
+
+#userpanel #inbox .header {
+	font-family: yekan;
+	font-size: 16px;
+	/*padding-bottom: 20px;*/
+}
+
+#userpanel #inbox .toolbar input[type='text'] {
+	width: 300px;
+} 
+
+#userpanel #inbox .send.button {
+	/*text-align: left;*/
+	/*display: none;*/
+	float: left;
+}
+
+#userpanel #inbox tr{
+	cursor: hand;
+}
+
+#userpanel #inbox tr:hover{
+	background-color: rgba(0, 0, 50, 0.1);
+}
+
+#userpanel #inbox thead tr th{
+	color: white;	
 }

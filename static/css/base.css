@@ -6,6 +6,7 @@ body{
 
 #top-menu{
 	border-radius: 0px;
+	z-index: 900;
 }
 
 #top-menu .menu{
