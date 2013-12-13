@@ -159,3 +159,46 @@
 #userpanel #inbox thead tr th{
 	color: white;	
 }
+
+#userpanel .mail {
+	font-family: terafik;
+}
+
+#userpanel .mail .subject {
+	font-weight: bold;
+	font-size: 20px;
+	margin-bottom: 40px;
+}
+
+#userpanel .mail .heading {
+	margin-right: 15px;
+	font-weight: bold;
+	font-family: yekan;
+}
+
+#userpanel .sendmail {
+	padding-top: 20px;
+}
+
+#userpanel .sendmail .message {
+	font-family: koodak;
+}
+
+#userpanel .sendmail .submit {
+	/*float: left;*/
+}
+
+#userpanel .sendmail input[type="text"]:focus,
+#userpanel .sendmail textarea:focus {
+	color: rgba(0, 0, 0, 0.85);
+	border-color: rgba(0, 0, 0, 0.2);
+	border-bottom-left-radius: 0;
+	border-top-left-radius: 0;
+	-webkit-appearance: none;
+	-webkit-box-shadow: -0.3em 0em 0em 0em rgba(250, 0, 0, 0.2) inset;
+	box-shadow: -0.3em 0em 0em 0em rgba(250, 0, 0, 0.2) inset;
+}
+
+.ui.segment.nopadding {
+	padding: 0px;
+}
