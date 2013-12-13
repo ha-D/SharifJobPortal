@@ -5,15 +5,86 @@
 }
 
 #userpanel {
-	margin-top: 30px;
+	margin-top: 10px;
 	margin-right: 10px;
 	
+}
+
+#userpanel .username {
+	margin-right: 5px;
+	margin-bottom: 40px;
+	min-width: 250px;
+}
+
+#userpanel .username h2 {
+	margin: 0px;
+	margin-right: 10px;
+}
+
+#userpanel .username a {
+	text-decoration: none; 
+	color: black;
+}
+
+#userpanel .username .avatar {
+	display: table-cell;
+	vertical-align: top;
+}
+
+#userpanel .username .avatar img{
+	margin: 0px;
+	width: 2.5em;
+}
+
+#userpanel .username .name{
+	vertical-align: top;
+	display: table-cell;
+	padding: 0.5em 0.5em 0;
+	margin-right: 10px;
+}
+
+.clear{
+	clear: both;
 }
 
 #userpanel .rightmenu {
 	/*margin-top: 30px;*/
 }
 
-#userpanel .eventlist {
+#userpanel #leftcolumn {
+	margin-top: 40px;
+	margin-right: 20px;
+}
+
+#userpanel .event {
 	font-family: koodak;
+}
+
+
+#userpanel .newsrow{
+	margin-top: 30px;
+}
+
+#userpanel .news{
+	padding: 10px;
+	font-family: terafik;
+}
+
+#userpanel .news.heading{
+	padding: 0px;
+	margin: 0px;
+	margin-bottom: 10px;
+}
+
+#userpanel .news.continue{
+	float: left;
+}
+
+#userpanel .news.elem{
+	float: left;
+}
+
+#userpanel .news.elem.center{
+	float: none;
+	margin-right: 20px;
 }
