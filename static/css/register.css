@@ -21,7 +21,7 @@
 	padding: 0px;
 }
 
-.register .content {
+.register .maincontent {
 	border: 1px solid rgb(210, 210, 210);
 	border-top: none;
 	min-height: 200px;
@@ -29,4 +29,58 @@
 
 	border-bottom-right-radius: 3px;
 	border-bottom-left-radius: 3px;
+}
+
+.alignleft{
+    float: left;
+}
+
+
+.ui.labeled.input .corner.label {
+    top: 0px;
+}
+
+#portal input{
+    font-size: 0.907em;
+}
+
+.hidden{
+    display: none;
+}
+
+.vertical.icon .icon{
+    margin-top: -8px;
+}
+
+#portal .attached.input{
+    width: 351px;
+    margin-right: -2px;
+}
+
+#portal .ui.attached .divided.list{
+    overflow-y: auto;
+    height: 220px;
+}
+
+#portal .skill .ui.loader{
+    top: 37%;
+    right: 15%;
+}
+
+#portal .column.current{
+    margin-top: -14px;
+}
+
+#portal .right.floated.tiny.icon i.icon{
+    margin: 5px;
+}
+
+.link{
+    text-decoration: underline;
+    color: #00BEAD;
+}
+
+#portal .ui.modal{
+    width: 50%;
+    margin-right: -25%;
 }

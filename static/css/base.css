@@ -3,9 +3,13 @@ body{
 	font-family: yekan, "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 	background-color: rgb(252, 252, 252);
 }
+#portal input{
+    font-family: yekan;
+}
 
 #top-menu{
 	border-radius: 0px;
+    z-index: 10000;
 }
 
 #top-menu .menu{
