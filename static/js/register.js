@@ -6,6 +6,8 @@ function relaxRegister() {
     basicInfoRelax();
     skillsRelax();
     finalRelax();
+
+    proceedToSkills();
 }
 
 function basicInfoRelax(){

@@ -84,3 +84,8 @@
     width: 50%;
     margin-right: -25%;
 }
+
+.bottomMargined{
+    position: relative;
+    bottom: 6px;
+}
