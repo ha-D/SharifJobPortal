@@ -67,6 +67,13 @@ body{
 	margin-top: 100px;
 }
 
+.footer.container {
+	margin: auto;
+	padding: 20px;
+	width: 900px;
+	direction: rtl;
+}
+
 .red{
 	background-color: red;
 }
