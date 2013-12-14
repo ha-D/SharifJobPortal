@@ -44,7 +44,7 @@
     font-size: 0.907em;
 }
 
-.hidden{
+.hide{
     display: none;
 }
 
@@ -83,4 +83,9 @@
 #portal .ui.modal{
     width: 50%;
     margin-right: -25%;
+}
+
+.bottomMargined{
+    position: relative;
+    bottom: 6px;
 }

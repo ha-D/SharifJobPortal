@@ -3,22 +3,19 @@ fadeSpeed = 200;
 $(document).ready(relaxRegister);
 
 function relaxRegister() {
-    basicInfoRelax();
-    skillsRelax();
+    companyRelax();
+    personRelax();
     finalRelax();
 }
 
-function basicInfoRelax(){
-    $("#basicinfoStep").click("basicinfo", stepClicked);
-    basicInfoValidation();
+function personRelax(){
+    $("#personStep").click("person", stepClicked);
+    personinfoValidation();
 }
 
-function skillsRelax(){
-    $("#skillsStep").click("skills", stepClicked);
-    $("#searchPossibleSkills").change(updatePossibleSkillsList);
-    $("#searchCurrentSkills").change(updateCurrentSkillsList);
-    $(".ui.form.skills .button.proceed").click( proceedToFinal );
-    $(".ui.form.skills .button.skip").click( skipToFinal );
+function companyRelax(){
+    $("#companyStep").click("company", stepClicked);
+    companyinfoValidation();
 }
 
 function finalRelax(){
@@ -32,15 +29,15 @@ function finalRelax(){
 function finalValidation(){
     $('.ui.form.final')
         .form({
-           terms:{
-               identifier:'terms',
-               rules:[
-                   {
-                       type:'checked',
-                       prompt:'برای ثبت‌نام تایید قوانین لازم است.'
-                   }
-               ]
-           }
+            terms:{
+                identifier:'terms',
+                rules:[
+                    {
+                        type:'checked',
+                        prompt:'برای ثبت‌نام تایید قوانین لازم است.'
+                    }
+                ]
+            }
         },
         {
             inline: true,
@@ -50,8 +47,67 @@ function finalValidation(){
 
 function accountCreate(){
 }
-function basicInfoValidation() {
-    $('.ui.form.basicinfo')
+
+function companyinfoValidation() {
+    $('.ui.form.company')
+        .form({
+            name:{
+                identifier:'name',
+                rules:[
+                    {
+                        type:'empty',
+                        prompt:'لطفا نام شرکت را وارد کنید.'
+                    }
+                ]
+            },
+            address:{
+                identifier:'address',
+                rules:[
+                    {
+                        type:'empty',
+                        prompt:'لطفا آدرس شرکت را وارد کنید.'
+                    }
+                ]
+            },
+            phone:{
+                identifier:'phone',
+                rules:[
+                    {
+                        type:'empty',
+                        prompt:'لطفا شماره تماس شرکت وارد کنید.'
+                    }
+                ]
+            },
+            number:{
+                identifier:'registerNumber',
+                rules:[
+                    {
+                        type:'empty',
+                        prompt:'لطفا شماره ثبت شرکت را وارد کنید.'
+                    }
+                ]
+            },
+            since:{
+                identifier:'since',
+                rules:[
+                    {
+                        type:'empty',
+                        prompt:'سال تاسیس شرکت را وارد کنید.'
+                    }
+                ]
+            }
+        },
+        {
+            inline:true,
+            on:'blur',
+            onSuccess: proceedToPerson
+        }
+    );
+}
+
+
+function personinfoValidation() {
+    $('.ui.form.person')
         .form({
             firstName:{
                 identifier:'firstname',
@@ -111,11 +167,15 @@ function basicInfoValidation() {
         {
             inline:true,
             on:'blur',
-            onSuccess: proceedToSkills
+            onSuccess: proceedToFinal
         }
     );
 }
 
+function proceedToPerson(){
+    $("#personStep").removeClass("disabled");
+    stepClicked({data: "person"});
+}
 function proceedToSkills() {
     $("#skillsStep").removeClass("disabled");
     stepClicked({data: "skills"});
@@ -146,10 +206,6 @@ function updateCurrentSkillsList(){
 }
 
 function proceedToFinal(){
-    skipToFinal();
-}
-
-function skipToFinal(){
     $("#finalStep").removeClass("disabled");
     stepClicked({data: "final"});
 }
