@@ -126,10 +126,12 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # Portal apps
     'ui_test',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
+    'accounts',
+    'jobs',
+    # admin
+    'django.contrib.admin',
     # 'django.contrib.admindocs',
 )
 

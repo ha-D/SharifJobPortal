@@ -1,21 +1,25 @@
-from django.db import models
+#coding=utf-8
+
+from django.db                      import models
+from django.contrib.auth.models     import User
 
 
-# Create your models here.
 
-class User(models.User):
-
+class UserProfile(models.Model):
     address = models.CharField(max_length=300)
     postalCode = models.CharField(max_length=15)
     phoneNumber = models.CharField(max_length=15)
     image = models.URLField()
     city = models.CharField(max_length=20)
-    personalPage = models.ForeignKey(PersonalPage , unique=True)
+    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True)
+    
+    user = models.ForeignKey(User , unique=True)
+
+    class Meta:
+        abstract = True
 
 
-
-
-class Employer(models.Model):
+class Employer(UserProfile):
     companyName = models.CharField(max_length=30)
     PUBLIC = 0
     PRIVATE = 1
@@ -26,15 +30,15 @@ class Employer(models.Model):
         (PRIVATE , 'خصوصی'),
         (SEMI_PRIVATE , 'نیمه خصوصی'),
     )
-    companyType = models.PositiveSmallIntegerField( choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
+    companyType = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
     registrationNumber = models.CharField(max_length=20)
     contactEmail = models.EmailField()
     webSite = models.URLField()
     establishDate = models.DateField()
-    user = models.ForeignKey(User , unique=True)
+    
 
 
-class JobSeeker(models.Model):
+class JobSeeker(UserProfile):
     birthDate = models.DateField()
 
     MALE = 0
@@ -56,7 +60,6 @@ class JobSeeker(models.Model):
     job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED)
 
     cv = models.URLField()
-    user = models.ForeignKey(User , unique=True)
 
 
 class PersonalPage(models.Model):
