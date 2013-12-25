@@ -125,6 +125,17 @@ p a {
   background-color: transparent;
 }
 
+.ui.jobsearch {
+  direction: rtl;'
+}
+
+.ui.jobsearch input {
+  width: 300px;
+}
+
+#home {
+  font-family: yekan;
+}
 /*******************************
           Responsive
 *******************************/
