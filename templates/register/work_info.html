@@ -1,0 +1,43 @@
+<div class="ui form basicinfo visible">
+    {% csrf_token %}
+    <div class="two fields">
+        <div class="field">
+
+            <div class="ui left labeled input">
+            <label>وضعیت شغلی</label>
+                {{form.job_status}}
+            </div>
+            {% if form.job_status.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.job_status.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+
+        </div>
+    </div>
+    <div class="two fields">
+        <div class="field">
+            <label>کارنامک کاری</label>
+            <div class="ui left labeled icon input">
+                {{form.cv}}
+            </div>
+            {% if form.cv.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.cv.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+         
+        </div>
+    </div>
+
+    <div class="two fields">
+        <div class="field">
+        </div>
+        <div class="field">
+            <div class="ui teal next button basicinfo alignleft">ادامه</div>
+        </div>
+    </div>
+    <div class="ui error message">
+        <div class="header">لطفا خطاها را رفع کنید.</div>
+    </div>
+</div>

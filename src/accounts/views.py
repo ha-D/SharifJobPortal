@@ -19,6 +19,7 @@ def register_jobseeker_userinfo(request):
 		else:
 			result = 0
 	else:
+		form = JobSeekerRegisterUserForm()
 		result = 1
 
 	return json_response({

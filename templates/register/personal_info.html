@@ -1,0 +1,102 @@
+<div class="ui form basicinfo visible">
+    {% csrf_token %}
+    <div class="two fields">
+        <div class="field">
+            <label>تاریخ تولد</label>
+            <div class="ui left labeled input">
+                {{form.birthDate}}
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.birthDate.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.birthDate.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>جنسیت:</label>
+
+            <div class="ui radio checkbox">
+                <input type="radio" name="sex" value="0">
+                <label><i class="male large icon"></i></label>
+            </div>
+            <div class="ui radio checkbox">
+                <input type="radio" name="sex" value="1">
+                <label><i class="female large icon"></i></label>
+            </div>
+            {% if form.sex.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.sex.errors.0}}</div>
+            {% endif %}
+        </div>
+    </div>
+     <div class="two fields">
+        <div class="field">
+            <label>شهر</label>
+
+            <div class="ui left labeled icon input">
+                {{form.city}}
+                <i class="lock icon"></i>
+
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.city.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.city.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>شماره تلفن</label>
+
+            <div class="ui left labeled icon input">
+                {{form.phoneNumber}}
+                <i class="lock icon"></i>
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+                 {% if form.city.errors %}
+                <div class="ui red pointing prompt label transition visible">{{form.city.errors.0}}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="two fields">
+        <div class="field">
+            <label>آدرس</label>
+            <div class="ui left labeled input">
+                {{form.address}}
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.address.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.addres.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>کد پستی</label>
+            <div class="ui left labeled icon input">
+                {{form.postalCode}}
+                <i class="mail icon"></i>
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.postalCode.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.postalCode.errors.0}}</div>
+            {% endif %}
+        </div>
+    </div>
+   
+    <div class="two fields">
+        <div class="field">
+
+        </div>
+        <div class="field">
+            <div class="ui teal next button basicinfo alignleft">ادامه</div>
+        </div>
+    </div>
+    <div class="ui error message">
+        <div class="header">لطفا خطاها را رفع کنید.</div>
+    </div>
+</div>
