@@ -3,13 +3,18 @@
 from django.db                      import models
 from django.contrib.auth.models     import User
 
+
+class City(models.Model):
+    name = models.CharField(max_length=20)
+
+
 class UserProfile(models.Model):
     address = models.CharField(max_length=300)
     postalCode = models.CharField(max_length=15)
     phoneNumber = models.CharField(max_length=15)
     image = models.ImageField(null = True, blank = True, upload_to="avatar")
-    city = models.CharField(max_length=20)
-    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True, null = True, blank = True)
+    city = models.ForeignKey(City)
+    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True)
     
     user = models.ForeignKey(User , unique=True)
 
@@ -17,8 +22,7 @@ class UserProfile(models.Model):
         abstract = True
 
 
-class Employer(UserProfile):
-    companyName = models.CharField(max_length=30)
+class CompanyType(models.Model):
     PUBLIC = 0
     PRIVATE = 1
     SEMI_PRIVATE = 2
@@ -28,7 +32,14 @@ class Employer(UserProfile):
         (PRIVATE , 'خصوصی'),
         (SEMI_PRIVATE , 'نیمه خصوصی'),
     )
-    companyType = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
+
+    type = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
+
+class Employer(UserProfile):
+    companyName = models.CharField(max_length=30)
+    
+    companyType = models.ForeignKey(CompanyType)
+    
     registrationNumber = models.CharField(max_length=20)
     contactEmail = models.EmailField()
     webSite = models.URLField()
