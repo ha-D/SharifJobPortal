@@ -2,7 +2,7 @@
 
 from local_settings import BASE_DIR
 
-SRC_DIR         = BASE_DIR + 'src/'
+SRC_DIR         = BASE_DIR + ''
 STATIC_DIR      = BASE_DIR + 'static/'
 TEMPLATES_DIR   = BASE_DIR + 'templates/'
 MEDIA_DIR       = BASE_DIR + 'media/'

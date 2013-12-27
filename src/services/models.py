@@ -1,5 +1,5 @@
 from django.db import models
-from SharifJobPortal.src.accounts.models import Employer
+from accounts.models import Employer
 
 
 # Create your models here.
@@ -16,6 +16,6 @@ class News(models.Model):
 
 class Advertisement(models.Model):
     employer = models.ForeignKey(Employer)
-    description = models.CharField(3000)
+    description = models.CharField(max_length=3000)
     picture = models.ImageField(upload_to='Ads/')
 

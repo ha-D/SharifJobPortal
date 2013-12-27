@@ -1,5 +1,5 @@
 from django.contrib import admin
-from SharifJobPortal.src.accounts.models import *
+from accounts.models import *
 
 admin.site.register(City)
 admin.site.register(CompanyType)
