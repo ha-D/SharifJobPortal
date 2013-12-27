@@ -4,7 +4,7 @@ from django						import forms
 from django.contrib.auth.models import User
 from accounts.models 			import JobSeeker, Employer
 
-class JobSeekerRegisterUserForm(forms.ModelForm):
+class RegisterUserForm(forms.ModelForm):
 	password_repeat = forms.CharField(widget=forms.PasswordInput)
 	class Meta:
 		model = User
@@ -12,7 +12,7 @@ class JobSeekerRegisterUserForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 
-		super(JobSeekerRegisterUserForm, self).__init__(*args, **kwargs)
+		super(RegisterUserForm, self).__init__(*args, **kwargs)
 
 		self.fields['first_name'].required = True
 		self.fields['last_name'].required = True
@@ -33,7 +33,7 @@ class JobSeekerRegisterUserForm(forms.ModelForm):
 			self.fields[field].widget.attrs.update({'placeholder': placeholders[field]})
 
 	def save(self, commit=True):
-		user = super(JobSeekerRegisterUserForm, self).save(commit = False)
+		user = super(RegisterUserForm, self).save(commit = False)
 		
 		# TODO make inactive
 		user.active = False
@@ -80,8 +80,34 @@ class JobSeekerRegisterWorkForm(forms.ModelForm):
 
 		return jobseeker
 
-class JobSeekerRegisterFinalForm(forms.Form):
+class RegisterFinalForm(forms.Form):
 	terms = forms.BooleanField()
 
 	def save(self):
 		return None
+
+class EmployerRegisterProfileForm(forms.ModelForm):
+	class Meta:
+		model = Employer
+		fields = ['address', 'postalCode', 'phoneNumber', 'city', 'webSite',
+				  'companyName', 'companyType', 'registrationNumber', 'contactEmail', 'establishDate']
+
+	def __init__(self, *args, **kwargs):
+		super(EmployerRegisterProfileForm, self).__init__(*args, **kwargs)
+
+		# placeholders = {
+		# 	'first_name': 'نام',
+		# 	'last_name':  'نام خواندوادگی',
+		# 	'username':   'نام کاربری',
+		# 	'email':	  'آدرس الکترونیکی',
+		# 	'password':	  'رمز عبور',
+		# 	'password_repeat': 'تکرار رمز عبور'
+		# }
+
+		# for field in placeholders:
+		# 	self.fields[field].widget.attrs.update({'placeholder': placeholders[field]})
+
+	def save(self):
+		employer = super(EmployerRegisterProfileForm, self).save(commit = False)
+
+		return employer

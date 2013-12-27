@@ -3,7 +3,7 @@ from django.template 			import RequestContext
 from django.template.loader 	import render_to_string
 from django.http 				import HttpResponse
 from django.contrib.auth.models import User
-from accounts.forms				import JobSeekerRegisterUserForm, JobSeekerRegisterProfileForm, JobSeekerRegisterWorkForm, JobSeekerRegisterFinalForm
+from accounts.forms				import *
 
 import json
 
@@ -42,17 +42,22 @@ def register_jobseeker_finalize(request, session_name):
 		'data': render_to_string('accounts/register/jobseeker/final.html', RequestContext(request))
 	}), None
 
+def register_employer_finalize(request, session_name):
+	pass
+
 def register_form(request, session_name, template, step, register_form):
 	if request.method == 'POST':
-		request.session[session_name]['post'][step] = request.POST
 		form = register_form(request.POST)
 		if form.is_valid():
+			request.session[session_name]['post'][step] = request.POST
 			obj = form.save(commit = False)
 			return json_response({'result': 1}), obj
 		else:
 			result = 0
 	else:
 		post = request.session[session_name]['post'].get(step)
+		if post != None:
+			print("POST NOT CLEAR  " + step)
 		form =  register_form() if post == None else register_form(post)
 		result = 1
 
@@ -77,12 +82,11 @@ def register(request, action, steps, step_views, session_name, base_template):
 			request.session[session_name] = state
 			request.session.save()
 
-
 		# No skipping steps
 		# if state['current_step'] < step:
 		# 	print("No skipping " + str(state['current_step']) + " < " +  str(step))
 		# 	step = state['current_step']
-
+		print("Step : "  + str(step) + "  " + steps[step])
 		response, result =  step_views[steps[step]](request, session_name)
 
 		if result != None:
@@ -96,6 +100,11 @@ def register(request, action, steps, step_views, session_name, base_template):
 
 	elif action == 'steps':
 		return json_response({'steps': steps})
+	elif action == 'clear':
+		print('Clearing state')
+		if session_name in request.session:
+			del request.session[session_name]
+		return HttpResponse("Cleared")
 	else:
 		return render_to_response('accounts/register/' + base_template)
 
@@ -106,22 +115,23 @@ def _lambda(template, step, form):
 def register_jobseeker(request, action):
 	steps = ['user_info', 'personal_info', 'work_info', 'skills', 'confirm', 'finalize']
 	step_views = {
-		'user_info': 	 _lambda('user_info.html', 'user_info', JobSeekerRegisterUserForm),
+		'user_info': 	 _lambda('user_info.html', 'user_info', RegisterUserForm),
 		'personal_info': _lambda('jobseeker/personal_info.html', 'personal_info', JobSeekerRegisterProfileForm),
 		'work_info': 	 _lambda('jobseeker/work_info.html', 'work_info', JobSeekerRegisterWorkForm),
 		'skills': 		 register_jobseeker_skills,
-		'confirm': 		 _lambda('confirm.html', 'confirm',  JobSeekerRegisterFinalForm),
+		'confirm': 		 _lambda('confirm.html', 'confirm',  RegisterFinalForm),
 		'finalize': 	 register_jobseeker_finalize
 	}
 
 	return register(request, action, steps, step_views, JOBSEEKER_SESSION, 'jobseeker.html')
 
 def register_employer(request, action):
-	steps = ['user_info', 'personal_info', 'work_info', 'skills', 'confirm', 'finalize']
+	steps = ['user_info', 'company_info', 'confirm', 'finalize']
 	step_views = {
-		'user_info': 	 _lambda('user_info.html', 'user_info', JobSeekerRegisterUserForm),
-		'confirm': 		 _lambda('confirm.html', 'confirm',  JobSeekerRegisterFinalForm),
-		'finalize': 	 register_jobseeker_finalize
+		'user_info': 	 _lambda('user_info.html', 'user_info', RegisterUserForm),
+		'company_info':  _lambda('employer/company_info.html', 'company_info', EmployerRegisterProfileForm),
+		'confirm': 		 _lambda('confirm.html', 'confirm',  RegisterFinalForm),
+		'finalize': 	 register_employer_finalize
 	}
 
 	return register(request, action, steps, step_views, EMPLOYER_SESSION, 'employer.html')

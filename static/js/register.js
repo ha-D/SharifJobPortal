@@ -2,12 +2,12 @@ var register = {}
 
 var fadeSpeed = 200;
 
-register.baseURL = '/register/jobseeker/';
-register.baseAjaxURL = register.baseURL + 'ajax/';
-register.step = 0;
-
 register.init = function(){
     function init(){
+        register.baseURL = location.pathname;
+        register.baseAjaxURL = register.baseURL + 'ajax/';
+        register.step = 0;
+
         $.ajax({
             url: register.baseURL + 'steps',
             dataType: 'json',
