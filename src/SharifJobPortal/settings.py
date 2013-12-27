@@ -133,6 +133,8 @@ INSTALLED_APPS = (
     'ui_test',
     'accounts',
     'jobs',
+    'search',
+    'social_network',
     # admin
     'django.contrib.admin',
     # 'django.contrib.admindocs',

@@ -1,3 +1,5 @@
+#coding=utf-8
+
 from django.db 				import models
 # from accounts.models 		import 
 from django.contrib.auth.models     import User
@@ -7,13 +9,13 @@ from accounts.models				import *
 # Create your models here.
 
 class Message(models.Model):
-	sender = models.ForeignKey(User)
-	reciever = models.ForeignKey(User)
+	sender = models.ForeignKey(User, related_name='sender_set')
+	reciever = models.ForeignKey(User, related_name='reciever_set')
 	subject = models.CharField(max_length=100)
 	body = models.TextField(max_length=3000)
 	time = models.DateTimeField()
 
-class CommentOnOppotunity(models.Model):
+class CommentOnOpportunity(models.Model):
 	opportunity = models.ForeignKey(JobOpportunity)
 	user = models.ForeignKey(JobSeeker)
 	body = models.TextField(max_length=2000)
@@ -57,7 +59,8 @@ class RateForEmployer(models.Model):
         (SUPPORT, 'پشتیبانی')
     )
 
-    feature = models.PositiveSmallIntegerField(choices=FEATURE_CHOICES , default=SALARY)
+	feature = models.PositiveSmallIntegerField(choices=FEATURE_CHOICES , default=SALARY)
+
 
 
 
