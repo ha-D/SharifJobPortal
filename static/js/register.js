@@ -39,6 +39,13 @@ register.init = function(){
         }).run();
     }
 
+    $('.register').on('click', '.step', function(){
+        if($(this).hasClass('disabled'))
+            return;
+        var step = $(this).attr('id').slice(0, -5);
+        location.hash = step;
+    })
+
     init();
 }
 
@@ -54,6 +61,7 @@ register.loadForm = function(param){
             $("#register-form").html(data.data);
             register.step = register.steps.indexOf(param);
 
+            $('.ui.step').removeClass('active');
             for(var i = 0; i < register.steps.length; i++){
                 $("#" + register.steps[i] + "_step").removeClass("disabled");
                 $("#" + register.steps[i] + "_step").addClass("active");

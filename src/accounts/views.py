@@ -9,57 +9,26 @@ import json
 
 def json_response(response):
 	return HttpResponse(json.dumps(response))
-	
-def register_jobseeker_userinfo(request):
+
+def register_jobseeker_form(request, step, register_form):
 	if request.method == 'POST':
-		form = JobSeekerRegisterUserForm(request.POST)
+		request.session['register_state']['post'][step] = request.POST
+		form = register_form(request.POST)
 		if form.is_valid():
-			user = form.save(commit = False)
-			return json_response({'result': 1}), user
+			obj = form.save(commit = False)
+			return json_response({'result': 1}), obj
 		else:
 			result = 0
 	else:
-		form = JobSeekerRegisterUserForm()
+		post = request.session['register_state']['post'].get(step)
+		form =  register_form() if post == None else register_form(post)
 		result = 1
 
 	return json_response({
 		'result': result,
-		'data': render_to_string('register/user_info.html', RequestContext(request, {'form': form}))
+		'data': render_to_string('register/%s.html' % step, RequestContext(request, {'form': form}))
 	}), None
 
-def register_jobseeker_personal(request):
-	if request.method == 'POST':
-		form = JobSeekerRegisterProfileForm(request.POST)
-		if form.is_valid():
-			jobseeker = form.save(commit = False)
-			return json_response({'result': 1}), jobseeker
-		else:
-			result = 0
-	else:
-		form = JobSeekerRegisterProfileForm()
-		result = 1
-
-	return json_response({
-		'result': result,
-		'data': render_to_string('register/personal_info.html', RequestContext(request, {'form': form}))
-	}), None
-
-def register_jobseeker_work(request):
-	if request.method == 'POST':
-		form = JobSeekerRegisterWorkForm(request.POST)
-		if form.is_valid():
-			jobseeker = form.save(commit = False)
-			return json_response({'result': 1}), jobseeker
-		else:
-			result = 0
-	else:
-		form = JobSeekerRegisterWorkForm()
-		result = 1
-
-	return json_response({
-		'result': result,
-		'data': render_to_string('register/work_info.html', RequestContext(request, {'form': form}))
-	}), None
 
 def register_jobseeker_skills(request):
 	if request.method == 'POST':
@@ -70,21 +39,6 @@ def register_jobseeker_skills(request):
 		'data': render_to_string('register/skills.html', RequestContext(request))
 	}), None
 
-def register_jobseeker_confirm(request):
-	if request.method == 'POST':
-		form = JobSeekerRegisterFinalForm(request.POST)
-		if form.is_valid():
-			return json_response({'result': 1}), None
-		else:
-			result = 0
-	else:
-		form = JobSeekerRegisterFinalForm()
-		result = 1
-	
-	return json_response({
-		'result': result,
-		'data': render_to_string('register/confirm.html', RequestContext(request, {'form': form}))
-	}), None	
 
 def register_jobseeker_finalize(request):
 	session_steps = request.session['register_state']['steps']
@@ -109,12 +63,12 @@ def register_jobseeker_finalize(request):
 def register_jobseeker(request, action):
 	steps = ['user_info', 'personal_info', 'work_info', 'skills', 'confirm', 'finalize']
 	step_views = {
-		'user_info': register_jobseeker_userinfo,
-		'personal_info': register_jobseeker_personal,
-		'work_info': register_jobseeker_work,
-		'skills': register_jobseeker_skills,
-		'confirm': register_jobseeker_confirm,
-		'finalize': register_jobseeker_finalize
+		'user_info': 	 lambda req: register_jobseeker_form(req, 'user_info', 	  JobSeekerRegisterUserForm),
+		'personal_info': lambda req: register_jobseeker_form(req, 'personal_info', JobSeekerRegisterProfileForm),
+		'work_info': 	 lambda req: register_jobseeker_form(req, 'work_info', 	  JobSeekerRegisterWorkForm),
+		'skills': 		 register_jobseeker_skills,
+		'confirm': 		 lambda req: register_jobseeker_form(req, 'confirm', 	  JobSeekerRegisterFinalForm),
+		'finalize': 	 register_jobseeker_finalize
 	}
 
 	if action == 'ajax':
@@ -128,7 +82,8 @@ def register_jobseeker(request, action):
 			step = 0
 			state = {
 				'current_step': 0,
-				'steps': {}
+				'steps': {},
+				'post': {}
 			}
 			request.session['register_state'] = state
 			request.session.save()
@@ -145,7 +100,8 @@ def register_jobseeker(request, action):
 			state['steps'][steps[step]] = result
 			if state['current_step'] == step:
 				state['current_step'] += 1
-			request.session.save()
+		
+		request.session.save()
 
 		return response
 

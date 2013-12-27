@@ -16,6 +16,10 @@
 	border-bottom: 1.8em solid transparent;
 }*/
 
+.register .ui.steps .step.active {
+    cursor: pointer;
+}
+
 .register .steps .icon {
 	margin-right: 20px;
 	padding: 0px;

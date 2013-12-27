@@ -82,3 +82,6 @@ class JobSeekerRegisterWorkForm(forms.ModelForm):
 
 class JobSeekerRegisterFinalForm(forms.Form):
 	terms = forms.BooleanField()
+
+	def save(self):
+		return None
