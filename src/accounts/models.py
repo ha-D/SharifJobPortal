@@ -3,15 +3,13 @@
 from django.db                      import models
 from django.contrib.auth.models     import User
 
-
-
 class UserProfile(models.Model):
     address = models.CharField(max_length=300)
     postalCode = models.CharField(max_length=15)
     phoneNumber = models.CharField(max_length=15)
-    image = models.URLField()
+    image = models.ImageField(null = True, blank = True, upload_to="avatar")
     city = models.CharField(max_length=20)
-    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True)
+    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True, null = True, blank = True)
     
     user = models.ForeignKey(User , unique=True)
 
@@ -39,7 +37,7 @@ class Employer(UserProfile):
 
 
 class JobSeeker(UserProfile):
-    birthDate = models.DateField()
+    birthDate = models.DateField(null=True, blank=True)
 
     MALE = 0
     FEMALE = 1
@@ -57,9 +55,9 @@ class JobSeeker(UserProfile):
         (FULL_TIME , 'تمام وقت'),
         (UNEMPLOYED , 'بیکار'),
     )
-    job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED)
+    job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True)
 
-    cv = models.URLField()
+    cv = models.FileField(upload_to="cv", null=True, blank=True)
 
 
 class PersonalPage(models.Model):
