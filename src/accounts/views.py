@@ -142,6 +142,9 @@ def register_employer(request, action):
 def mylogin(request):
     if request.user.is_authenticated():
         return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+    if request.method == 'POST':
+        if not request.POST.get('remember_me', None):
+            request.session.set_expiry(0)
     return login(request, template_name='accounts/login.html')
 
 def mylogout(request):
