@@ -2,7 +2,7 @@ var register = {}
 
 var fadeSpeed = 200;
 
-register.baseURL = '/register/';
+register.baseURL = '/register/jobseeker/';
 register.baseAjaxURL = register.baseURL + 'ajax/';
 register.step = 0;
 
