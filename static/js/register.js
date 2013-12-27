@@ -90,6 +90,7 @@ register.submitForm = function(){
             }else{
                 console.log("ERROR IN FORM")
                 $("#register-form").html(data.data);
+                register.initForm();
                 $("#dimmer").dimmer("hide");
             }
         },
