@@ -1,0 +1,150 @@
+<div class="ui form basicinfo visible">
+    {% csrf_token %}
+    <div class="two fields">
+        <div class="field">
+            <label>شهر</label>
+            <div class="ui left labeled input">
+                {{form.city}}
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.city.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.city.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>آدرس</label>
+            <div class="ui left labeled input">
+                {{form.address}}
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.address.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.address.errors.0}}</div>
+            {% endif %}
+        </div>
+    </div>
+     <div class="two fields">
+        <div class="field">
+            <label>کد پستی</label>
+
+            <div class="ui left labeled icon input">
+                {{form.postalCode}}
+                <!-- <i class="lock icon"></i> -->
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.postalCode.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.postalCode.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>شماره تلفن</label>
+
+            <div class="ui left labeled icon input">
+                {{form.phoneNumber}}
+                <!-- <i class="lock icon"></i> -->
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+                 {% if form.phoneNumber.errors %}
+                <div class="ui red pointing prompt label transition visible">{{form.phoneNumber.errors.0}}</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="two fields">
+        <div class="field">
+            <label>نام شرکت</label>
+            <div class="ui left labeled input">
+                {{form.companyName}}
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.companyName.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.companyName.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>نوع شرکت</label>
+            <div class="ui left labeled icon input">
+                {{form.companyType}}
+            </div>
+            {% if form.companyType.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.companyType.errors.0}}</div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="two fields">
+        <div class="field">
+            <label>شماره ثبت شرکت</label>
+            <div class="ui left labeled icon input">
+                {{form.registrationNumber}}
+                <!-- <i class="mail icon"></i> -->
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.registrationNumber.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.registrationNumber.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>تاریخ ثبت شرکت</label>
+            <div class="ui left labeled icon input">
+                {{form.establishDate}}
+                <!-- <i class="mail icon"></i> -->
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.establishDate.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.establishDate.errors.0}}</div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="two fields">
+        <div class="field">
+            <label>آردس الکترونیکی شرکت</label>
+            <div class="ui left labeled icon input">
+                {{form.contactEmail}}
+                <!-- <i class="mail icon"></i> -->
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.contactEmail.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.contactEmail.errors.0}}</div>
+            {% endif %}
+        </div>
+        <div class="field">
+            <label>سایت شرکت</label>
+            <div class="ui left labeled icon input">
+                {{form.webSite}}
+                <!-- <i class="mail icon"></i> -->
+                <div class="ui corner label">
+                    <i class="icon asterisk"></i>
+                </div>
+            </div>
+            {% if form.webSite.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.webSite.errors.0}}</div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="two fields">
+        <div class="field">
+
+        </div>
+        <div class="field">
+            <div class="ui teal next button basicinfo alignleft">ادامه</div>
+        </div>
+    </div>
+    <div class="ui error message">
+        <div class="header">لطفا خطاها را رفع کنید.</div>
+    </div>
+</div>

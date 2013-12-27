@@ -1,0 +1,41 @@
+{% extends "page.html" %}
+{% load staticfiles %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+{% endblock style %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/jquery.form.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/sammy.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/register.js' %}"></script>
+{% endblock script %}
+
+
+{% block page %}
+    <div class="register">
+        <h2>ثبت نام</h2>
+
+        <div class="ui small three steps">
+            <div id="user_info_step" class="ui disabled step">
+                مشخصات کاربری
+                <!-- <i class="User icon"></i> -->
+            </div>
+            <div id="company_info_step" class="ui disabled step">
+                مشخصات شرکت
+                <!-- <i class="User icon"></i> -->
+            </div>
+            <div id="confirm_step" class="ui disabled step">
+                پایان
+            </div>
+        </div>
+        <div class="maincontent">
+            <div class="ui basic segment">
+                <div class="ui active inverted dimmer" id="dimmer">
+                </div>
+                <form id="register-form">
+
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock page %}

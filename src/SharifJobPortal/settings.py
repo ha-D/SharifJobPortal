@@ -1,6 +1,11 @@
 # Django settings for SharifJobPortal project.
 
-from local_settings import BASE_DIR, SRC_DIR, STATIC_DIR, TEMPLATES_DIR
+from local_settings import BASE_DIR
+
+SRC_DIR         = BASE_DIR + 'src/'
+STATIC_DIR      = BASE_DIR + 'static/'
+TEMPLATES_DIR   = BASE_DIR + 'templates/'
+MEDIA_DIR       = BASE_DIR + 'media/'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -52,12 +57,12 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = MEDIA_DIR
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://example.com/media/", "http://media.example.com/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -116,8 +121,6 @@ TEMPLATE_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     TEMPLATES_DIR
 )
-
-print(TEMPLATE_DIRS)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
