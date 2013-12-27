@@ -10,6 +10,11 @@ MEDIA_DIR       = BASE_DIR + 'media/'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+LOGIN_REDIRECT_URL = '/userpanel/'
+LOGOUT_REDIRECT_URL = '/home/'
+LOGIN_URL = '/accounts/login/'
+LOGOUT_URL = '/accounts/logout/'
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -87,6 +92,7 @@ STATICFILES_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'accounts.middlewares.UserMiddleware',
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 

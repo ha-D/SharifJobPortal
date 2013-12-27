@@ -1,0 +1,66 @@
+{% extends 'page.html' %}
+
+{% load staticfiles %}
+
+{% block script %}
+    <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
+{% endblock script %}
+
+{% block page %}
+    <div class="ui segment">
+        <div class="ui two column middle aligned relaxed grid basic segment">
+            <div class="column">
+                <h2>
+                    قبلا ثبت‌نام کرده‌اید:
+                </h2>
+
+                <form id="login-form" action="" method="post">
+                    {% csrf_token %}
+                    <div class="ui {% if form.errors %}error{% endif %} form segment login">
+                        <div class="ui error message">
+                            <div class="header">ورود ناموفق!</div>
+                        </div>
+                        <div class="field">
+                            <label>نام کاربری</label>
+
+                            <div class="ui left labeled icon input">
+                                <input value="{% if form.username.value %}{{ form.username.value }}{% endif %}" name="username" type="text"
+                                       placeholder="نام کاربری">
+                                <i class="user icon"></i>
+
+                                <div class="ui corner label">
+                                    <i class="asterisk icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="field">
+                            <label>رمز عبور</label>
+
+                            <div class="ui left labeled icon input">
+                                <input name="password" type="password" placeholder="رمز عبور">
+                                <i class="lock icon"></i>
+
+                                <div class="ui corner label">
+                                    <i class="asterisk icon"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ui blue submit button">ورود</div>
+                    </div>
+                </form>
+            </div>
+            <div class="ui vertical divider">
+                یا
+            </div>
+            <div class="center aligned column">
+                <h2>
+                    ثبت‌نام خیلی ساده است:
+                </h2>
+                <div class="huge green ui labeled icon button">
+                    <i class="signup icon"></i>
+                    ثبت نام
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock page %}
