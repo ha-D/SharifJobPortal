@@ -1,11 +1,3 @@
-
-// $(document).ready(relaxRegister);
-
-// function relaxRegister() {
-//     basicInfoRelax();
-//     skillsRelax();
-//     finalRelax();
-// }
 var register = {}
 
 var fadeSpeed = 200;
@@ -192,32 +184,7 @@ register.initUserInfo = function(){
     basicInfoRelax();
 }
 
-
-register.initSkills = function(){
-    $(".next.button").click(register.submitForm);
-    $('.ui.checkbox').checkbox();
-}
-
-
-$(function(){
-
-
-    
-
-  
-
-    
-
-  
-
-    function skillsRelax(){
-        $("#skillsStep").click("skills", stepClicked);
-        $("#searchPossibleSkills").change(updatePossibleSkillsList);
-        $("#searchCurrentSkills").change(updateCurrentSkillsList);
-        $(".ui.form.skills .button.proceed").click( proceedToFinal );
-        $(".ui.form.skills .button.skip").click( skipToFinal );
-    }
-
+register.initConfirm = function(){
     function finalRelax(){
         $("#finalStep").click("final", stepClicked);
         finalValidation();
@@ -227,9 +194,9 @@ $(function(){
     }
 
     function finalValidation(){
-        $('.ui.form.final')
-            .form({
-               terms:{
+        $('.ui.form.final').form(
+            {
+                terms:{
                    identifier:'terms',
                    rules:[
                        {
@@ -242,31 +209,21 @@ $(function(){
             {
                 inline: true,
                 onSuccess: accountCreate
-            });
+            }
+        );
     }
 
-    function accountCreate(){
-    }
-    
+    finalRelax();
+}
 
-    function proceedToSkills() {
-        $("#skillsStep").removeClass("disabled");
-        stepClicked({data: "skills"});
-    }
+register.initSkills = function(){
+    $(".next.button").click(register.submitForm);
+    $('.ui.checkbox').checkbox();
 
-    function stepClicked(step){
-        stepID = "#" + step.data + "Step";
-        if ($(stepID).hasClass("active") ||
-            $(stepID).hasClass("disabled"))
-            return;
-        formClass = ".ui.form." + step.data;
-        $(".ui.form.visible").fadeOut(fadeSpeed, function(){
-            $(".ui.form.visible").removeClass("visible").addClass("hide");
-            $(formClass).removeClass("hide").addClass("visible");
-            $(formClass).fadeIn(fadeSpeed);
-            $(".ui.step").removeClass("active");
-            $(stepID).addClass("active");
-        });
+    function skillsRelax(){
+        // $("#skillsStep").click("skills", stepClicked);
+        $("#searchPossibleSkills").change(updatePossibleSkillsList);
+        $("#searchCurrentSkills").change(updateCurrentSkillsList);
     }
 
     function updatePossibleSkillsList(){
@@ -278,15 +235,8 @@ $(function(){
         setTimeout("$('#loadingCurrentSkills').removeClass('active')", 1500);
     }
 
-    function proceedToFinal(){
-        skipToFinal();
-    }
-
-    function skipToFinal(){
-        $("#finalStep").removeClass("disabled");
-        stepClicked({data: "final"});
-    }
-});
+    skillsRelax();
+}
 
 $(function(){
     register.init();
