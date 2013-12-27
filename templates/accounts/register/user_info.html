@@ -1,26 +1,32 @@
-<div class="ui form person hide">
+<div class="ui form basicinfo visible">
+    {% csrf_token %}
     <div class="two fields">
         <div class="field">
             <label>نام</label>
 
             <div class="ui left labeled input">
-                <input name="firstname" type="text" placeholder="نام"/>
-
+                {{form.first_name}}
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>
                 </div>
             </div>
+            {% if form.first_name.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.first_name.errors.0}}</div>
+            {% endif %}
         </div>
         <div class="field">
             <label>نام خانوادگی</label>
 
             <div class="ui left labeled input">
-                <input name="lastname" type="text" placeholder="نام خانوادگی"/>
+                {{form.last_name}}
 
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>
                 </div>
             </div>
+            {% if form.last_name.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.first_name.errors.0}}</div>
+            {% endif %}
         </div>
     </div>
     <div class="two fields">
@@ -28,25 +34,31 @@
             <label>نام کاربری</label>
 
             <div class="ui left labeled icon input">
-                <input name="username" type="text" placeholder="نام کاربری"/>
+                {{form.username}}
                 <i class="user icon"></i>
 
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>
                 </div>
             </div>
+            {% if form.username.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.username.errors.0}}</div>
+            {% endif %}
         </div>
         <div class="field">
             <label>آدرس الکترونیکی</label>
 
             <div class="ui left labeled icon input">
-                <input name="email" type="text" placeholder="آدرس الکترونیکی"/>
+                {{form.email}}
                 <i class="mail icon"></i>
 
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>
                 </div>
             </div>
+            {% if form.email.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.email.errors.0}}</div>
+            {% endif %}
         </div>
     </div>
     <div class="two fields">
@@ -54,19 +66,22 @@
             <label>رمزعبور</label>
 
             <div class="ui left labeled icon input">
-                <input name="password" type="password" placeholder="رمز عبور"/>
+                {{form.password}}
                 <i class="lock icon"></i>
 
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>
                 </div>
             </div>
+            {% if form.password.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.password.errors.0}}</div>
+            {% endif %}
         </div>
         <div class="field">
             <label>تکرار رمز عبور</label>
 
             <div class="ui left labeled icon input">
-                <input name="password-repeat" type="password" placeholder="تکرار رمز عبور"/>
+                {{form.password_repeat}}
                 <i class="lock icon"></i>
 
                 <div class="ui corner label">
@@ -77,22 +92,29 @@
     </div>
     <div class="two fields">
         <div class="field">
-            <label>جنسیت:</label>
+ <!--            <label>جنسیت:</label>
 
             <div class="ui radio checkbox">
-                <input type="radio" name="gender" value="male">
+                <input type="radio" name="sex" value="0">
                 <label><i class="male large icon"></i></label>
             </div>
             <div class="ui radio checkbox">
-                <input type="radio" name="gender" value="female">
+                <input type="radio" name="sex" value="1">
                 <label><i class="female large icon"></i></label>
             </div>
+            {% if form.sex.errors %}
+            <div class="ui red pointing prompt label transition visible">{{form.sex.errors.0}}</div>
+            {% endif %} -->
         </div>
         <div class="field">
-            <div class="ui teal submit button personinfo alignleft">ادامه</div>
+            <div class="ui teal next button basicinfo alignleft">ادامه</div>
         </div>
     </div>
     <div class="ui error message">
         <div class="header">لطفا خطاها را رفع کنید.</div>
     </div>
 </div>
+
+<script type="text/javascript">
+    register.initUserInfo();
+</script>
