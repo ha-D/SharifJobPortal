@@ -14,6 +14,8 @@ urlpatterns = patterns('',
     url(r'^register/jobseeker/(?P<action>\w*)', register_jobseeker),
     url(r'^register/employer/(?P<action>\w*)', register_employer),
 
+    url(r'^accounts/', include('accounts.urls')),
+
 	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
 	url(r'^(?P<template>\w+)/', show_template),
 	

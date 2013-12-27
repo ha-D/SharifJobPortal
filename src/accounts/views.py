@@ -1,9 +1,11 @@
+from django.contrib.auth.views import login, logout
 from django.shortcuts			import render, render_to_response
 from django.template 			import RequestContext
 from django.template.loader 	import render_to_string
-from django.http 				import HttpResponse
+from django.http 				import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from accounts.forms				import *
+from SharifJobPortal import settings
 
 import json
 
@@ -135,3 +137,12 @@ def register_employer(request, action):
 	}
 
 	return register(request, action, steps, step_views, EMPLOYER_SESSION, 'employer.html')
+
+
+def mylogin(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect(settings.LOGIN_REDIRECT_URL)
+    return login(request, template_name='accounts/login.html')
+
+def mylogout(request):
+    return logout(request, next_page=settings.LOGOUT_REDIRECT_URL)
