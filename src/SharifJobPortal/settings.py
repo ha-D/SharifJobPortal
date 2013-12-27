@@ -40,7 +40,7 @@ TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa-ir'
 
 SITE_ID = 1
 
@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     'jobs',
     'search',
     'social_network',
+    'services',
     # admin
     'django.contrib.admin',
     # 'django.contrib.admindocs',
