@@ -1,0 +1,34 @@
+<div id="top-menu" class="ui fixed transparent inverted main menu">
+    <div class="left menu">
+
+        <div class="ui small icon input rtl searchbox">
+            <input id="searchJob" type="text" placeholder="جستجو شغل...">
+            <i class="search icon"></i>
+        </div>
+
+    </div>
+    <div class="right menu">
+        {% if user.is_authenticated %}
+            <a class="item">
+                <i class="settings icon"></i>
+            </a>
+            <a class="item">
+                <div class="ui label">51</div>
+                <i class="mail icon"></i>
+            </a>
+            <div class="item">
+                {{ user.first_name }} {{ user.last_name }}
+            </div>
+        {% else %}
+            <a class="item">
+                <i class="signup icon"></i>
+            </a>
+            <a class="item" href="/accounts/login/">
+                <i class="horizontally flipped sign in icon"></i>
+            </a>
+            <div class="item">
+                کاربر میهمان
+            </div>
+        {% endif %}
+    </div>
+</div>
