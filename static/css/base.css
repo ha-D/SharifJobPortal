@@ -85,3 +85,8 @@ body{
 .rtl{
 	direction: rtl;
 }
+
+#top-menu div.item{
+    font-size: 10pt;
+    margin-top: 10px;
+}

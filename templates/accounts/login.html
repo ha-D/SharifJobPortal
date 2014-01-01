@@ -2,6 +2,10 @@
 
 {% load staticfiles %}
 
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/register.css' %}">
+{% endblock style %}
+
 {% block script %}
     <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
 {% endblock script %}
@@ -17,14 +21,18 @@
                 <form id="login-form" action="" method="post">
                     {% csrf_token %}
                     <div class="ui {% if form.errors %}error{% endif %} form segment login">
-                        <div class="ui error message">
-                            <div class="header">ورود ناموفق!</div>
-                        </div>
+                        {% if form.errors %}
+                            <div class="ui error message">
+                                <div class="header">ورود ناموفق!</div>
+                                <p>نام کاربری یا رمز عبور اشتباه است.</p>
+                            </div>
+                        {% endif %}
                         <div class="field">
                             <label>نام کاربری</label>
 
                             <div class="ui left labeled icon input">
-                                <input value="{% if form.username.value %}{{ form.username.value }}{% endif %}" name="username" type="text"
+                                <input value="{% if form.username.value %}{{ form.username.value }}{% endif %}"
+                                       name="username" type="text"
                                        placeholder="نام کاربری">
                                 <i class="user icon"></i>
 
@@ -45,7 +53,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ui blue submit button">ورود</div>
+                        <div class="field">
+                            <div class="ui checkbox">
+                                <input type="checkbox" name="remember_me">
+                                <label>مرا به خاطر بسپار</label>
+                            </div>
+                        </div>
+                        <div class="ui blue alignleft submit button">ورود</div>
                     </div>
                 </form>
             </div>
@@ -56,6 +70,7 @@
                 <h2>
                     ثبت‌نام خیلی ساده است:
                 </h2>
+
                 <div class="huge green ui labeled icon button">
                     <i class="signup icon"></i>
                     ثبت نام

@@ -14,6 +14,7 @@ LOGIN_REDIRECT_URL = '/userpanel/'
 LOGOUT_REDIRECT_URL = '/home/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
+SESSION_COOKIE_AGE = 360
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),

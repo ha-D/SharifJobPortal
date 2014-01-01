@@ -2,7 +2,7 @@ from django.conf.urls 	import patterns, include, url
 from django.contrib 	import admin
 
 from ui_test.views 		import show_template
-from accounts.views		import register_jobseeker, register_employer
+from accounts.views		import register_jobseeker, register_employer, userpanel
 
 # Uncomment the next two lines to enable the admin:
 admin.autodiscover()
@@ -11,6 +11,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^userpanel/$', userpanel),
     url(r'^register/jobseeker/(?P<action>\w*)', register_jobseeker),
     url(r'^register/employer/(?P<action>\w*)', register_employer),
 
