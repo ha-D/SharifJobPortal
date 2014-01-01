@@ -1,7 +1,10 @@
 # Django settings for SharifJobPortal project.
 
-from local_settings import BASE_DIR
+from os.path import dirname, abspath
 
+#from local_settings import BASE_DIR
+
+BASE_DIR        = dirname(dirname(dirname(abspath(__file__)))) + '/'
 SRC_DIR         = BASE_DIR + ''
 STATIC_DIR      = BASE_DIR + 'static/'
 TEMPLATES_DIR   = BASE_DIR + 'templates/'
@@ -60,6 +63,8 @@ USE_L10N = True
 
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
+
+FIXTURE_DIRS = (BASE_DIR + 'fixtures',)
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
