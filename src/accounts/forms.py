@@ -48,7 +48,7 @@ class RegisterUserForm(forms.ModelForm):
 class JobSeekerRegisterProfileForm(forms.ModelForm):
 	class Meta:
 		model = JobSeeker
-		fields = ['address', 'postalCode', 'phoneNumber', 'city', 'birthDate']
+		fields = ['sex', 'address', 'postalCode', 'phoneNumber', 'city', 'birthDate']
 
 	def __init__(self, *args, **kwargs):
 		super(JobSeekerRegisterProfileForm, self).__init__(*args, **kwargs)

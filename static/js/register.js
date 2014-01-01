@@ -81,26 +81,18 @@ register.submitForm = function(){
         type: 'post',
         dataType: 'json',
         success: function(data){
-            console.log("WHAT THE FUCK?!")
             if(data.result == 1) {
-                console.log("SUBMIT ReSULT 1")
                 location.hash = register.steps[register.step + 1];
-                console.log("CHanging hash to");
-                console.log(location.hash);
             }else{
-                console.log("ERROR IN FORM")
                 $("#register-form").html(data.data);
                 register.initForm();
                 $("#dimmer").dimmer("hide");
             }
         },
         error: function(err){
-            console.log(err);
-            console.log("FUUCJ ERROR")
             $("#dimmer").dimmer("hide");
         },
         complete: function(){
-            console.log("FUUUUCK  COMPLETE");
         }
     })
 }
@@ -184,9 +176,27 @@ register.initUserInfo = function(){
     basicInfoRelax();
 }
 
+register.initPersonalInfo = function(){
+    $('.ui.dropdown').dropdown();
+    $('.ui.dropdown.city').dropdown('setting', {
+         onChange : function(a,b,c){
+            $("#city-input").val($(this).dropdown('get value'))
+         }  
+    })
+}
+
+register.initWorkInfo = function(){
+    $('.ui.dropdown').dropdown();
+    $('.ui.dropdown.jobstatus').dropdown('setting', {
+         onChange : function(a,b,c){
+            $("#jobstatus-input").val($(this).dropdown('get value'))
+         }  
+    })
+}
+
 register.initConfirm = function(){
     function finalRelax(){
-        $("#finalStep").click("final", stepClicked);
+        // $("#finalStep").click("final", stepClicked);
         finalValidation();
         $("#terms").click( function(){
             $("#termsModal").modal("show");
@@ -208,7 +218,7 @@ register.initConfirm = function(){
             },
             {
                 inline: true,
-                onSuccess: accountCreate
+                // onSuccess: accountCreate
             }
         );
     }

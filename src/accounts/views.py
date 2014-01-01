@@ -1,11 +1,11 @@
-from django.contrib.auth.views import login, logout
+from django.contrib.auth.views  import login, logout
 from django.shortcuts			import render, render_to_response
 from django.template 			import RequestContext
 from django.template.loader 	import render_to_string
 from django.http 				import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from accounts.forms				import *
-from SharifJobPortal import settings
+from django.conf 				import settings
 
 import json
 
@@ -17,7 +17,7 @@ def json_response(response):
 
 def register_jobseeker_skills(request, session_name):
 	if request.method == 'POST':
-		return json_response({'result': 1}), None
+		return json_response({'result': 1}), 1
 
 	return json_response({
 		'result': 1,
@@ -39,27 +39,42 @@ def register_jobseeker_finalize(request, session_name):
 	jobseeker.cv = jobseeker_work.cv
 	jobseeker.save()
 
+	del request.session[session_name]
+
 	return json_response({
 		'result': 1,
 		'data': render_to_string('accounts/register/jobseeker/final.html', RequestContext(request))
 	}), None
 
 def register_employer_finalize(request, session_name):
-	pass
+	session_steps = request.session[session_name]['steps']
+
+	user = session_steps['user_info']
+	employer = session_steps['company_info']
+
+	user.save()
+	
+	employer.user = user
+	employer.save()
+
+	del request.session[session_name]
+
+	return json_response({
+		'result': 1,
+		'data': render_to_string('accounts/register/employer/final.html', RequestContext(request))
+	}), None	
 
 def register_form(request, session_name, template, step, register_form):
 	if request.method == 'POST':
 		form = register_form(request.POST)
 		if form.is_valid():
 			request.session[session_name]['post'][step] = request.POST
-			obj = form.save(commit = False)
+			obj = form.save()
 			return json_response({'result': 1}), obj
 		else:
 			result = 0
 	else:
 		post = request.session[session_name]['post'].get(step)
-		if post != None:
-			print("POST NOT CLEAR  " + step)
 		form =  register_form() if post == None else register_form(post)
 		result = 1
 
@@ -84,11 +99,12 @@ def register(request, action, steps, step_views, session_name, base_template):
 			request.session[session_name] = state
 			request.session.save()
 
-		# No skipping steps
+
+		# No skipping steps  faulty, doesn't work for skills
 		# if state['current_step'] < step:
 		# 	print("No skipping " + str(state['current_step']) + " < " +  str(step))
 		# 	step = state['current_step']
-		print("Step : "  + str(step) + "  " + steps[step])
+
 		response, result =  step_views[steps[step]](request, session_name)
 
 		if result != None:
@@ -102,11 +118,12 @@ def register(request, action, steps, step_views, session_name, base_template):
 
 	elif action == 'steps':
 		return json_response({'steps': steps})
+
 	elif action == 'clear':
-		print('Clearing state')
 		if session_name in request.session:
 			del request.session[session_name]
 		return HttpResponse("Cleared")
+
 	else:
 		return render_to_response('accounts/register/' + base_template)
 

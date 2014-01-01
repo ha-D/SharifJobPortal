@@ -7,6 +7,9 @@ from django.contrib.auth.models     import User
 class City(models.Model):
     name = models.CharField(max_length=20)
 
+    def __unicode__(self):
+        return self.name
+
 
 class UserProfile(models.Model):
     address = models.CharField(max_length=300)
@@ -14,7 +17,7 @@ class UserProfile(models.Model):
     phoneNumber = models.CharField(max_length=15)
     image = models.ImageField(null = True, blank = True, upload_to="avatar")
     city = models.ForeignKey(City)
-    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True)
+    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True, null=True, blank=True)
     
     user = models.ForeignKey(User , unique=True)
 

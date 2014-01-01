@@ -12,6 +12,25 @@
 	margin-right: 30px;
 }
 
+.register .field.sex {
+    margin-bottom: 30px;
+}
+
+.register .field.sex .wrap{
+    margin-top: 10px;
+    margin-right: 40px;
+}
+
+.register .ui.dropdown.city {
+    margin-right: 40px;
+}
+
+.register .ui.dropdown.city .menu{
+    overflow-y: scroll;
+    min-width: 200px;
+    max-height: 200px;
+}
+
 /*.register .ui.steps .step:after {
 	border-bottom: 1.8em solid transparent;
 }*/

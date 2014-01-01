@@ -3,9 +3,18 @@
     <div class="two fields">
         <div class="field">
 
-            <div class="ui left labeled input">
             <label>وضعیت شغلی</label>
-                {{form.job_status}}
+            <div class="ui left labeled input">
+                <input type="hidden" id="jobstatus-input" name="job_status">
+                <div class="ui dropdown jobstatus">
+                  <div class="text">{{form.job_status.field.choices.0.1}}</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    {% for job_status in form.job_status.field.choices %}
+                        <div class="item" data-value="{{job_status.0}}">{{job_status.1}}</div>
+                    {% endfor %}
+                  </div>
+                </div>
             </div>
             {% if form.job_status.errors %}
             <div class="ui red pointing prompt label transition visible">{{form.job_status.errors.0}}</div>
@@ -41,3 +50,6 @@
         <div class="header">لطفا خطاها را رفع کنید.</div>
     </div>
 </div>
+<script type="text/javascript">
+    register.initWorkInfo();
+</script>

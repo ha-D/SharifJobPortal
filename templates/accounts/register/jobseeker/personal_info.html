@@ -1,6 +1,22 @@
 <div class="ui form basicinfo visible">
     {% csrf_token %}
     <div class="two fields">
+        <div class="field sex">
+            <label>جنسیت:</label>
+            <div class="wrap">
+                <div class="ui radio checkbox">
+                    <input type="radio" name="sex" value="0">
+                    <label><i class="male large icon"></i></label>
+                </div>
+                <div class="ui radio checkbox">
+                    <input type="radio" name="sex" value="1">
+                    <label><i class="female large icon"></i></label>
+                </div>
+                {% if form.sex.errors %}
+                <div class="ui red pointing prompt label transition visible">{{form.sex.errors.0}}</div>
+                {% endif %}
+            </div>
+        </div>
         <div class="field">
             <label>تاریخ تولد</label>
             <div class="ui left labeled input">
@@ -12,33 +28,29 @@
             {% if form.birthDate.errors %}
             <div class="ui red pointing prompt label transition visible">{{form.birthDate.errors.0}}</div>
             {% endif %}
+    
+        </div>
+    </div>
+    <div class="two fields">
+        <div class="field">
         </div>
         <div class="field">
-            <label>جنسیت:</label>
-
-            <div class="ui radio checkbox">
-                <input type="radio" name="sex" value="0">
-                <label><i class="male large icon"></i></label>
-            </div>
-            <div class="ui radio checkbox">
-                <input type="radio" name="sex" value="1">
-                <label><i class="female large icon"></i></label>
-            </div>
-            {% if form.sex.errors %}
-            <div class="ui red pointing prompt label transition visible">{{form.sex.errors.0}}</div>
-            {% endif %}
+    
         </div>
     </div>
      <div class="two fields">
         <div class="field">
             <label>شهر</label>
-
             <div class="ui left labeled icon input">
-                {{form.city}}
-                <i class="lock icon"></i>
-
-                <div class="ui corner label">
-                    <i class="icon asterisk"></i>
+                <input type="hidden" id="city-input" name="city">
+                <div class="ui dropdown city">
+                  <div class="text">{{form.city.field.choices.0}}</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    {% for city in form.city.field.choices %}
+                        <div class="item" data-value="{{city.0}}">{{city.1}}</div>
+                    {% endfor %}
+                  </div>
                 </div>
             </div>
             {% if form.city.errors %}
@@ -100,3 +112,7 @@
         <div class="header">لطفا خطاها را رفع کنید.</div>
     </div>
 </div>
+
+<script type="text/javascript">
+    register.initPersonalInfo();
+</script>
