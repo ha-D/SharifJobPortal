@@ -3,6 +3,7 @@
 from django.db                      import models
 from django.contrib.auth.models     import User
 
+from polymorphic                    import PolymorphicModel
 
 class City(models.Model):
     name = models.CharField(max_length=20)
@@ -10,20 +11,24 @@ class City(models.Model):
     def __unicode__(self):
         return self.name
 
-
-class UserProfile(models.Model):
+class UserProfile(PolymorphicModel):
     address = models.CharField(max_length=300)
     postalCode = models.CharField(max_length=15)
     phoneNumber = models.CharField(max_length=15)
     image = models.ImageField(null = True, blank = True, upload_to="avatar")
     city = models.ForeignKey(City)
-    personalPage = models.ForeignKey('accounts.PersonalPage' , unique=True, null=True, blank=True)
+    personalPage = models.OneToOneField('accounts.PersonalPage' , unique=True, null=True, blank=True)
     
-    user = models.ForeignKey(User , unique=True)
+    user = models.OneToOneField(User , unique=True)
 
-    class Meta:
-        abstract = True
+    def is_jobseeker(self):
+        pass
 
+    def is_employer(self):
+        return not is_jobseeker()
+
+    # class Meta:
+    #     abstract = True
 
 class CompanyType(models.Model):
     PUBLIC = 0
@@ -48,6 +53,8 @@ class Employer(UserProfile):
     webSite = models.URLField()
     establishDate = models.DateField()
     
+    def is_jobseeker(self):
+        return False
 
 
 class JobSeeker(UserProfile):
@@ -73,6 +80,8 @@ class JobSeeker(UserProfile):
 
     cv = models.FileField(upload_to="cv", null=True, blank=True)
 
+    def is_jobseeker(self):
+        return True
 
 class PersonalPage(models.Model):
     aboutMe = models.TextField(max_length=3000)

@@ -171,4 +171,7 @@ def mylogout(request):
 
 @user_required
 def userpanel(request):
-    return template('userpanel.html', request)
+    if request.userprofile.is_jobseeker():
+        return template('userpanel/jobseeker.html', request)
+    elif request.userprofile.is_employer():
+        return template('userpanel/employer.html', request)
