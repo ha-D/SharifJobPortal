@@ -1,0 +1,16 @@
+{% load filters %}
+
+<table class="ui table segment attached inbox">
+	<div class="ui inverted dimmer" id="inbox-dimmer">
+	</div>
+	<tbody>
+	{% for message in inbox %}
+	<tr data-message-id='{{message.id}}'>
+		<td class="from">{{message.sender|fullname}}</td>
+		<td class="subject">{{message.subject}}</td>
+		<td class="time">{{message.time|short_time}}</td>
+		<td class="reply"><!-- <i class="reply mail icon link icon"></i> --></td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>

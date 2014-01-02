@@ -1,0 +1,38 @@
+{% extends 'userpanel/userpanel.html' %}
+{% load staticfiles %}
+{% block panelmenu %}
+	<div class="username">
+		<a href="/userpanel" class="avatar">
+			<img src="{% static 'images/hadi.png' %}">
+		</a>
+		<a href="/userpanel" class="name"><h2>هادی ذوالفقاری</h2></a>
+		<div class="clear"></div>
+	</div>
+	<div class="ui small secondary vertical menu">
+	  <a class="item" page="inbox" href="#inbox">
+	    <i class="inbox icon"></i>
+	    پیغام‌ها
+	  </a>
+	  <a class="item" page="jobs" href="#jobs/">
+	    <i class="doctor icon"></i>
+	    فرصت‌های شغلی
+	  </a>
+	  <a class="item" page="friends" href="#friends/">
+	    <i class="users icon"></i>
+	    دوستان
+	  </a>
+	  <a class="item" page="search" href="#search/">
+	    <i class="search icon"></i>
+	    جستجو
+	  </a>
+	  <a class="item" page="profile" href="#profile/">
+	    <i class="user icon"></i> 
+	    مشخصات
+	  </a>
+	  <a class="item" page="settings" href="#settings/">
+	    <i class="settings icon"></i> 
+	    تنظیمات
+	  </a>
+	</div>
+{% endblock %}
+
