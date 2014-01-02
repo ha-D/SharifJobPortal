@@ -1,22 +1,16 @@
-from django.contrib.auth.views import login, logout
-from django.shortcuts            import render, render_to_response
-from django.template             import RequestContext
-from django.template.loader     import render_to_string
-from django.http                 import HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
-from SharifJobPortal.functions import template
-from accounts.decorators import user_required
-from accounts.forms                import *
-from django.conf 				import settings
-
-import json
+from django.contrib.auth.views 		import login, logout
+from django.shortcuts            	import render, render_to_response
+from django.template             	import RequestContext
+from django.template.loader     	import render_to_string
+from django.http                 	import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.models 	import User
+from utils					 		import template, json_response
+from accounts.decorators 			import user_required
+from accounts.forms                	import *
+from django.conf 					import settings
 
 JOBSEEKER_SESSION = 'register_jobseeker'
 EMPLOYER_SESSION = 'register_employer'
-
-def json_response(response):
-    return HttpResponse(json.dumps(response))
-
 
 def register_jobseeker_skills(request, session_name):
 	if request.method == 'POST':
