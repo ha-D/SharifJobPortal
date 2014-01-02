@@ -4,7 +4,7 @@ from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
 from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
-from utils.functions		 		import template, json_response
+from utils.functions		 		import template, json_response, ajax_template
 from accounts.decorators 			import user_required
 from accounts.forms                	import *
 from django.conf 					import settings
@@ -179,6 +179,6 @@ def userpanel(request):
 @user_required
 def userpanel_main(request):
     if request.userprofile.is_jobseeker():
-        return template(request, 'userpanel/jobseeker/main.html')
+        return ajax_template(request, 'userpanel/jobseeker/main.html')
     elif request.userprofile.is_employer():
-        return template(request, 'userpanel/employer/main.html')    
+        return ajax_template(request, 'userpanel/employer/main.html')    

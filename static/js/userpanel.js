@@ -34,7 +34,7 @@ userpanel.init = function(){
 				location.hash = 'inbox/list';
 				return;
 			}
-			
+
 			userpanel.loadContent(page);
 		});
 
@@ -54,14 +54,16 @@ userpanel.loadContent = function(content, done){
 	setTimeout(function(){
 		$.ajax({
 			url: "/userpanel/ajax/" + content +"/",
-			beforeSend: function(){
-				// $("#dimmer").dimmer("show");
-			},
+			dataType: 'json',
 			success: function(result){
-				$("#content").html(result);
-				userpanel.currentPage = content;
-				if(done)
-					done();
+				if(result.result == 1){
+					$("#content").html(result.data);
+					userpanel.currentPage = content;
+					if(done)
+						done();	
+				}else if(result.error = "unauthorized"){
+					location = result.data;
+				}
 			},
 			error: function(){
 
@@ -83,11 +85,13 @@ userpanel.loadInbox = function(content){
 	setTimeout(function(){
 		$.ajax({
 			url: "/userpanel/ajax/inbox/" + content +"/",
-			beforeSend: function(){
-				// $("#dimmer").dimmer("show");
-			},
+			dataType: 'json',
 			success: function(result){
-				$("#inbox-content").html(result);
+				if(result.result == 1){
+					$("#inbox-content").html(result.data);
+				}else if(result.error == 'unauthorized'){
+					locatoin = result.data;
+				}
 			},
 			error: function(){
 
