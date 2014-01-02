@@ -1,5 +1,50 @@
+var userpanel = {}
 
-function loadContent(content){
+userpanel.init = function(){
+	userpanel.currentPage = 'main';
+
+	Sammy(function() {
+		this.get("#inbox/message/:id", function(){
+			var id = this.params.id;
+			function done(){
+				userpanel.loadInbox("message/" + id);
+			}
+
+			if(userpanel.currentPage != 'inbox')
+				userpanel.loadContent('inbox', done);
+			else
+				done();
+		});
+
+		this.get("#inbox/:page", function(){
+			var page = this.params.page;
+			function done(){
+				userpanel.loadInbox(page);
+			}
+
+			if(userpanel.currentPage != 'inbox')
+				userpanel.loadContent('inbox', done);
+			else
+				done();
+		});
+
+		this.get('#:page', function() {
+			var page = this.params.page;
+			if(page == 'inbox'){
+				location.hash = 'inbox/list';
+				return;
+			}
+			
+			userpanel.loadContent(page);
+		});
+
+		this.get('', function() { 
+			userpanel.loadContent();
+		});
+	}).run();
+}
+
+userpanel.loadContent = function(content, done){
 	if(content == null || content.trim().length == 0)
 		content = 'main';
 
@@ -8,12 +53,15 @@ function loadContent(content){
 	$("#dimmer").dimmer("show");
 	setTimeout(function(){
 		$.ajax({
-			url: "/ajax/userpanel/" + content +"/",
+			url: "/userpanel/ajax/" + content +"/",
 			beforeSend: function(){
 				// $("#dimmer").dimmer("show");
 			},
 			success: function(result){
 				$("#content").html(result);
+				userpanel.currentPage = content;
+				if(done)
+					done();
 			},
 			error: function(){
 
@@ -25,16 +73,16 @@ function loadContent(content){
 	}, 200);
 }
 
-function loadInbox(content){
+userpanel.loadInbox = function(content){
 	if(content == null || content.trim().length == 0)
-		content = 'inbox';
+		content = 'list';
 
 	console.log("Loading Inbox  " + content);
 
 	$("#inbox-dimmer").dimmer("show");
 	setTimeout(function(){
 		$.ajax({
-			url: "/ajax/userpanel/" + content +"/",
+			url: "/userpanel/ajax/inbox/" + content +"/",
 			beforeSend: function(){
 				// $("#dimmer").dimmer("show");
 			},
@@ -51,7 +99,7 @@ function loadInbox(content){
 	}, 200);
 }
 
-$(document).ready(function(){
+$(function(){
 	// $("#dimmer").dimmer({
 	// 	duration: {
 	// 		show: 700,
@@ -59,47 +107,14 @@ $(document).ready(function(){
 	// 	}
 	// });
 
-	$("#panelmenu .item").click(function(){
-		var page = $(this).attr("page");
-		history.pushState({type: "panel", state: page}, null, page);
-		loadContent(page);
+	$("#content").on("click", "#inbox tr", function(){
+		var mid = $(this).attr('data-message-id');
+		location.hash = "inbox/message/" + mid;
 	});
 
-	// var app = Davis(function () {
-	// 	this.configure(function () {
-	// 	    this.generateRequestOnPageLoad = true
-	// 	})
-	// 	this.get('/userpanel/', function (req) {
-	
-	// 	})
-	// 	this.get('/userpanel/:name/', function (req) {
-	// 		console.log("DAVIS:   " + req.params['name']);
-	// 		loadContent(req.params['name']);
-	// 	})
-	// })
-    // app.start()
-
-	window.addEventListener("popstate", function(e) {
-		if(e.state == null)
-			loadContent();
-		else if(e.state.type === "panel"){
-			loadContent(e.state.state);
-		}else if(e.state.type === "inbox"){
-			loadInbox(e.state.state);
-		}
-		loadContent(e.state);
+	$("#content").on("click", "#inbox .button.send", function(){
+		location.hash = "inbox/send"
 	});
-
-
-    $("#content").on("click", "#inbox tr", function(){
-    	history.pushState({type: "inbox", state: "samplemail"}, null, "/userpanel/inbox/samplemail");
-    	loadInbox("samplemail");
-    });
-
-    $("#content").on("click", "#inbox .button.send", function(){
-    	history.pushState({type: "inbox", state: "sendmail"}, null, "/userpanel/inbox/sendmail");
-    	loadInbox("sendmail");
-    });
   
-	loadContent();
+	userpanel.init();
 })

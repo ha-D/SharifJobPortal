@@ -4,7 +4,7 @@ from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
 from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
-from utils					 		import template, json_response
+from utils.functions		 		import template, json_response
 from accounts.decorators 			import user_required
 from accounts.forms                	import *
 from django.conf 					import settings
@@ -134,12 +134,12 @@ def _lambda(template, step, form):
 def register_jobseeker(request, action):
     steps = ['user_info', 'personal_info', 'work_info', 'skills', 'confirm', 'finalize']
     step_views = {
-        'user_info': _lambda('user_info.html', 'user_info', RegisterUserForm),
+        'user_info':     _lambda('user_info.html', 'user_info', RegisterUserForm),
         'personal_info': _lambda('jobseeker/personal_info.html', 'personal_info', JobSeekerRegisterProfileForm),
-        'work_info': _lambda('jobseeker/work_info.html', 'work_info', JobSeekerRegisterWorkForm),
-        'skills': register_jobseeker_skills,
-        'confirm': _lambda('confirm.html', 'confirm', RegisterFinalForm),
-        'finalize': register_jobseeker_finalize
+        'work_info':     _lambda('jobseeker/work_info.html', 'work_info', JobSeekerRegisterWorkForm),
+        'skills':         register_jobseeker_skills,
+        'confirm':       _lambda('confirm.html', 'confirm', RegisterFinalForm),
+        'finalize':       register_jobseeker_finalize
     }
 
     return register(request, action, steps, step_views, JOBSEEKER_SESSION, 'jobseeker.html')
@@ -148,10 +148,10 @@ def register_jobseeker(request, action):
 def register_employer(request, action):
     steps = ['user_info', 'company_info', 'confirm', 'finalize']
     step_views = {
-        'user_info': _lambda('user_info.html', 'user_info', RegisterUserForm),
+        'user_info':    _lambda('user_info.html', 'user_info', RegisterUserForm),
         'company_info': _lambda('employer/company_info.html', 'company_info', EmployerRegisterProfileForm),
-        'confirm': _lambda('confirm.html', 'confirm', RegisterFinalForm),
-        'finalize': register_employer_finalize
+        'confirm':      _lambda('confirm.html', 'confirm', RegisterFinalForm),
+        'finalize':      register_employer_finalize
     }
 
     return register(request, action, steps, step_views, EMPLOYER_SESSION, 'employer.html')
@@ -172,6 +172,13 @@ def mylogout(request):
 @user_required
 def userpanel(request):
     if request.userprofile.is_jobseeker():
-        return template('userpanel/jobseeker.html', request)
+        return template(request, 'userpanel/jobseeker.html')
     elif request.userprofile.is_employer():
-        return template('userpanel/employer.html', request)
+        return template(request, 'userpanel/employer.html')
+
+@user_required
+def userpanel_main(request):
+    if request.userprofile.is_jobseeker():
+        return template(request, 'userpanel/jobseeker/main.html')
+    elif request.userprofile.is_employer():
+        return template(request, 'userpanel/employer/main.html')    

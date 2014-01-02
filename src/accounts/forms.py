@@ -35,9 +35,6 @@ class RegisterUserForm(forms.ModelForm):
 	def save(self, commit=True):
 		user = super(RegisterUserForm, self).save(commit = False)
 		
-		# TODO make inactive
-		user.active = False
-		
 		if commit:
 			user.save()
 

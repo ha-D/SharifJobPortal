@@ -9,11 +9,14 @@ from accounts.models				import *
 # Create your models here.
 
 class Message(models.Model):
-	sender = models.ForeignKey(User, related_name='sender_set')
-	reciever = models.ForeignKey(User, related_name='reciever_set')
+	sender = models.ForeignKey(User, related_name='sent_messages')
+	reciever = models.ForeignKey(User, related_name='recieved_messages')
 	subject = models.CharField(max_length=100)
 	body = models.TextField(max_length=3000)
 	time = models.DateTimeField()
+
+	def __unicode__(self):
+		return self.subject
 
 class CommentOnOpportunity(models.Model):
 	opportunity = models.ForeignKey(JobOpportunity)

@@ -30,6 +30,9 @@ class UserProfile(PolymorphicModel):
     # class Meta:
     #     abstract = True
 
+    def __unicode__(self):
+        return self.user.username
+
 class CompanyType(models.Model):
     PUBLIC = 0
     PRIVATE = 1
@@ -42,6 +45,7 @@ class CompanyType(models.Model):
     )
 
     type = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
+
 
 class Employer(UserProfile):
     companyName = models.CharField(max_length=30)

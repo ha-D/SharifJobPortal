@@ -149,6 +149,7 @@ INSTALLED_APPS = (
     'search',
     'social_network',
     'services',
+    'utils',
     # admin
     'django.contrib.admin',
     # 'django.contrib.admindocs',

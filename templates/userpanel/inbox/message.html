@@ -1,0 +1,21 @@
+{% load filters %}
+
+<div class="ui segment mail">
+	<div class="ui basic segment">
+		<div>
+			 <span class="subject">{{message.subject}}</span>
+		</div>
+		<div>
+			<span class="from heading">فرستنده:</span> <span class="from">{{message.sender|fullname}}</span>
+		</div>
+		<div>
+			<span class="date heading">تاریخ ارسال:</span> <span class="date">{{message.time}}</span>
+		</div>
+	</div>
+
+	<div class="ui  segment">
+		<pre>
+		{{message.body}}
+		</pre>
+	</div>	
+</div>

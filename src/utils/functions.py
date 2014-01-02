@@ -3,8 +3,8 @@ from django.template.context import RequestContext
 
 import json
 
-def template(address, request):
-    return render_to_response(address, context_instance=RequestContext(request))
+def template(request, address, context = {}):
+	return render_to_response(address, RequestContext(request, context))
 
 def json_response(response):
     return HttpResponse(json.dumps(response))

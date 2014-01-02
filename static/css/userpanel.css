@@ -124,7 +124,7 @@
 }
 
 #userpanel #inbox .table .time {
-	width: 10%;
+	min-width: 30px;
 	text-align: left;
 }
 
