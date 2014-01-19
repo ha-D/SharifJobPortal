@@ -179,6 +179,7 @@ def userpanel(request):
 @user_required
 def userpanel_main(request):
     if request.userprofile.is_jobseeker():
-        return ajax_template(request, 'userpanel/jobseeker/main.html')
+        return template(request, 'userpanel/jobseeker/main.html')
     elif request.userprofile.is_employer():
-        return ajax_template(request, 'userpanel/employer/main.html')    
+        return template(request, 'userpanel/employer/main.html')    
+        

@@ -1,5 +1,7 @@
+{% extends 'userpanel/inbox/inbox.html' %}
 {% load filters %}
 
+{% block inboxcontent %}
 <table class="ui table segment attached inbox">
 	<div class="ui inverted dimmer" id="inbox-dimmer">
 	</div>
@@ -14,3 +16,4 @@
 	{% endfor %}
 	</tbody>
 </table>
+{% endblock %}

@@ -14,14 +14,20 @@
 	<div id="userpanel">
 		<div id="panelmenu">
 			{% block panelmenu %}
-
+				{% if user.userprofile.is_jobseeker %}
+					{% include 'userpanel/jobseeker.html' %}
+				{% else %}
+					{% include 'userpanel/employer.html' %}
+				{% endif %}
 			{% endblock %}
 		</div>
 		<div class="ui basic segment content-container">
-			<div class="ui active inverted dimmer" id="dimmer">
+			<div class="ui" id="dimmer">
 			</div>
 			<div id="content">
-				
+				{% block content %}
+
+				{% endblock %}
 			</div>
 		</div>
 	</div>

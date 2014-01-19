@@ -25,7 +25,7 @@ class UserProfile(PolymorphicModel):
         pass
 
     def is_employer(self):
-        return not is_jobseeker()
+        return not self.is_jobseeker()
 
     # class Meta:
     #     abstract = True
