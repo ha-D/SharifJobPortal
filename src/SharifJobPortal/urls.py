@@ -12,9 +12,8 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
-
-    url(r'^userpanel/ajax/', include(userpanel_urls)),
-    url(r'^userpanel/', userpanel),
+    
+    url(r'^userpanel/',  include(userpanel_urls)),
 
     url(r'^accounts/', include('accounts.urls')),
 

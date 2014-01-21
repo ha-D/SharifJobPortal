@@ -1,5 +1,7 @@
+{% extends 'userpanel/userpanel.html' %}
 {% load staticfiles %}
 
+{% block content %}
 <div id="inbox">
 	<!-- <div class="ui red segment attach"></div> -->
 	<div class="ui top attached inverted red header">
@@ -18,7 +20,10 @@
 			</div>
 		</div>
 		<div class="ui segment nopadding" id="inbox-content">
-			
+			{% block inboxcontent %}
+
+			{% endblock %}
 		</div>
 	</div>
 </div>
+{% endblock %}
