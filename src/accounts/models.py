@@ -4,6 +4,7 @@ from django.db                      import models
 from django.contrib.auth.models     import User
 
 from polymorphic                    import PolymorphicModel
+# from social_network.models          import RateForEmployer
 
 class City(models.Model):
     name = models.CharField(max_length=20)
@@ -57,6 +58,17 @@ class Employer(UserProfile):
     webSite = models.URLField()
     establishDate = models.DateField()
     
+    def _get_rate(self):
+        ratings = RateForEmployer.objects.all().filter(employer__user__username = user.username)
+        frate = 0.0
+        for r in ratings:
+            frate += ratings.rate
+        frate /= len(ratings)
+        return frate
+    rate = property(_get_rate)
+
+        
+
     def is_jobseeker(self):
         return False
 

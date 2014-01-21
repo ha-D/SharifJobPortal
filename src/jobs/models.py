@@ -1,6 +1,7 @@
 #coding=utf-8
 from django.db          import models
-from accounts.models    import User, Employer, JobSeeker
+# from accounts.models    import User, Employer, JobSeeker
+from accounts.models import Employer, JobSeeker
 
 class JobOpportunity(models.Model):
     user = models.ForeignKey(Employer)
