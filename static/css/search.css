@@ -31,7 +31,7 @@
 }
 
 #tag-search-input{
-	width: 220px;
+	width: 200px;
 }
 
 #main .tag-search-input-parent{
@@ -87,6 +87,10 @@
 	margin-top: 10px;
 }
 
+.scoreboard{
+	margin-left: 6px;
+	margin-bottom: 7px;
+}
 .clearfix{
 	clear: both;
 }
