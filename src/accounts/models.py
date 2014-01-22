@@ -7,7 +7,6 @@ from polymorphic                    import PolymorphicModel
 
 class City(models.Model):
     name = models.CharField(max_length=20)
-
     def __unicode__(self):
         return self.name
 
@@ -93,10 +92,13 @@ class PersonalPage(models.Model):
     projects = models.TextField(max_length=3000)
 
 
+class EmployerImage(models.Model):
+    image = models.ImageField(upload_to='employer_pics/')
+    employer = models.ForeignKey(Employer, related_name="images")
+
 class Record(models.Model):
     user = models.ForeignKey(User)
     startDate = models.DateField()
     endDate = models.DateField()
     position = models.CharField(max_length=20)
     companyName = models.CharField(max_length=30)
-

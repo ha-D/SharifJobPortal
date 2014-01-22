@@ -33,5 +33,15 @@ def userpanel_main(request):
     if request.userprofile.is_jobseeker():
         return template(request, 'userpanel/jobseeker/main.html')
     elif request.userprofile.is_employer():
-        return template(request, 'userpanel/employer/main.html')    
-        
+        return template(request, 'userpanel/employer/main.html')
+
+@user_required
+def userpanel_changeinfo(request):
+    if request.method == 'POST':
+        form = ChangeUserInfoForm(request.POST)
+        if form.is_valid():
+            return HttpResponse("OK")
+    else:
+        form = ChangeUserInfoForm(instance = request.user)
+    
+    return render(request, 'userpanel/changeuserinfo.html', {'form': form})

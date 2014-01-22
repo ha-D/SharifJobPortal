@@ -2,7 +2,6 @@
     {% csrf_token %}
     <div class="two fields">
         <div class="field">
-
             <label>وضعیت شغلی</label>
             <div class="ui left labeled input">
                 <input type="hidden" id="jobstatus-input" name="job_status">
@@ -31,14 +30,13 @@
                 {{form.cv}}
             </div>
             {% if form.cv.errors %}
-            <div class="ui red pointing prompt label transition visible">{{form.cv.errors.0}}</div>
+                <div class="ui red pointing prompt label transition visible">{{form.cv.errors.0}}</div>
             {% endif %}
         </div>
         <div class="field">
          
         </div>
     </div>
-
     <div class="two fields">
         <div class="field">
         </div>
