@@ -5,6 +5,8 @@ from django.contrib.auth.models     import User
 
 from polymorphic                    import PolymorphicModel
 # from social_network.models          import RateForEmployer
+import social_network.models 
+# from jobs.models                    import Skill
 
 class City(models.Model):
     name = models.CharField(max_length=20)
@@ -40,12 +42,18 @@ class CompanyType(models.Model):
     SEMI_PRIVATE = 2
 
     COMPANY_TYPE_CHOICES = (
-        (PUBLIC , 'دولتی') ,
-        (PRIVATE , 'خصوصی'),
-        (SEMI_PRIVATE , 'نیمه خصوصی'),
+        (PUBLIC , u'دولتی') ,
+        (PRIVATE , u'خصوصی'),
+        (SEMI_PRIVATE , u'نیمه خصوصی'),
     )
 
-    type = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
+    companyType = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
+
+    def __unicode__(self):
+        for s,t in self.COMPANY_TYPE_CHOICES:
+            print(s,t)
+            if self.companyType == s:
+                return t
 
 
 class Employer(UserProfile):
@@ -59,11 +67,14 @@ class Employer(UserProfile):
     establishDate = models.DateField()
     
     def _get_rate(self):
-        ratings = RateForEmployer.objects.all().filter(employer__user__username = user.username)
+        ratings = social_network.models.RateForEmployer.objects.all().filter(employer__user__username = self.user.username)
         frate = 0.0
         for r in ratings:
             frate += ratings.rate
-        frate /= len(ratings)
+        if len(ratings) == 0 or frate == 0.0:
+            frate = 0
+        else:
+            frate = frate / len(ratings)
         return frate
     rate = property(_get_rate)
 
@@ -95,6 +106,7 @@ class JobSeeker(UserProfile):
     job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True)
 
     cv = models.FileField(upload_to="cv", null=True, blank=True)
+    
 
     def is_jobseeker(self):
         return True
