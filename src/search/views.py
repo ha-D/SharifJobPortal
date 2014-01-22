@@ -34,7 +34,17 @@ def opSearch(request):
 
 
 def skillSearch(request):
-	pass
+	param = request.GET
+	skills = []
+	if 'q' in param:
+		query = param.get('q')
+		if len(query) > 0:
+			skills = search.skill(query)
+		else:
+			skills = []
+	print(skills)
+	context = {'skills' : [], 'skill_result' : skills, 'search_result' : []}
+	return render(request, 'search/opSearch.html', context)	
 
 
 def userSearch(request):
