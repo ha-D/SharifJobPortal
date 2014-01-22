@@ -25,14 +25,15 @@ class JobOpportunity(models.Model):
 
     def _get_rate(self):
         ratings = social_network.models.RateForOpportunity.objects.all().filter(opportunity__id = self.id)
+        print("len", len(ratings))
         frate = 0.0
         for r in ratings:
-            frate += ratings.rate
+            frate += r.rate
         if len(ratings) == 0 or frate == 0.0:
             frate = 0
         else:
             frate /= len(ratings)
-        return frate
+        return int(round(frate))
     rate = property(_get_rate)
 
     def __unicode__(self):

@@ -41,6 +41,7 @@ init = function(){
 				$(companyList[i]).append(textInfo[i + 4]);
 			}
 		}
+		$('#companyImage img').attr('src', $(companyList[6]).html());
 		$('.ui.modal').modal('show');
 	});
 	
@@ -81,10 +82,64 @@ init = function(){
 
 			},
 		});
-	})
+	});
+
+	// $('.rating').on('click', (function(){
+	// 	origOnClick = $(this).onclick;
+	// 	return function(e){
+	// 		if(origOnClick != null){
+	// 			origOnClick();
+	// 		}
+	// 		// alert(rateObject.modal('get rating'));
+	// 	}
+	// })()
+	// );
+	
+}
+
+initRating = function(){
+	$('.ui.rating').rating({onRate : function(){
+		curRate = $(this).rating('get rating');
+		pholder = $(this).prev()
+		if($(this).attr('class').indexOf('opp-rating') >= 0){
+			opid = $($($(this).parent().siblings('ul')[0]).children()[11]).html()
+			$.ajax({
+			url : '/search/rate/?op=' + parseInt(opid) + '&rate=' + curRate,
+			type : 'get',
+			dataType : 'json',
+			success: function(data, status, xhr){
+				if(data['result'] == 1){
+					pholder.html('امتیاز کنونی : ' + data['rate']);
+				}
+			},
+
+			error: function(xhr, status, error){
+
+				},
+			});
+		}
+		else{
+			empid = $($($(this).parent().parent().parent().siblings('ul')[0]).children()[12]).html()
+			console.log(empid);
+			$.ajax({
+			url : '/search/rate/?emp=' + parseInt(empid) + '&rate=' + curRate,
+			type : 'get',
+			dataType : 'json',
+			success: function(data, status, xhr){
+				if(data['result'] == 1){
+					pholder.html('امتیاز کنونی : ' + data['rate']);
+				}
+			},
+
+			error: function(xhr, status, error){
+
+				},
+			});
+		}
+	}});
 }
 
 window.onload = function(){
-	$('.ui.rating').rating();
 	init();
+	initRating();
 };	

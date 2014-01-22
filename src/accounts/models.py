@@ -70,12 +70,12 @@ class Employer(UserProfile):
         ratings = social_network.models.RateForEmployer.objects.all().filter(employer__user__username = self.user.username)
         frate = 0.0
         for r in ratings:
-            frate += ratings.rate
+            frate += r.rate
         if len(ratings) == 0 or frate == 0.0:
             frate = 0
         else:
             frate = frate / len(ratings)
-        return frate
+        return int(round(frate))
     rate = property(_get_rate)
 
         
