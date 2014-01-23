@@ -10,7 +10,7 @@ class City(models.Model):
     def __unicode__(self):
         return self.name
 
-class UserProfile(PolymorphicModel):
+class UserProfile(models.Model):
     address = models.CharField(max_length=300)
     postalCode = models.CharField(max_length=15)
     phoneNumber = models.CharField(max_length=15)
@@ -26,8 +26,8 @@ class UserProfile(PolymorphicModel):
     def is_employer(self):
         return not self.is_jobseeker()
 
-    # class Meta:
-    #     abstract = True
+    class Meta:
+        abstract = True
 
     def __unicode__(self):
         return self.user.username
@@ -91,10 +91,6 @@ class PersonalPage(models.Model):
     background = models.TextField(max_length=3000)
     projects = models.TextField(max_length=3000)
 
-
-class EmployerImage(models.Model):
-    image = models.ImageField(upload_to='employer_pics/')
-    employer = models.ForeignKey(Employer, related_name="images")
 
 class Record(models.Model):
     user = models.ForeignKey(User)
