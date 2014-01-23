@@ -202,9 +202,13 @@
 	padding: 10px 50px;
 }
 
-.form .submit{
+.form .submit {
 	font-family: yekan;
 	margin-top: 30px;
 	width: 100px;
 	float: left;
+}
+
+.change.success {
+	color: green;
 }

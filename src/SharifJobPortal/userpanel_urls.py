@@ -11,4 +11,5 @@ urlpatterns = patterns('',
 	url(r'^inbox/$', userpanel_inbox),
 
 	url(r'^userinfo/$', userpanel_changeinfo),
+	url(r'^companyinfo/$', userpanel_changecompanyinfo),
 )

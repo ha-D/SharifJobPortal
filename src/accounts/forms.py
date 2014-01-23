@@ -5,6 +5,10 @@ from django.contrib.auth.models import User
 from accounts.models 			import JobSeeker, Employer, UserProfile
 from utils.widgets				import SemanticInput
 
+class ChangeCompanyInfoForm(forms.ModelForm):
+	class Meta:
+		model = Employer
+
 class ChangeUserInfoForm(forms.ModelForm):
 	first_name = forms.CharField(max_length = 100, label="نام")
 	last_name = forms.CharField(max_length = 100, label="نام خواندوادگی")
@@ -35,6 +39,8 @@ class ChangeUserInfoForm(forms.ModelForm):
 		user.save()
 
 
+
+# -- Register Forms
 
 class RegisterUserForm(forms.ModelForm):
 	password_repeat = forms.CharField(widget=forms.PasswordInput)

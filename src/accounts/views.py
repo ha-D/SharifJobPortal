@@ -5,7 +5,7 @@ from django.template.loader     	import render_to_string
 from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
 from utils.functions		 		import template, json_response, ajax_template
-from accounts.decorators 			import user_required
+from accounts.decorators 			import user_required, employer_required, jobseeker_required
 from accounts.forms                	import *
 from django.conf 					import settings
 
@@ -31,12 +31,27 @@ def userpanel_main(request):
 
 @user_required
 def userpanel_changeinfo(request):
+    context = {}
     if request.method == 'POST':
         form = ChangeUserInfoForm(request.POST, instance=request.userprofile)
         if form.is_valid():
             form.save()
-            return HttpResponse("OK")
+            context['state'] = 'success'
     else:
         form = ChangeUserInfoForm(instance = request.userprofile)
-    
-    return render(request, 'userpanel/changeuserinfo.html', {'form': form})
+
+    context['form'] = form
+    return render(request, 'userpanel/changeuserinfo.html', context)
+
+@employer_required
+def userpanel_changecompanyinfo(request):
+    context = {}
+    if request.method == 'POST':
+        form = ChangeCompanyInfoForm(request.POST, instance=request.userprofile)
+        if form.is_valid():
+            form.save()
+            context['state'] = 'success'
+    else:
+        form = ChangeCompanyInfoForm(instance = request.userprofile)
+    context['form'] = form
+    return render(request, 'userpanel/employer/changecompanyinfo.html', context)

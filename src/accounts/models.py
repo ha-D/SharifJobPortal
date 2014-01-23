@@ -56,14 +56,14 @@ class CompanyType(models.Model):
 
 
 class Employer(UserProfile):
-    companyName = models.CharField(max_length=30)
+    companyName = models.CharField(max_length=30, verbose_name="نام شرکت")
     
-    companyType = models.ForeignKey(CompanyType)
+    companyType = models.ForeignKey(CompanyType, verbose_name="نوع شرکت")
     
-    registrationNumber = models.CharField(max_length=20)
-    contactEmail = models.EmailField()
-    webSite = models.URLField()
-    establishDate = models.DateField()
+    registrationNumber = models.CharField(max_length=20, verbose_name="شماره ثبت")
+    contactEmail = models.EmailField(verbose_name="آدرسی الکترونیکی ارتباط")
+    webSite = models.URLField(verbose_name="تارنمای شرکت")
+    establishDate = models.DateField(verbose_name="تاریخ تاسیس")
     
     def _get_rate(self):
         ratings = social_network.models.RateForEmployer.objects.all().filter(employer__user__username = self.user.username)

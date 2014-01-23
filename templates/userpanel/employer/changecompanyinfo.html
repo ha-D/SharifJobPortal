@@ -2,26 +2,23 @@
 {% load filters %}
 
 {% block content-title %}
-تغییر مشخصات کاربری
+تغییر مشخصات شرکت
 {% endblock %}
 {% block content %}
 <form method="post">
 	<div id="userinfoform" class="ui small form basicinfo visible">
 		{% csrf_token %}
 		<div class="two fields">
-			{{form.first_name|semfield}}
-			{{form.last_name|semfield}}
+			{{form.companyName|semfield}}
+			{{form.companyType|semfield}}
 		</div>
 		<div class="two fields">
-			{{form.email|semfield}}
-			{{form.phoneNumber|semfield}}
+			{{form.registrationNumber|semfield}}
+			{{form.establishDate|semfield}}
 		</div>
 		<div class="two fields">
-			{{form.city|semfield}}
-		</div>
-		<div class="two fields">
-			{{form.address|semfield}}
-			{{form.postalCode|semfield}}
+			{{form.webSite|semfield}}
+			{{form.contactEmail|semfield}}
 		</div>
 
 		<button class="ui small blue submit button" type="submit">ثبت</button>
