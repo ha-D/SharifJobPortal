@@ -22,14 +22,8 @@ def mylogout(request):
     return logout(request, next_page=settings.LOGOUT_REDIRECT_URL)
 
 @user_required
-def userpanel(request):
-    if request.userprofile.is_jobseeker():
-        return template(request, 'userpanel/jobseeker.html')
-    elif request.userprofile.is_employer():
-        return template(request, 'userpanel/employer.html')
-
-@user_required
 def userpanel_main(request):
+    print(type(request.userprofile))
     if request.userprofile.is_jobseeker():
         return template(request, 'userpanel/jobseeker/main.html')
     elif request.userprofile.is_employer():

@@ -12,6 +12,7 @@ class UserMiddleware:
 					except:
 						userprofile = None
 
+				request.user.userprofile = userprofile
 				request.userprofile = userprofile
 		except:
 			pass

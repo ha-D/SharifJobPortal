@@ -52,12 +52,12 @@ body{
 	padding-top: 70px;
 }
 
-.page.container{
-	margin-top: 50px;
-	margin-right: 100px;
-	margin-left: 140px;
-	min-height: 500px;
-	position: relative;
+.page.container {
+	margin: auto;
+	margin-top: 0px;
+	width: 1200px;
+	border-radius: 0px;
+	padding-bottom: 100px;
 }
 
 .footer{
@@ -90,4 +90,29 @@ body{
 #top-menu div.item{
     font-size: 10pt;
     margin-top: 10px;
+}
+
+
+.ui.form .field.small {
+	max-width: 400px;
+}
+
+
+.ui.form .field input[type='text']:focus{
+	box-shadow: -0.3em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
+}
+
+.ui.form textarea{
+	box-shadow: -0.3em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
+}
+
+.ui.form .field.small input[type='text']{
+	padding: 7px;
+}
+
+.form .submit{
+	font-family: yekan;
+	margin-top: 30px;
+	width: 100px;
+	float: left;
 }

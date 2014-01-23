@@ -3,7 +3,6 @@ from django.contrib 	import admin
 from django.conf import settings
 
 from ui_test.views 		import show_template
-from accounts.views		import userpanel
 
 import userpanel_urls
 

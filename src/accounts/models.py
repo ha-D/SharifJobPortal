@@ -18,7 +18,7 @@ class UserProfile(models.Model):
     postalCode = models.CharField(max_length=15, verbose_name="کد پستی")
     phoneNumber = models.CharField(max_length=15, verbose_name="شماره تلفن")
     image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس")
-    city = models.ForeignKey(City)
+    city = models.ForeignKey(City, verbose_name="شهر")
     personalPage = models.OneToOneField('accounts.PersonalPage' , unique=True, null=True, blank=True)
     
     user = models.OneToOneField(User , unique=True)

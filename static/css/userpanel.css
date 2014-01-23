@@ -1,12 +1,3 @@
-.page.container {
-	/*margin-right: 10px;
-	margin-left: 10px;*/
-	margin: auto;
-	margin-top: 0px;
-	width: 1200px;
-	border-radius: 0px;
-}
-
 #userpanel {
 	/*margin-top: 10px;*/
 	margin-right: 10px;	
@@ -59,8 +50,8 @@
 	margin-top: 20px;
 	margin-right: 260px;
 	margin-left: 50px;
-
 	padding: 20px;
+	padding-bottom: 50px;
 	/*width: 800px;*/
 }
 
@@ -204,4 +195,16 @@
 
 .ui.segment.nopadding {
 	padding: 0px;
+}
+
+
+#userinfoform.form {
+	padding: 10px 50px;
+}
+
+.form .submit{
+	font-family: yekan;
+	margin-top: 30px;
+	width: 100px;
+	float: left;
 }

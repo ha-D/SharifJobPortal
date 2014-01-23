@@ -1,15 +1,30 @@
 {% extends 'userpanel/userpanel.html' %}
+{% load filters %}
 
+{% block content-title %}
+تغییر مشخصات کاربری
+{% endblock %}
 {% block content %}
 <form method="post">
-	<div class="ui small segment form basicinfo visible">
+	<div id="userinfoform" class="ui small form basicinfo visible">
 		{% csrf_token %}
-		{% for field in form.visible_fields %}
-			<div class="field">
-				{{field.label_tag}}
-				{{field}}
-			</div>
-		{% endfor %}
+		<div class="two fields">
+			{{form.first_name|semfield}}
+			{{form.last_name|semfield}}
+		</div>
+		<div class="two fields">
+			{{form.email|semfield}}
+		</div>
+		<div class="two fields">
+			{{form.address|semfield}}
+			{{form.phoneNumber|semfield}}
+		</div>
+		<div class="two fields">
+			{{form.city|semfield}}
+			{{form.postalCode|semfield}}
+		</div>
+
+		<button class="ui small blue submit button" type="submit">ثبت</button>
 	</div>
 </form>
 {% endblock %}

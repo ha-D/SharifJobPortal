@@ -21,8 +21,9 @@
 				{% endif %}
 			{% endblock %}
 		</div>
-		<div class="ui basic segment content-container">
-			<div class="ui" id="dimmer">
+		<div class="ui segment content-container">
+			<div>
+				<h3>{% block content-title %} {% endblock %}</h3>
 			</div>
 			<div id="content">
 				{% block content %}
