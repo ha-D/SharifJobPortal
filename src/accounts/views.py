@@ -4,6 +4,7 @@ from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
 from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
+
 from utils.functions		 		import template, json_response, ajax_template
 from accounts.decorators 			import user_required
 from accounts.forms                	import *
