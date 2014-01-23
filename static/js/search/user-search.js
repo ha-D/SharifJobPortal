@@ -101,7 +101,12 @@ init = function(){
 				type : 'get',
 				dataType : 'html',
 				success : function(data, status, xhr){
-					alert('recieved result');
+					newDiv = $(data);
+					newDiv = $(newDiv.find('#search-results')[0]);
+					$('#search-results').remove();
+					$('#main').append(newDiv);
+					init();
+					initRating();
 				},
 				error : function(xhr, status, error){
 
@@ -155,3 +160,7 @@ initRating = function(){
 	}});
 }
 
+window.onload = function(){
+		init();
+		initRating();
+};	

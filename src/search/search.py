@@ -5,6 +5,8 @@ from django.db.models import Q
 import datetime
 
 def opportunity(query, skills):
+	if len(query) == 0:
+		return JobOpportunity.objects.all().filter(expireDate__gt = datetime.date.today())
 	words = [s.strip() for s in query.split(' ')]
 	biwordsOps = None
 	normalOps = JobOpportunity.objects.filter(getFinalQuery(words)).filter(expireDate__gt = datetime.date.today())
@@ -12,10 +14,16 @@ def opportunity(query, skills):
 		words2 = words[1:] + [words[0]]
 		biwords = [ s + " " + k for s,k in zip(words, words2)]
 		# user.username user.companyName, name
-		biwordsOps = JobOpportunity.objects.filter(getFinalQuery(biwords)).filter(expireDate__gt = datetime.date.today())
+		finalBiwordQuery = getFinalQuery(biwords)
+		biwordsOps = JobOpportunity.objects.filter(finalBiwordQuery).filter(expireDate__gt = datetime.date.today())
+		normalOps = normalOps.exclude(finalBiwordQuery)
+	res = []
+	ranks = rank(normalOps, biwordsOps, skills, words)
+	for r in ranks:
+		res.append(JobOpportunity.objects.get(id = r))
+	return res
+
 	
-	rank(normalOps, biwordsOps, skills, words)
-	return JobOpportunity.objects.all()
 
 def getFinalQuery(words):
 	userNameQueryList = [Q(user__user__username__contains = w) for w in words]
@@ -32,14 +40,14 @@ def getFinalQuery(words):
 	return finalQuery
 
 def rank(normalOps, biwordsOps, skills, words):
-	refineNormal = []
 	if biwordsOps and normalOps:
-		refineNormal = [n for n in normalOps if n not in biwordsOps]
-		allOps = biwordsOps + refineNormal
+		allOps = biwordsOps | normalOps
 	elif biwordsOps:
 		allOps = biwordsOps
 	else:
 		allOps = normalOps
+
+	biwordsOps = [op.id for op in biwordsOps]
 
 	print('allops', allOps)
 	#sex
@@ -50,9 +58,13 @@ def rank(normalOps, biwordsOps, skills, words):
 		sex = 1
 	if not sex is None:
 		sexFilter = allOps.filter(sex = sex)
+		opSexFilter = allOps.filter(sex = 1 - sex)
 	else:
 		sexFilter = allOps
+		opSexFilter = []
 	print('filter1', sexFilter)
+	sexFilter = [op.id for op in sexFilter]
+	opSexFilter = [op.id for op in opSexFilter]
 
 	skillMatch = {}
 	for op in allOps:
@@ -61,7 +73,23 @@ def rank(normalOps, biwordsOps, skills, words):
 		skillMatch[op.id] = len(intersect)
 
 	print('skill', skillMatch)
+	allOps = [op.id for op in allOps]
+	resList = []
+	for k in skillMatch:
+		boost = 0
+		if k in sexFilter:
+			boost += 1
+		if k in opSexFilter:
+			boost -= 2
+		if k in biwordsOps:
+			boost += 2
+		skillMatch[k] += boost
+		resList.append([skillMatch[k], k])
 
+	resList.sort(reverse = True)
+	print('resList', resList)
+
+	return [v for k,v in resList]
 	#salary
 
 def skill(query):
