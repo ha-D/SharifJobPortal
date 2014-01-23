@@ -14,10 +14,10 @@ class City(models.Model):
         return self.name
 
 class UserProfile(models.Model):
-    address = models.CharField(max_length=300)
-    postalCode = models.CharField(max_length=15)
-    phoneNumber = models.CharField(max_length=15)
-    image = models.ImageField(null = True, blank = True, upload_to="avatar")
+    address = models.CharField(max_length=300, verbose_name="آدرس")
+    postalCode = models.CharField(max_length=15, verbose_name="کد پستی")
+    phoneNumber = models.CharField(max_length=15, verbose_name="شماره تلفن")
+    image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس")
     city = models.ForeignKey(City)
     personalPage = models.OneToOneField('accounts.PersonalPage' , unique=True, null=True, blank=True)
     
