@@ -9,9 +9,31 @@ class ChangeUserInfoForm(forms.ModelForm):
 	first_name = forms.CharField(max_length = 100, label="نام")
 	last_name = forms.CharField(max_length = 100, label="نام خواندوادگی")
 	email = forms.EmailField(label="آدرس الکترونیکی")
+
 	class Meta:
 		model = UserProfile
 		fields = ['address', 'postalCode', 'phoneNumber', 'city']
+
+	def __init__(self, *args, **kwargs):
+		if 'instance' in kwargs:
+			user =  kwargs['instance'].user
+			fields = {
+				'first_name': user.first_name,
+				'last_name': user.last_name,
+				'email': user.email
+			}
+			super(ChangeUserInfoForm, self).__init__(initial=fields,*args, **kwargs)
+		else:
+			super(ChangeUserInfoForm, self).__init__(*args, **kwargs)
+
+	def save(self):
+		profile = super(ChangeUserInfoForm, self).save(commit=True)
+		user = profile.user
+		user.first_name = self.cleaned_data['first_name']
+		user.last_name = self.cleaned_data['last_name']
+		user.email = self.cleaned_data['email']
+		user.save()
+
 
 
 class RegisterUserForm(forms.ModelForm):

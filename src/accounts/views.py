@@ -32,10 +32,11 @@ def userpanel_main(request):
 @user_required
 def userpanel_changeinfo(request):
     if request.method == 'POST':
-        form = ChangeUserInfoForm(request.POST)
+        form = ChangeUserInfoForm(request.POST, instance=request.userprofile)
         if form.is_valid():
+            form.save()
             return HttpResponse("OK")
     else:
-        form = ChangeUserInfoForm(instance = request.user)
+        form = ChangeUserInfoForm(instance = request.userprofile)
     
     return render(request, 'userpanel/changeuserinfo.html', {'form': form})
