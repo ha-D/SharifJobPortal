@@ -1,0 +1,234 @@
+{% extends "page.html" %}
+{% load staticfiles %}
+
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+{% endblock style %}
+
+{% block script %}
+<script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+{% endblock script %}
+
+
+{% block page %}
+	<div class="ui grid" id="main">
+		<div class="four wide column">
+			<h4 class="ui top attached inverted red header">
+			  مهارت‌ها
+			</h4>
+			<div class="ui segment attached" id="side-segment">
+				{% for s in skills %}
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	{{s}}
+				</div>
+				{% endfor %}
+				
+				<div class="ui horizontal divider" id="tag-divider">
+				  <i class="add sign icon" id="add-sign"></i>
+				</div>
+
+				<div class="tag-search-input-parent">
+					<div class="ui small icon input" id="tag-search-input">
+					  <input type="text" placeholder="جستجوی مهارت...">
+					  <i class="search icon"></i>
+					</div>
+				</div>
+
+				<div class="ui animated list" id="tag-search-list">
+					{% for sr in skill_result %}
+				  	<a class="item tag-link">
+				    <i class="add icon add-tag-icon"></i>
+				    {{sr.name}}
+				  	</a>
+				  	{% endfor %}
+				  
+				</div>
+				
+			</div>
+		</div>
+		<div class="ten wide column">
+			<h4 class="ui top attached inverted black header">
+			  نتایج جستجو
+			</h4>
+			<div class="ui segment attached">
+
+				{% for op in search_result %}
+
+				<div class="ui grid opportunity">
+					<div class="ten wide column opp-info">
+						<h4 class="ui header opp-header">{{op.name}}</h4>
+						<div class="ui list">
+						  <div class="item">
+						    <i class="User icon"></i>
+						    {{ op.user.companyName}}
+						  </div>
+						  <div class="item">
+						    <i class="home icon"></i>
+						    {{op.user.address}}
+						  </div>
+						  <div class="item">
+						  	<i class="thumbs up icon"></i>
+						  	<div>امتیاز کنونی: {{op.user.rate}}</div>
+						  	 <div class="ui small star rating" data-rating="{{op.user.rate}}">
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							  <i class="icon"></i>
+							</div>
+						  </div>
+						  
+
+						</div>
+					</div>
+					<div class="five wide column opp-action">
+						<div class="scoreboard">امتیاز کنونی : {{op.rate}}</div>
+						<div class="ui star rating opp-rating" data-rating="{{op.rate}}">
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						  <i class="icon"></i>
+						</div>
+						{% if op in appliedfor %}
+						<div class="ui red vertical animated button opp-request">
+						  <div class="hidden content">
+						  	<i class="large remove icon"></i>
+						  </div>
+						  <div class="visible content">
+						    لغو درخواست
+						  </div>
+						</div>
+						{% else %}
+						<div class="ui green vertical animated button opp-request">
+						  <div class="hidden content">
+						  	<i class="large mail icon"></i>
+						  </div>
+						  <div class="visible content">
+						    ارسال درخواست
+						  </div>
+						</div>
+						{% endif %}
+
+						<div class="ui teal button opp-more">
+						    اطلاعات کامل
+						</div>
+					</div>
+					<ul class="op-info" style="display:none">
+						<li>{{op.sex}}</li>
+						<li>{{op.baseSalary}}</li>
+						<li>{{op.number}}</li>
+						<li>{{op.expireDate}}</li>
+
+						<li>{{op.user.companyName}}</li>	
+						<li>{{op.user.companyType}}</li>
+						<li>{{op.user.contactEmail}}</li>
+						<li>{{op.user.phoneNumber}}</li>
+						<li>{{op.user.webSite}}</li>
+						<li>{{op.user.address}}</li>
+						<li>{{op.user.image.url}}</li>
+						<li>{{op.id}}</li>
+						<li>{{op.user.id}}</li>
+					</ul>
+				</div>
+				<div class="ui divider"></div>
+
+				{% endfor %}
+
+
+
+			</div>
+			<div class="ui pagination menu" id="opp-pagination">
+			  <a class="icon item">
+			    <i class="icon left arrow"></i>
+			  </a>
+			  <a class="active item">
+			    1
+			  </a>
+			  <a class="item">
+			    2
+			  </a>
+			  <a class="item">
+			    3
+			  </a>
+			  <div class="disabled item">
+			    ...
+			  </div>
+			  <a class="item">
+			    12
+			  </a>
+			  <a class="icon item">
+			    <i class="icon right arrow"></i>
+			  </a>
+			</div>
+		</div>
+	</div>
+	
+	<div class="ui small modal">
+	  <div class="header" id="opName">
+	    نام فرصت شغلی
+	  </div>
+	  <div class="content">
+	    <!-- <div class="left">
+	      Content can appear on left
+	    </div> -->
+	    <div class="right">
+	      <div id="companyImage"><img src="/media/1.png"/></div>
+	      <div id = "companyList" class="ui list">
+			  <div class="item">
+			    <i class="User icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="bookmark icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="mail icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="phone icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="url icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="home icon"></i>
+			    
+			  </div>
+			  
+			</div>
+
+			<div id = "opList" class="ui list">
+			  <div class="item">
+			    <i class="male icon" id="sex-one"></i>
+			    <i class="female icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="dollar icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="plus icon"></i>
+			    
+			  </div>
+			  <div class="item">
+			    <i class="calendar icon"></i>
+			    
+			  </div>
+			  
+			  
+			</div>
+			<div class="clearfix"></div>
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui secondary button" id="closeModal">بستن</div>
+	  </div>
+	</div>
+{% endblock page %}

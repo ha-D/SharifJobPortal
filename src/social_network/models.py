@@ -1,7 +1,6 @@
 #coding=utf-8
 
 from django.db 				import models
-# from accounts.models 		import 
 from django.contrib.auth.models     import User
 from jobs.models					import JobOpportunity
 from accounts.models				import *

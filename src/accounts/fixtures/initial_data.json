@@ -165,8 +165,8 @@
     "pk": 19, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_city", 
-        "name": "Can add city", 
+        "codename": "add_message", 
+        "name": "Can add message", 
         "content_type": 7
     }
 },
@@ -174,8 +174,8 @@
     "pk": 20, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_city", 
-        "name": "Can change city", 
+        "codename": "change_message", 
+        "name": "Can change message", 
         "content_type": 7
     }
 },
@@ -183,8 +183,8 @@
     "pk": 21, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_city", 
-        "name": "Can delete city", 
+        "codename": "delete_message", 
+        "name": "Can delete message", 
         "content_type": 7
     }
 },
@@ -192,8 +192,8 @@
     "pk": 22, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_companytype", 
-        "name": "Can add company type", 
+        "codename": "add_commentonopportunity", 
+        "name": "Can add comment on opportunity", 
         "content_type": 8
     }
 },
@@ -201,8 +201,8 @@
     "pk": 23, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_companytype", 
-        "name": "Can change company type", 
+        "codename": "change_commentonopportunity", 
+        "name": "Can change comment on opportunity", 
         "content_type": 8
     }
 },
@@ -210,8 +210,8 @@
     "pk": 24, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_companytype", 
-        "name": "Can delete company type", 
+        "codename": "delete_commentonopportunity", 
+        "name": "Can delete comment on opportunity", 
         "content_type": 8
     }
 },
@@ -219,8 +219,8 @@
     "pk": 25, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_employer", 
-        "name": "Can add employer", 
+        "codename": "add_commentonemployer", 
+        "name": "Can add comment on employer", 
         "content_type": 9
     }
 },
@@ -228,8 +228,8 @@
     "pk": 26, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_employer", 
-        "name": "Can change employer", 
+        "codename": "change_commentonemployer", 
+        "name": "Can change comment on employer", 
         "content_type": 9
     }
 },
@@ -237,8 +237,8 @@
     "pk": 27, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_employer", 
-        "name": "Can delete employer", 
+        "codename": "delete_commentonemployer", 
+        "name": "Can delete comment on employer", 
         "content_type": 9
     }
 },
@@ -246,8 +246,8 @@
     "pk": 28, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_jobseeker", 
-        "name": "Can add job seeker", 
+        "codename": "add_rateforopportunity", 
+        "name": "Can add rate for opportunity", 
         "content_type": 10
     }
 },
@@ -255,8 +255,8 @@
     "pk": 29, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_jobseeker", 
-        "name": "Can change job seeker", 
+        "codename": "change_rateforopportunity", 
+        "name": "Can change rate for opportunity", 
         "content_type": 10
     }
 },
@@ -264,8 +264,8 @@
     "pk": 30, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_jobseeker", 
-        "name": "Can delete job seeker", 
+        "codename": "delete_rateforopportunity", 
+        "name": "Can delete rate for opportunity", 
         "content_type": 10
     }
 },
@@ -273,8 +273,8 @@
     "pk": 31, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_personalpage", 
-        "name": "Can add personal page", 
+        "codename": "add_rateforemployer", 
+        "name": "Can add rate for employer", 
         "content_type": 11
     }
 },
@@ -282,8 +282,8 @@
     "pk": 32, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_personalpage", 
-        "name": "Can change personal page", 
+        "codename": "change_rateforemployer", 
+        "name": "Can change rate for employer", 
         "content_type": 11
     }
 },
@@ -291,8 +291,8 @@
     "pk": 33, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_personalpage", 
-        "name": "Can delete personal page", 
+        "codename": "delete_rateforemployer", 
+        "name": "Can delete rate for employer", 
         "content_type": 11
     }
 },
@@ -300,8 +300,8 @@
     "pk": 34, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_record", 
-        "name": "Can add record", 
+        "codename": "add_news", 
+        "name": "Can add news", 
         "content_type": 12
     }
 },
@@ -309,8 +309,8 @@
     "pk": 35, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_record", 
-        "name": "Can change record", 
+        "codename": "change_news", 
+        "name": "Can change news", 
         "content_type": 12
     }
 },
@@ -318,8 +318,8 @@
     "pk": 36, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_record", 
-        "name": "Can delete record", 
+        "codename": "delete_news", 
+        "name": "Can delete news", 
         "content_type": 12
     }
 },
@@ -327,8 +327,8 @@
     "pk": 37, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_jobopportunity", 
-        "name": "Can add job opportunity", 
+        "codename": "add_advertisement", 
+        "name": "Can add advertisement", 
         "content_type": 13
     }
 },
@@ -336,8 +336,8 @@
     "pk": 38, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_jobopportunity", 
-        "name": "Can change job opportunity", 
+        "codename": "change_advertisement", 
+        "name": "Can change advertisement", 
         "content_type": 13
     }
 },
@@ -345,8 +345,8 @@
     "pk": 39, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_jobopportunity", 
-        "name": "Can delete job opportunity", 
+        "codename": "delete_advertisement", 
+        "name": "Can delete advertisement", 
         "content_type": 13
     }
 },
@@ -354,8 +354,8 @@
     "pk": 40, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_skill", 
-        "name": "Can add \u0645\u0647\u0627\u0631\u062a", 
+        "codename": "add_logentry", 
+        "name": "Can add log entry", 
         "content_type": 14
     }
 },
@@ -363,8 +363,8 @@
     "pk": 41, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_skill", 
-        "name": "Can change \u0645\u0647\u0627\u0631\u062a", 
+        "codename": "change_logentry", 
+        "name": "Can change log entry", 
         "content_type": 14
     }
 },
@@ -372,8 +372,8 @@
     "pk": 42, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_skill", 
-        "name": "Can delete \u0645\u0647\u0627\u0631\u062a", 
+        "codename": "delete_logentry", 
+        "name": "Can delete log entry", 
         "content_type": 14
     }
 },
@@ -381,8 +381,8 @@
     "pk": 43, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_joboffer", 
-        "name": "Can add job offer", 
+        "codename": "add_city", 
+        "name": "Can add city", 
         "content_type": 15
     }
 },
@@ -390,8 +390,8 @@
     "pk": 44, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_joboffer", 
-        "name": "Can change job offer", 
+        "codename": "change_city", 
+        "name": "Can change city", 
         "content_type": 15
     }
 },
@@ -399,8 +399,8 @@
     "pk": 45, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_joboffer", 
-        "name": "Can delete job offer", 
+        "codename": "delete_city", 
+        "name": "Can delete city", 
         "content_type": 15
     }
 },
@@ -408,8 +408,8 @@
     "pk": 46, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_searchagent", 
-        "name": "Can add search agent", 
+        "codename": "add_companytype", 
+        "name": "Can add company type", 
         "content_type": 16
     }
 },
@@ -417,8 +417,8 @@
     "pk": 47, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_searchagent", 
-        "name": "Can change search agent", 
+        "codename": "change_companytype", 
+        "name": "Can change company type", 
         "content_type": 16
     }
 },
@@ -426,8 +426,8 @@
     "pk": 48, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_searchagent", 
-        "name": "Can delete search agent", 
+        "codename": "delete_companytype", 
+        "name": "Can delete company type", 
         "content_type": 16
     }
 },
@@ -435,8 +435,8 @@
     "pk": 49, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_message", 
-        "name": "Can add message", 
+        "codename": "add_employer", 
+        "name": "Can add employer", 
         "content_type": 17
     }
 },
@@ -444,8 +444,8 @@
     "pk": 50, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_message", 
-        "name": "Can change message", 
+        "codename": "change_employer", 
+        "name": "Can change employer", 
         "content_type": 17
     }
 },
@@ -453,8 +453,8 @@
     "pk": 51, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_message", 
-        "name": "Can delete message", 
+        "codename": "delete_employer", 
+        "name": "Can delete employer", 
         "content_type": 17
     }
 },
@@ -462,8 +462,8 @@
     "pk": 52, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_commentonopportunity", 
-        "name": "Can add comment on opportunity", 
+        "codename": "add_jobseeker", 
+        "name": "Can add job seeker", 
         "content_type": 18
     }
 },
@@ -471,8 +471,8 @@
     "pk": 53, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_commentonopportunity", 
-        "name": "Can change comment on opportunity", 
+        "codename": "change_jobseeker", 
+        "name": "Can change job seeker", 
         "content_type": 18
     }
 },
@@ -480,8 +480,8 @@
     "pk": 54, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_commentonopportunity", 
-        "name": "Can delete comment on opportunity", 
+        "codename": "delete_jobseeker", 
+        "name": "Can delete job seeker", 
         "content_type": 18
     }
 },
@@ -489,8 +489,8 @@
     "pk": 55, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_commentonemployer", 
-        "name": "Can add comment on employer", 
+        "codename": "add_personalpage", 
+        "name": "Can add personal page", 
         "content_type": 19
     }
 },
@@ -498,8 +498,8 @@
     "pk": 56, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_commentonemployer", 
-        "name": "Can change comment on employer", 
+        "codename": "change_personalpage", 
+        "name": "Can change personal page", 
         "content_type": 19
     }
 },
@@ -507,8 +507,8 @@
     "pk": 57, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_commentonemployer", 
-        "name": "Can delete comment on employer", 
+        "codename": "delete_personalpage", 
+        "name": "Can delete personal page", 
         "content_type": 19
     }
 },
@@ -516,8 +516,8 @@
     "pk": 58, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_rateforopportunity", 
-        "name": "Can add rate for opportunity", 
+        "codename": "add_record", 
+        "name": "Can add record", 
         "content_type": 20
     }
 },
@@ -525,8 +525,8 @@
     "pk": 59, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_rateforopportunity", 
-        "name": "Can change rate for opportunity", 
+        "codename": "change_record", 
+        "name": "Can change record", 
         "content_type": 20
     }
 },
@@ -534,8 +534,8 @@
     "pk": 60, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_rateforopportunity", 
-        "name": "Can delete rate for opportunity", 
+        "codename": "delete_record", 
+        "name": "Can delete record", 
         "content_type": 20
     }
 },
@@ -543,8 +543,8 @@
     "pk": 61, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_rateforemployer", 
-        "name": "Can add rate for employer", 
+        "codename": "add_jobopportunity", 
+        "name": "Can add job opportunity", 
         "content_type": 21
     }
 },
@@ -552,8 +552,8 @@
     "pk": 62, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_rateforemployer", 
-        "name": "Can change rate for employer", 
+        "codename": "change_jobopportunity", 
+        "name": "Can change job opportunity", 
         "content_type": 21
     }
 },
@@ -561,8 +561,8 @@
     "pk": 63, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_rateforemployer", 
-        "name": "Can delete rate for employer", 
+        "codename": "delete_jobopportunity", 
+        "name": "Can delete job opportunity", 
         "content_type": 21
     }
 },
@@ -570,8 +570,8 @@
     "pk": 64, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_news", 
-        "name": "Can add news", 
+        "codename": "add_skill", 
+        "name": "Can add \u0645\u0647\u0627\u0631\u062a", 
         "content_type": 22
     }
 },
@@ -579,8 +579,8 @@
     "pk": 65, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_news", 
-        "name": "Can change news", 
+        "codename": "change_skill", 
+        "name": "Can change \u0645\u0647\u0627\u0631\u062a", 
         "content_type": 22
     }
 },
@@ -588,8 +588,8 @@
     "pk": 66, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_news", 
-        "name": "Can delete news", 
+        "codename": "delete_skill", 
+        "name": "Can delete \u0645\u0647\u0627\u0631\u062a", 
         "content_type": 22
     }
 },
@@ -597,8 +597,8 @@
     "pk": 67, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_advertisement", 
-        "name": "Can add advertisement", 
+        "codename": "add_joboffer", 
+        "name": "Can add job offer", 
         "content_type": 23
     }
 },
@@ -606,8 +606,8 @@
     "pk": 68, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_advertisement", 
-        "name": "Can change advertisement", 
+        "codename": "change_joboffer", 
+        "name": "Can change job offer", 
         "content_type": 23
     }
 },
@@ -615,8 +615,8 @@
     "pk": 69, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_advertisement", 
-        "name": "Can delete advertisement", 
+        "codename": "delete_joboffer", 
+        "name": "Can delete job offer", 
         "content_type": 23
     }
 },
@@ -624,8 +624,8 @@
     "pk": 70, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "add_logentry", 
-        "name": "Can add log entry", 
+        "codename": "add_searchagent", 
+        "name": "Can add search agent", 
         "content_type": 24
     }
 },
@@ -633,8 +633,8 @@
     "pk": 71, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "change_logentry", 
-        "name": "Can change log entry", 
+        "codename": "change_searchagent", 
+        "name": "Can change search agent", 
         "content_type": 24
     }
 },
@@ -642,8 +642,8 @@
     "pk": 72, 
     "model": "auth.permission", 
     "fields": {
-        "codename": "delete_logentry", 
-        "name": "Can delete log entry", 
+        "codename": "delete_searchagent", 
+        "name": "Can delete search agent", 
         "content_type": 24
     }
 },
@@ -657,12 +657,12 @@
         "is_active": true, 
         "is_superuser": true, 
         "is_staff": true, 
-        "last_login": "2014-01-23T08:55:17.487Z", 
+        "last_login": "2014-01-23T09:07:21.771Z", 
         "groups": [], 
         "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$dTWbbksLaxV4$CGsehMe3S2iHXZPr+p5DkDEcGGYgW7HxovdCZCcFfF8=", 
+        "password": "pbkdf2_sha256$10000$DCStyf0ryqpe$FU0hyWIxulOkvc96O9Shw5UCOPFXBmO9z1u8T2vx7tM=", 
         "email": "", 
-        "date_joined": "2014-01-23T08:54:36.607Z"
+        "date_joined": "2014-01-23T09:06:52.429Z"
     }
 },
 {
@@ -675,12 +675,12 @@
         "is_active": true, 
         "is_superuser": true, 
         "is_staff": true, 
-        "last_login": "2014-01-23T08:56:27Z", 
+        "last_login": "2014-01-23T09:07:55Z", 
         "groups": [], 
         "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$8ODKDTR4c0nZ$Yk4iKNWF7xBYVJcb+TXrKcNFe4IrK0+VHHgHxmQ7qbg=", 
+        "password": "pbkdf2_sha256$10000$h6V7UUopLN9f$4kQPcbxs0uBTFnnFUQUhaP5FNxG/KzIDNvxeikyTeqE=", 
         "email": "", 
-        "date_joined": "2014-01-23T08:56:27Z"
+        "date_joined": "2014-01-23T09:07:55Z"
     }
 },
 {
@@ -693,12 +693,12 @@
         "is_active": true, 
         "is_superuser": true, 
         "is_staff": true, 
-        "last_login": "2014-01-23T08:56:45Z", 
+        "last_login": "2014-01-23T09:08:24Z", 
         "groups": [], 
         "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$vhRr66iGCiRf$XtP4Bk3DgUT1pRPUfd4mlrjdvjeljEK1f/oo4knpepk=", 
+        "password": "pbkdf2_sha256$10000$L0T6Ra36MYJi$EZFWFzheG8IJ77zl9VU6jllw8hITQpnwl+19zJsWI4k=", 
         "email": "", 
-        "date_joined": "2014-01-23T08:56:45Z"
+        "date_joined": "2014-01-23T09:08:24Z"
     }
 },
 {
@@ -711,12 +711,12 @@
         "is_active": true, 
         "is_superuser": true, 
         "is_staff": true, 
-        "last_login": "2014-01-23T08:57:11Z", 
+        "last_login": "2014-01-23T09:08:42Z", 
         "groups": [], 
         "user_permissions": [], 
-        "password": "pbkdf2_sha256$10000$DKU8GESS62m9$tyMRw7g6RreZeOBWpGVC73tD5HjBOgPASdUFmSOAVis=", 
+        "password": "pbkdf2_sha256$10000$H7MvgZiEtam8$+UPynpQwkEyTnmurH7/XhXhj8mzvmpzDa0m3cZhI94w=", 
         "email": "", 
-        "date_joined": "2014-01-23T08:57:11Z"
+        "date_joined": "2014-01-23T09:08:42Z"
     }
 },
 {
@@ -735,10 +735,10 @@
         "image": "", 
         "birthDate": "2014-01-23", 
         "sex": 0, 
-        "phoneNumber": "123123", 
+        "phoneNumber": "123", 
         "personalPage": null, 
-        "address": "abc", 
-        "postalCode": "123123", 
+        "address": "asdf", 
+        "postalCode": "123", 
         "cv": "", 
         "user": 1
     }
@@ -752,10 +752,10 @@
         "image": "", 
         "birthDate": "2014-01-23", 
         "sex": 0, 
-        "phoneNumber": "213213", 
+        "phoneNumber": "234234", 
         "personalPage": null, 
-        "address": "asdad", 
-        "postalCode": "21213", 
+        "address": "adsfsdf", 
+        "postalCode": "2324", 
         "cv": "", 
         "user": 2
     }
@@ -769,10 +769,10 @@
         "image": "", 
         "birthDate": "2014-01-23", 
         "sex": 1, 
-        "phoneNumber": "234234", 
+        "phoneNumber": "23424", 
         "personalPage": null, 
-        "address": "adfaf", 
-        "postalCode": "234234", 
+        "address": "34", 
+        "postalCode": "234", 
         "cv": "", 
         "user": 3
     }
@@ -784,12 +784,12 @@
         "job_status": 2, 
         "city": 1, 
         "image": "", 
-        "birthDate": null, 
+        "birthDate": "2014-01-23", 
         "sex": 1, 
-        "phoneNumber": "12344", 
+        "phoneNumber": "12312", 
         "personalPage": null, 
-        "address": "adfdsf", 
-        "postalCode": "2134124", 
+        "address": "dsaf", 
+        "postalCode": "awfasdf", 
         "cv": "", 
         "user": 4
     }
