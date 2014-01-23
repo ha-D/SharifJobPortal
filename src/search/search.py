@@ -47,7 +47,10 @@ def rank(normalOps, biwordsOps, skills, words):
 	else:
 		allOps = normalOps
 
-	biwordsOps = [op.id for op in biwordsOps]
+	if biwordsOps:	
+		biwordsOps = [op.id for op in biwordsOps]
+	else:
+		biwordsOps = []
 
 	print('allops', allOps)
 	#sex
@@ -84,7 +87,8 @@ def rank(normalOps, biwordsOps, skills, words):
 		if k in biwordsOps:
 			boost += 2
 		skillMatch[k] += boost
-		resList.append([skillMatch[k], k])
+		if skillMatch[k] > 0:
+			resList.append([skillMatch[k], k])
 
 	resList.sort(reverse = True)
 	print('resList', resList)

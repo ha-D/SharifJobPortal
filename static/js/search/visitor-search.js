@@ -1,3 +1,4 @@
+var search = {query : ''}
 init = function(){
 	$('.icon.delete').on('click', function(){
 		$(this).parent().remove();
@@ -88,7 +89,33 @@ init = function(){
 	
 	document.getElementById('searchJobIcon').onclick = function(){
 		query = $('#searchJob').val().trim();
-		if(query.length > 0){
+		searchAjax(query, 1)
+		
+	};
+
+	$('.pagination-item').on('click', function(e){
+		reqPage = parseInt($(this).text().trim());
+		if(!isNaN(reqPage)){
+			searchAjax(search['query'], reqPage)
+		}
+
+	});
+
+	
+	$('.left.arrow').parent().on('click', function(e){
+		curPage = parseInt($('.pagination-item.active').text().trim());
+		searchAjax(search['query'], curPage-1);
+	});
+
+	$('.right.arrow').parent().on('click', function(e){
+		curPage = parseInt($('.pagination-item.active').text().trim());
+		searchAjax(search['query'], curPage+1);
+	});
+	
+}
+
+searchAjax = function(query, page){
+	if(query.length >= 0){
 			skillOb = $('.skill-tag');
 			skills = new Array();
 			for(var i = 0 ; i < skillOb.length ; i++){
@@ -97,7 +124,7 @@ init = function(){
 			skillString = JSON.stringify(skills);
 			console.log(skillString);
 			$.ajax({
-				url: '/search/?ajax&q=' + query + '&sk=' + skillString,
+				url: '/search/?ajax&q=' + query + '&sk=' + skillString + '&page=' + page,
 				type : 'get',
 				dataType : 'html',
 				success : function(data, status, xhr){
@@ -107,15 +134,14 @@ init = function(){
 					$('#main').append(newDiv);
 					init();
 					$('.ui.rating').rating('disable');
+					search['query'] = query;
+					window.scrollTo(0);
 				},
 				error : function(xhr, status, error){
 
 				},
 			});
 		}
-		
-	};
-	
 }
 
 window.onload = function(){

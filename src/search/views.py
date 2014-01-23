@@ -24,14 +24,16 @@ def opSearch(request):
 
 	try:
 		curPage = int(param.get('page'))
-	except:
+	except Exception as ex:
+		print type(ex).__name__
+		print ex.args
 		curPage = 1
 
 	if curPage < 1:
 		curPage = 1
 
-	curPage = 2
 	print("skills", skills)
+	print('curPage', curPage)
 
 	if not 'ajax' in param and user.is_authenticated() and len(skills) == 0:
 		try:
@@ -49,16 +51,16 @@ def opSearch(request):
 	next = True
 	pre = False
 	count = len(search_result)
-	print('info', start, count)
 
 	if count < start + 1:
 		search_result = search_result[0:pageSize]
 	else:
-		search_result = search_result[start:pageSize]
+		search_result = search_result[start:start+pageSize]
 		if curPage > 1:
 			pre = True
 		if count <= curPage * pageSize:
 			next = False
+
 
 	pageNum = int(math.ceil((count + 0.0) / pageSize))
 	pages = []
@@ -68,7 +70,7 @@ def opSearch(request):
 		base = (curPage / 3) * 3 + 1
 		pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
 
-	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : curPage} 
+	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
 	return render(request, 'search/opSearch.html', context)
 
 

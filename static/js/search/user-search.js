@@ -1,3 +1,5 @@
+var search = {query : ''}
+
 init = function(){
 	$('.icon.delete').on('click', function(){
 		$(this).parent().remove();
@@ -87,36 +89,60 @@ init = function(){
 
 	
 	document.getElementById('searchJobIcon').onclick = function(){
-		query = $('#searchJob').val().trim();
-		if(query.length > 0){
-			skillOb = $('.skill-tag');
-			skills = new Array();
-			for(var i = 0 ; i < skillOb.length ; i++){
-				skills[i] = $(skillOb[i]).text().trim();
-			}
-			skillString = JSON.stringify(skills);
-			console.log(skillString);
-			$.ajax({
-				url: '/search/?ajax&q=' + query + '&sk=' + skillString,
-				type : 'get',
-				dataType : 'html',
-				success : function(data, status, xhr){
-					newDiv = $(data);
-					newDiv = $(newDiv.find('#search-results')[0]);
-					$('#search-results').remove();
-					$('#main').append(newDiv);
-					init();
-					initRating();
-				},
-				error : function(xhr, status, error){
-
-				},
-			});
-		}
-		
+		query = $('#searchJob').val().trim();	
+		searchAjax(query, 1);
 	};
+
+	$('.pagination-item').on('click', function(e){
+		reqPage = parseInt($(this).text().trim());
+		if(!isNaN(reqPage)){
+			searchAjax(search['query'], reqPage)
+		}
+
+	});
+
 	
+	$('.left.arrow').parent().on('click', function(e){
+		curPage = parseInt($('.pagination-item.active').text().trim());
+		searchAjax(search['query'], curPage-1);
+	});
+
+	$('.right.arrow').parent().on('click', function(e){
+		curPage = parseInt($('.pagination-item.active').text().trim());
+		searchAjax(search['query'], curPage+1);
+	});
 }
+
+searchAjax = function(query, page){
+	if(query.length >= 0){
+		skillOb = $('.skill-tag');
+		skills = new Array();
+		for(var i = 0 ; i < skillOb.length ; i++){
+			skills[i] = $(skillOb[i]).text().trim();
+		}
+		skillString = JSON.stringify(skills);
+		console.log(skillString);
+		$.ajax({
+			url: '/search/?ajax&q=' + query + '&sk=' + skillString + '&page=' + page,
+			type : 'get',
+			dataType : 'html',
+			success : function(data, status, xhr){
+				newDiv = $(data);
+				newDiv = $(newDiv.find('#search-results')[0]);
+				$('#search-results').remove();
+				$('#main').append(newDiv);
+				init();
+				initRating();
+				search['query'] = query;
+				window.scrollTo(0);
+			},
+			error : function(xhr, status, error){
+
+			},
+		});
+	}
+}
+
 
 initRating = function(){
 	$('.ui.rating').rating({onRate : function(){
@@ -159,6 +185,7 @@ initRating = function(){
 		}
 	}});
 }
+
 
 window.onload = function(){
 		init();
