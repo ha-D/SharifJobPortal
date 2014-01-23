@@ -6,9 +6,9 @@ from accounts.models 			import JobSeeker, Employer, UserProfile
 from utils.widgets				import SemanticInput
 
 class ChangeUserInfoForm(forms.ModelForm):
-	first_name = forms.CharField(widget=SemanticInput, max_length = 100)
-	last_name = forms.CharField(max_length = 100)
-	email = forms.EmailField()
+	first_name = forms.CharField(widget=SemanticInput, max_length = 100, label="نام")
+	last_name = forms.CharField(max_length = 100, label="نام خواندوادگی")
+	email = forms.EmailField(label="آدرس الکترونیکی")
 	class Meta:
 		model = UserProfile
 		fields = ['address', 'postalCode', 'phoneNumber', 'city']

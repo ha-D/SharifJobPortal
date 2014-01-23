@@ -2,10 +2,14 @@
 
 {% block content %}
 <form method="post">
-	<div class="ui form basicinfo visible">
+	<div class="ui small segment form basicinfo visible">
 		{% csrf_token %}
-		{{form.as_li}}
-		{{form.first_name}}
+		{% for field in form.visible_fields %}
+			<div class="field">
+				{{field.label_tag}}
+				{{field}}
+			</div>
+		{% endfor %}
 	</div>
 </form>
 {% endblock %}
