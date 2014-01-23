@@ -7,6 +7,17 @@
 
 {% block script %}
 <script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+<script type="text/javascript">
+	window.onload = function(){
+		init();
+		{% if user.is_authenticated %}
+		initRating();
+		{% else %}
+		$('.ui.rating').rating('disable');
+		{% endif %}
+	};	
+</script>
+
 {% endblock script %}
 
 

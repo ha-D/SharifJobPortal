@@ -10,11 +10,16 @@ def opSearch(request):
 	user = request.user
 	param = request.GET
 	query = param.get('q') or ""
+	print('queryyyy', query)
 	skills = []
 	try:
-		skills = json.load(param.get('sk'))
-	except:
-		pass
+		print(param.get('sk'))
+		skills = json.loads(param.get('sk'))
+	except Exception as ex:
+		print(type(ex).__name__)
+		print(ex.args)	
+
+	print("skills", skills)
 
 	if not 'ajax' in param and user.is_authenticated() and len(skills) == 0:
 		try:
@@ -29,7 +34,7 @@ def opSearch(request):
 		    skills = []
 
 	search_result = search.opportunity(query, skills)
-	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result}
+	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result} 
 	return render(request, 'search/opSearch.html', context)
 
 
@@ -42,7 +47,7 @@ def skillSearch(request):
 			skills = search.skill(query)
 		else:
 			skills = []
-	print(skills)
+	# print(skills)
 	context = {'skills' : [], 'skill_result' : skills, 'search_result' : []}
 	return render(request, 'search/opSearch.html', context)	
 
@@ -71,7 +76,7 @@ def updateRate(request):
 
 			response['result'] = 1
 			response['rate'] = op.rate
-			print('here2')
+			# print('here2')
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
 		elif 'emp' in param:
@@ -95,11 +100,11 @@ def updateRate(request):
 
 			response['result'] = 1
 			response['rate'] = emp.rate
-			print('here2')
+			# print('here2')
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
 	response['result'] = 0
-	print('here3')
+	# print('here3')
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 def userSearch(request):

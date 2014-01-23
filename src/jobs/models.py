@@ -23,9 +23,9 @@ class JobOpportunity(models.Model):
     number = models.IntegerField()
     expireDate = models.DateField()
 
+
     def _get_rate(self):
         ratings = social_network.models.RateForOpportunity.objects.all().filter(opportunity__id = self.id)
-        print("len", len(ratings))
         frate = 0.0
         for r in ratings:
             frate += r.rate
@@ -43,6 +43,7 @@ class JobOpportunity(models.Model):
 class Skill(models.Model):
     name = models.CharField(max_length=50)
     user = models.ManyToManyField(JobSeeker, related_name = 'skills', blank = True, null = True)
+    opportunity = models.ManyToManyField(JobOpportunity, related_name = 'opSkills', blank = True, null = True)
     class Meta:
         verbose_name = 'مهارت'
         verbose_name_plural = 'مهارت ها'

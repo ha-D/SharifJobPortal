@@ -11,7 +11,8 @@ init = function(){
 			textInfo[i] = $(info[i]).html();
 			// console.log(textInfo[i]);
 		}
-
+		name = $(this).parent().parent().find('.opp-header').text();
+		$('#opName').html(name);
 		opList = $('#opList').children();
 		sexInt = parseInt(textInfo[0]);
 		switch(sexInt){
@@ -84,16 +85,31 @@ init = function(){
 		});
 	});
 
-	// $('.rating').on('click', (function(){
-	// 	origOnClick = $(this).onclick;
-	// 	return function(e){
-	// 		if(origOnClick != null){
-	// 			origOnClick();
-	// 		}
-	// 		// alert(rateObject.modal('get rating'));
-	// 	}
-	// })()
-	// );
+	
+	document.getElementById('searchJobIcon').onclick = function(){
+		query = $('#searchJob').val().trim();
+		if(query.length > 0){
+			skillOb = $('.skill-tag');
+			skills = new Array();
+			for(var i = 0 ; i < skillOb.length ; i++){
+				skills[i] = $(skillOb[i]).text().trim();
+			}
+			skillString = JSON.stringify(skills);
+			console.log(skillString);
+			$.ajax({
+				url: '/search/?ajax&q=' + query + '&sk=' + skillString,
+				type : 'get',
+				dataType : 'html',
+				success : function(data, status, xhr){
+					alert('recieved result');
+				},
+				error : function(xhr, status, error){
+
+				},
+			});
+		}
+		
+	};
 	
 }
 
@@ -139,7 +155,3 @@ initRating = function(){
 	}});
 }
 
-window.onload = function(){
-	init();
-	initRating();
-};	
