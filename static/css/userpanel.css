@@ -1,7 +1,10 @@
 .page.container {
-	margin-right: 10px;
-	margin-left: 10px;
+	/*margin-right: 10px;
+	margin-left: 10px;*/
+	margin: auto;
 	margin-top: 0px;
+	width: 1200px;
+	border-radius: 0px;
 }
 
 #userpanel {

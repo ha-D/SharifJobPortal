@@ -16,7 +16,7 @@
 			<h4 class="ui top attached inverted red header">
 			  مهارت‌ها
 			</h4>
-			<div class="ui segment attached">
+			<div class="ui segment attached" id="side-segment">
 				{% for s in skills %}
 				<div class="ui label skill-tag">
 					<i class="delete icon"></i>
@@ -24,7 +24,7 @@
 				</div>
 				{% endfor %}
 				
-				<div class="ui horizontal divider">
+				<div class="ui horizontal divider" id="tag-divider">
 				  <i class="add sign icon" id="add-sign"></i>
 				</div>
 
@@ -37,10 +37,10 @@
 
 				<div class="ui animated list" id="tag-search-list">
 					{% for sr in skill_result %}
-				  <a class="item">
+				  	<a class="item tag-link">
 				    <i class="add icon add-tag-icon"></i>
 				    {{sr.name}}
-				  </a>
+				  	</a>
 				  	{% endfor %}
 				  
 				</div>
@@ -128,6 +128,8 @@
 						<li>{{op.user.webSite}}</li>
 						<li>{{op.user.address}}</li>
 						<li>{{op.user.image.url}}</li>
+						<li>{{op.id}}</li>
+						<li>{{op.user.id}}</li>
 					</ul>
 				</div>
 				<div class="ui divider"></div>
@@ -162,6 +164,7 @@
 			</div>
 		</div>
 	</div>
+	
 	<div class="ui small modal">
 	  <div class="header" id="opName">
 	    نام فرصت شغلی

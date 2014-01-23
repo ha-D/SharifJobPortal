@@ -10,11 +10,10 @@ import social_network.models
 
 class City(models.Model):
     name = models.CharField(max_length=20)
-
     def __unicode__(self):
         return self.name
 
-class UserProfile(PolymorphicModel):
+class UserProfile(models.Model):
     address = models.CharField(max_length=300)
     postalCode = models.CharField(max_length=15)
     phoneNumber = models.CharField(max_length=15)
@@ -30,8 +29,8 @@ class UserProfile(PolymorphicModel):
     def is_employer(self):
         return not self.is_jobseeker()
 
-    # class Meta:
-    #     abstract = True
+    class Meta:
+        abstract = True
 
     def __unicode__(self):
         return self.user.username
@@ -70,12 +69,12 @@ class Employer(UserProfile):
         ratings = social_network.models.RateForEmployer.objects.all().filter(employer__user__username = self.user.username)
         frate = 0.0
         for r in ratings:
-            frate += ratings.rate
+            frate += r.rate
         if len(ratings) == 0 or frate == 0.0:
             frate = 0
         else:
             frate = frate / len(ratings)
-        return frate
+        return int(round(frate))
     rate = property(_get_rate)
 
         
@@ -123,4 +122,3 @@ class Record(models.Model):
     endDate = models.DateField()
     position = models.CharField(max_length=20)
     companyName = models.CharField(max_length=30)
-

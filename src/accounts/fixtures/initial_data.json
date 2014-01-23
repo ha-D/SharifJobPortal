@@ -1,1 +1,797 @@
-[{"pk": 1, "model": "accounts.city", "fields": {"name": "\u062a\u0647\u0631\u0627\u0646"}}, {"pk": 2, "model": "accounts.city", "fields": {"name": "\u0627\u0635\u0641\u0647\u0627\u0646"}}, {"pk": 3, "model": "accounts.city", "fields": {"name": "\u0634\u06cc\u0631\u0627\u0632"}}, {"pk": 4, "model": "accounts.city", "fields": {"name": "\u06cc\u0632\u062f"}}, {"pk": 5, "model": "accounts.city", "fields": {"name": "\u06a9\u0631\u0645\u0627\u0646"}}, {"pk": 1, "model": "accounts.userprofile", "fields": {"user": 2, "city": 1, "image": "avatar/Screenshot_from_2014-01-22_121621_4.png", "phoneNumber": "91211111", "personalPage": null, "address": "\u062a\u0647\u0631\u0627\u0646 \u062f\u0631 \u0622\u0628\u06cc", "postalCode": "11111111", "polymorphic_ctype": 18}}, {"pk": 2, "model": "accounts.userprofile", "fields": {"user": 3, "city": 1, "image": "", "phoneNumber": "34143", "personalPage": null, "address": "\u062a\u0647\u0631\u0627\u0646 \u0647\u0627\u062f\u06cc ", "postalCode": "1234", "polymorphic_ctype": 19}}, {"pk": 3, "model": "accounts.userprofile", "fields": {"user": 4, "city": 2, "image": "", "phoneNumber": "91211111", "personalPage": null, "address": "\u062a\u0647\u0631\u0627\u0646 \u062d\u0633\u0627\u0645", "postalCode": "11111111", "polymorphic_ctype": 19}}, {"pk": 4, "model": "accounts.userprofile", "fields": {"user": 5, "city": 3, "image": "", "phoneNumber": "91211111", "personalPage": null, "address": "\u062a\u0647\u0631\u0627\u0646 \u0633\u062a\u0627\u0631\u0647", "postalCode": "111", "polymorphic_ctype": 19}}, {"pk": 5, "model": "accounts.userprofile", "fields": {"user": 1, "city": 5, "image": "", "phoneNumber": "91211111", "personalPage": null, "address": "\u062a\u0647\u0631\u0627\u0646 \u0645\u06cc\u0646\u0627", "postalCode": "1020", "polymorphic_ctype": 19}}, {"pk": 1, "model": "accounts.companytype", "fields": {"companyType": 0}}, {"pk": 1, "model": "accounts.employer", "fields": {"webSite": "http://sharif.edu/", "establishDate": "2014-01-22", "companyName": "\u0628\u06cc\u0627\u0646", "contactEmail": "mina@gmail.com", "registrationNumber": "123", "companyType": 1}}, {"pk": 2, "model": "accounts.jobseeker", "fields": {"job_status": 1, "cv": "", "birthDate": "2014-01-22", "sex": 0}}, {"pk": 3, "model": "accounts.jobseeker", "fields": {"job_status": 2, "cv": "", "birthDate": "2014-01-22", "sex": 0}}, {"pk": 4, "model": "accounts.jobseeker", "fields": {"job_status": 0, "cv": "", "birthDate": "2014-01-22", "sex": 1}}, {"pk": 5, "model": "accounts.jobseeker", "fields": {"job_status": 2, "cv": "", "birthDate": "2014-01-22", "sex": 1}}]
+[
+{
+    "pk": 1, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_permission", 
+        "name": "Can add permission", 
+        "content_type": 1
+    }
+},
+{
+    "pk": 2, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_permission", 
+        "name": "Can change permission", 
+        "content_type": 1
+    }
+},
+{
+    "pk": 3, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_permission", 
+        "name": "Can delete permission", 
+        "content_type": 1
+    }
+},
+{
+    "pk": 4, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_group", 
+        "name": "Can add group", 
+        "content_type": 2
+    }
+},
+{
+    "pk": 5, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_group", 
+        "name": "Can change group", 
+        "content_type": 2
+    }
+},
+{
+    "pk": 6, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_group", 
+        "name": "Can delete group", 
+        "content_type": 2
+    }
+},
+{
+    "pk": 7, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_user", 
+        "name": "Can add user", 
+        "content_type": 3
+    }
+},
+{
+    "pk": 8, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_user", 
+        "name": "Can change user", 
+        "content_type": 3
+    }
+},
+{
+    "pk": 9, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_user", 
+        "name": "Can delete user", 
+        "content_type": 3
+    }
+},
+{
+    "pk": 10, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_contenttype", 
+        "name": "Can add content type", 
+        "content_type": 4
+    }
+},
+{
+    "pk": 11, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_contenttype", 
+        "name": "Can change content type", 
+        "content_type": 4
+    }
+},
+{
+    "pk": 12, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_contenttype", 
+        "name": "Can delete content type", 
+        "content_type": 4
+    }
+},
+{
+    "pk": 13, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_session", 
+        "name": "Can add session", 
+        "content_type": 5
+    }
+},
+{
+    "pk": 14, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_session", 
+        "name": "Can change session", 
+        "content_type": 5
+    }
+},
+{
+    "pk": 15, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_session", 
+        "name": "Can delete session", 
+        "content_type": 5
+    }
+},
+{
+    "pk": 16, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_site", 
+        "name": "Can add site", 
+        "content_type": 6
+    }
+},
+{
+    "pk": 17, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_site", 
+        "name": "Can change site", 
+        "content_type": 6
+    }
+},
+{
+    "pk": 18, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_site", 
+        "name": "Can delete site", 
+        "content_type": 6
+    }
+},
+{
+    "pk": 19, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_message", 
+        "name": "Can add message", 
+        "content_type": 7
+    }
+},
+{
+    "pk": 20, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_message", 
+        "name": "Can change message", 
+        "content_type": 7
+    }
+},
+{
+    "pk": 21, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_message", 
+        "name": "Can delete message", 
+        "content_type": 7
+    }
+},
+{
+    "pk": 22, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_commentonopportunity", 
+        "name": "Can add comment on opportunity", 
+        "content_type": 8
+    }
+},
+{
+    "pk": 23, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_commentonopportunity", 
+        "name": "Can change comment on opportunity", 
+        "content_type": 8
+    }
+},
+{
+    "pk": 24, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_commentonopportunity", 
+        "name": "Can delete comment on opportunity", 
+        "content_type": 8
+    }
+},
+{
+    "pk": 25, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_commentonemployer", 
+        "name": "Can add comment on employer", 
+        "content_type": 9
+    }
+},
+{
+    "pk": 26, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_commentonemployer", 
+        "name": "Can change comment on employer", 
+        "content_type": 9
+    }
+},
+{
+    "pk": 27, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_commentonemployer", 
+        "name": "Can delete comment on employer", 
+        "content_type": 9
+    }
+},
+{
+    "pk": 28, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_rateforopportunity", 
+        "name": "Can add rate for opportunity", 
+        "content_type": 10
+    }
+},
+{
+    "pk": 29, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_rateforopportunity", 
+        "name": "Can change rate for opportunity", 
+        "content_type": 10
+    }
+},
+{
+    "pk": 30, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_rateforopportunity", 
+        "name": "Can delete rate for opportunity", 
+        "content_type": 10
+    }
+},
+{
+    "pk": 31, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_rateforemployer", 
+        "name": "Can add rate for employer", 
+        "content_type": 11
+    }
+},
+{
+    "pk": 32, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_rateforemployer", 
+        "name": "Can change rate for employer", 
+        "content_type": 11
+    }
+},
+{
+    "pk": 33, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_rateforemployer", 
+        "name": "Can delete rate for employer", 
+        "content_type": 11
+    }
+},
+{
+    "pk": 34, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_news", 
+        "name": "Can add news", 
+        "content_type": 12
+    }
+},
+{
+    "pk": 35, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_news", 
+        "name": "Can change news", 
+        "content_type": 12
+    }
+},
+{
+    "pk": 36, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_news", 
+        "name": "Can delete news", 
+        "content_type": 12
+    }
+},
+{
+    "pk": 37, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_advertisement", 
+        "name": "Can add advertisement", 
+        "content_type": 13
+    }
+},
+{
+    "pk": 38, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_advertisement", 
+        "name": "Can change advertisement", 
+        "content_type": 13
+    }
+},
+{
+    "pk": 39, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_advertisement", 
+        "name": "Can delete advertisement", 
+        "content_type": 13
+    }
+},
+{
+    "pk": 40, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_logentry", 
+        "name": "Can add log entry", 
+        "content_type": 14
+    }
+},
+{
+    "pk": 41, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_logentry", 
+        "name": "Can change log entry", 
+        "content_type": 14
+    }
+},
+{
+    "pk": 42, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_logentry", 
+        "name": "Can delete log entry", 
+        "content_type": 14
+    }
+},
+{
+    "pk": 43, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_city", 
+        "name": "Can add city", 
+        "content_type": 15
+    }
+},
+{
+    "pk": 44, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_city", 
+        "name": "Can change city", 
+        "content_type": 15
+    }
+},
+{
+    "pk": 45, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_city", 
+        "name": "Can delete city", 
+        "content_type": 15
+    }
+},
+{
+    "pk": 46, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_companytype", 
+        "name": "Can add company type", 
+        "content_type": 16
+    }
+},
+{
+    "pk": 47, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_companytype", 
+        "name": "Can change company type", 
+        "content_type": 16
+    }
+},
+{
+    "pk": 48, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_companytype", 
+        "name": "Can delete company type", 
+        "content_type": 16
+    }
+},
+{
+    "pk": 49, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_employer", 
+        "name": "Can add employer", 
+        "content_type": 17
+    }
+},
+{
+    "pk": 50, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_employer", 
+        "name": "Can change employer", 
+        "content_type": 17
+    }
+},
+{
+    "pk": 51, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_employer", 
+        "name": "Can delete employer", 
+        "content_type": 17
+    }
+},
+{
+    "pk": 52, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_jobseeker", 
+        "name": "Can add job seeker", 
+        "content_type": 18
+    }
+},
+{
+    "pk": 53, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_jobseeker", 
+        "name": "Can change job seeker", 
+        "content_type": 18
+    }
+},
+{
+    "pk": 54, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_jobseeker", 
+        "name": "Can delete job seeker", 
+        "content_type": 18
+    }
+},
+{
+    "pk": 55, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_personalpage", 
+        "name": "Can add personal page", 
+        "content_type": 19
+    }
+},
+{
+    "pk": 56, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_personalpage", 
+        "name": "Can change personal page", 
+        "content_type": 19
+    }
+},
+{
+    "pk": 57, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_personalpage", 
+        "name": "Can delete personal page", 
+        "content_type": 19
+    }
+},
+{
+    "pk": 58, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_record", 
+        "name": "Can add record", 
+        "content_type": 20
+    }
+},
+{
+    "pk": 59, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_record", 
+        "name": "Can change record", 
+        "content_type": 20
+    }
+},
+{
+    "pk": 60, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_record", 
+        "name": "Can delete record", 
+        "content_type": 20
+    }
+},
+{
+    "pk": 61, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_jobopportunity", 
+        "name": "Can add job opportunity", 
+        "content_type": 21
+    }
+},
+{
+    "pk": 62, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_jobopportunity", 
+        "name": "Can change job opportunity", 
+        "content_type": 21
+    }
+},
+{
+    "pk": 63, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_jobopportunity", 
+        "name": "Can delete job opportunity", 
+        "content_type": 21
+    }
+},
+{
+    "pk": 64, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_skill", 
+        "name": "Can add \u0645\u0647\u0627\u0631\u062a", 
+        "content_type": 22
+    }
+},
+{
+    "pk": 65, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_skill", 
+        "name": "Can change \u0645\u0647\u0627\u0631\u062a", 
+        "content_type": 22
+    }
+},
+{
+    "pk": 66, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_skill", 
+        "name": "Can delete \u0645\u0647\u0627\u0631\u062a", 
+        "content_type": 22
+    }
+},
+{
+    "pk": 67, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_joboffer", 
+        "name": "Can add job offer", 
+        "content_type": 23
+    }
+},
+{
+    "pk": 68, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_joboffer", 
+        "name": "Can change job offer", 
+        "content_type": 23
+    }
+},
+{
+    "pk": 69, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_joboffer", 
+        "name": "Can delete job offer", 
+        "content_type": 23
+    }
+},
+{
+    "pk": 70, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "add_searchagent", 
+        "name": "Can add search agent", 
+        "content_type": 24
+    }
+},
+{
+    "pk": 71, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "change_searchagent", 
+        "name": "Can change search agent", 
+        "content_type": 24
+    }
+},
+{
+    "pk": 72, 
+    "model": "auth.permission", 
+    "fields": {
+        "codename": "delete_searchagent", 
+        "name": "Can delete search agent", 
+        "content_type": 24
+    }
+},
+{
+    "pk": 1, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "hadi", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2014-01-23T09:07:21.771Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$DCStyf0ryqpe$FU0hyWIxulOkvc96O9Shw5UCOPFXBmO9z1u8T2vx7tM=", 
+        "email": "", 
+        "date_joined": "2014-01-23T09:06:52.429Z"
+    }
+},
+{
+    "pk": 2, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "hessam", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2014-01-23T09:07:55Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$h6V7UUopLN9f$4kQPcbxs0uBTFnnFUQUhaP5FNxG/KzIDNvxeikyTeqE=", 
+        "email": "", 
+        "date_joined": "2014-01-23T09:07:55Z"
+    }
+},
+{
+    "pk": 3, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "mina", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2014-01-23T09:08:24Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$L0T6Ra36MYJi$EZFWFzheG8IJ77zl9VU6jllw8hITQpnwl+19zJsWI4k=", 
+        "email": "", 
+        "date_joined": "2014-01-23T09:08:24Z"
+    }
+},
+{
+    "pk": 4, 
+    "model": "auth.user", 
+    "fields": {
+        "username": "setareh", 
+        "first_name": "", 
+        "last_name": "", 
+        "is_active": true, 
+        "is_superuser": true, 
+        "is_staff": true, 
+        "last_login": "2014-01-23T09:08:42Z", 
+        "groups": [], 
+        "user_permissions": [], 
+        "password": "pbkdf2_sha256$10000$H7MvgZiEtam8$+UPynpQwkEyTnmurH7/XhXhj8mzvmpzDa0m3cZhI94w=", 
+        "email": "", 
+        "date_joined": "2014-01-23T09:08:42Z"
+    }
+},
+{
+    "pk": 1, 
+    "model": "accounts.city", 
+    "fields": {
+        "name": "\u062a\u0647\u0631\u0627\u0646"
+    }
+},
+{
+    "pk": 1, 
+    "model": "accounts.jobseeker", 
+    "fields": {
+        "job_status": 2, 
+        "city": 1, 
+        "image": "", 
+        "birthDate": "2014-01-23", 
+        "sex": 0, 
+        "phoneNumber": "123", 
+        "personalPage": null, 
+        "address": "asdf", 
+        "postalCode": "123", 
+        "cv": "", 
+        "user": 1
+    }
+},
+{
+    "pk": 2, 
+    "model": "accounts.jobseeker", 
+    "fields": {
+        "job_status": 2, 
+        "city": 1, 
+        "image": "", 
+        "birthDate": "2014-01-23", 
+        "sex": 0, 
+        "phoneNumber": "234234", 
+        "personalPage": null, 
+        "address": "adsfsdf", 
+        "postalCode": "2324", 
+        "cv": "", 
+        "user": 2
+    }
+},
+{
+    "pk": 3, 
+    "model": "accounts.jobseeker", 
+    "fields": {
+        "job_status": 2, 
+        "city": 1, 
+        "image": "", 
+        "birthDate": "2014-01-23", 
+        "sex": 1, 
+        "phoneNumber": "23424", 
+        "personalPage": null, 
+        "address": "34", 
+        "postalCode": "234", 
+        "cv": "", 
+        "user": 3
+    }
+},
+{
+    "pk": 4, 
+    "model": "accounts.jobseeker", 
+    "fields": {
+        "job_status": 2, 
+        "city": 1, 
+        "image": "", 
+        "birthDate": "2014-01-23", 
+        "sex": 1, 
+        "phoneNumber": "12312", 
+        "personalPage": null, 
+        "address": "dsaf", 
+        "postalCode": "awfasdf", 
+        "cv": "", 
+        "user": 4
+    }
+}
+]
