@@ -6,8 +6,10 @@ from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
 from utils.functions		 		import template, json_response, ajax_template
 from accounts.decorators 			import user_required, employer_required, jobseeker_required
+from accounts.models                import CompanyImage
 from accounts.forms                	import *
 from django.conf 					import settings
+from django.views.decorators.csrf   import csrf_exempt
 
 def mylogin(request):
     if request.user.is_authenticated():
@@ -53,5 +55,44 @@ def userpanel_changecompanyinfo(request):
             context['state'] = 'success'
     else:
         form = ChangeCompanyInfoForm(instance = request.userprofile)
+    context['images'] = list(request.userprofile.images.all())
     context['form'] = form
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
+
+@csrf_exempt
+def userpanel_changecompanyinfo_uploadimage(request):
+    if request.method == 'POST':
+        form = CompanyImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            images_count = len(request.userprofile.images.all())
+            if images_count >= 5:
+                return json_response({'result': 'fail', 'error': 'maximum reached'})            
+
+            comp_image = form.save(commit=False)
+            comp_image.employer = request.userprofile
+            comp_image.save()
+
+            images = request.userprofile.images.all()
+            images = map(lambda x: {'id': x.id, 'url': x.image.url}, images)
+            return json_response({'result': 'success', 'images': images})
+        else:
+            return json_response({'result': 'fail', 'error': 'invalid form'})
+    return json_response({'result': 'fail', 'error': 'get not supported'})
+
+
+@employer_required
+@csrf_exempt
+def userpanel_changecompanyinfo_removeimage(request, image_id):
+    try:
+        comp_image = CompanyImage.objects.get(pk = image_id)
+    except:
+        return json_response({'result': 'fail', 'error': 'invalid id'})
+
+    if comp_image.employer != request.userprofile:
+        return json_response({'result': 'fail', 'error': 'not authorized to delete this image'})        
+
+    comp_image.delete()
+
+    images = request.userprofile.images.all()
+    images = map(lambda x: {'id': x.id, 'url': x.image.url}, images)
+    return json_response({'result': 'success', 'images': images})

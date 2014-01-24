@@ -121,5 +121,5 @@ $(function(){
 		location = "/userpanel/inbox/send/"
 	});
   
-	userpanel.init();
+	// userpanel.init();
 })

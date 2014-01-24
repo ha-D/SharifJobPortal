@@ -11,6 +11,7 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
+    url(r'^markitup/', include('markitup.urls')),
     url(r'^admin/', include(admin.site.urls)),
     
     url(r'^userpanel/',  include(userpanel_urls)),

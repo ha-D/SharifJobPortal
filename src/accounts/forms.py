@@ -2,12 +2,20 @@
 
 from django						import forms
 from django.contrib.auth.models import User
-from accounts.models 			import JobSeeker, Employer, UserProfile
+from accounts.models 			import JobSeeker, Employer, UserProfile, CompanyImage
 from utils.widgets				import SemanticInput
 
+from markitup.widgets import MarkItUpWidget
+
 class ChangeCompanyInfoForm(forms.ModelForm):
+	content = forms.CharField(widget=MarkItUpWidget())
 	class Meta:
 		model = Employer
+
+class CompanyImageUploadForm(forms.ModelForm):
+	class Meta:
+		model = CompanyImage
+		fields = ['image']
 
 class ChangeUserInfoForm(forms.ModelForm):
 	first_name = forms.CharField(max_length = 100, label="نام")

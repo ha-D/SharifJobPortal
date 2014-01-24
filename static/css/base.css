@@ -2,7 +2,7 @@ body{
 	margin: 0;
 	font-family: yekan, "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
 	/*background-color: rgb(252, 252, 252);*/
-	background-color: rgb(220, 220, 220);
+	background-color: rgb(230, 230, 230);
 }
 #portal input{
     font-family: yekan;
@@ -109,7 +109,7 @@ body{
 }
 
 .ui.form .field.small input[type='text']{
-	padding: 7px;
+	padding: 10px;
 }
 
 .form .submit{

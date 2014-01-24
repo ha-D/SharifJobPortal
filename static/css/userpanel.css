@@ -46,11 +46,17 @@
 	z-index: 800;
 }
 
+#userpanel .content-title {
+	margin-right: 260px;
+	margin-top: 40px;
+}
+
 #userpanel .content-container {
 	margin-top: 20px;
 	margin-right: 260px;
 	margin-left: 50px;
 	padding: 20px;
+	padding-top: 15px;
 	padding-bottom: 50px;
 	/*width: 800px;*/
 }
@@ -197,18 +203,26 @@
 	padding: 0px;
 }
 
+/********************/
+/* User Info Forms **/
+/********************/
 
-#userinfoform.form {
-	padding: 10px 50px;
-}
-
-.form .submit {
+#userpanel .form .submit {
 	font-family: yekan;
 	margin-top: 30px;
 	width: 100px;
 	float: left;
 }
 
-.change.success {
+#userpanel .change.success {
 	color: green;
+}
+
+#userpanel #userinfoform.form {
+	padding: 10px 50px;
+}
+
+#userpanel #companyinfoform .basicinfo {
+	padding: 20px;
+	margin-bottom: 60px;
 }

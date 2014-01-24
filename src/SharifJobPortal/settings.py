@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'social_network',
     'services',
     'utils',
+    'markitup',
     # admin
     'django.contrib.admin',
     # 'django.contrib.admindocs',

@@ -115,6 +115,9 @@ class PersonalPage(models.Model):
     background = models.TextField(max_length=3000)
     projects = models.TextField(max_length=3000)
 
+class CompanyImage(models.Model):
+    employer = models.ForeignKey(Employer, related_name="images")
+    image = models.ImageField(upload_to='employer_pics/')
 
 class Record(models.Model):
     user = models.ForeignKey(User)
