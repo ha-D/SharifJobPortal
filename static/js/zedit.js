@@ -197,20 +197,22 @@ $.fn.zedit = function(){
 
 		zedit.on('click', '.add .button', function(){
 			var name = zedit.find('.add input').val();
-			$.ajax({
-				url: zedit.options.url,
-				type: 'post',
-				dataType: 'json',
-				data: {action: 'add', title: name},
-				success: function(data){
-					if(data.result == 'success'){
-						addItem(data.page);
-						zedit.find('.add input').val('');	
-					}else{
-						throw data;
+			if(name){
+				$.ajax({
+					url: zedit.options.url,
+					type: 'post',
+					dataType: 'json',
+					data: {action: 'add', title: name},
+					success: function(data){
+						if(data.result == 'success'){
+							addItem(data.page);
+							zedit.find('.add input').val('');	
+						}else{
+							throw data;
+						}
 					}
-				}
-			})
+				})
+			}
 		})	
 	}
 

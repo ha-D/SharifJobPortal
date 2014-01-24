@@ -3,7 +3,7 @@ from django.contrib 	import admin
 from django.conf        import settings
 from utils.views        import zedit_preview
 from ui_test.views 		import show_template
-
+from accounts.views           import profile_employer
 import userpanel_urls
 
 # Uncomment the next two lines to enable the admin:
@@ -28,6 +28,9 @@ urlpatterns += patterns('',
     url(r'^jobs/', include('jobs.urls')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
+    url(r'^(?P<username>\w+)/', profile_employer),
+
+
 	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
 	url(r'^(?P<template>\w+)/', show_template),
 
