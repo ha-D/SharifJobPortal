@@ -1,8 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls 			import patterns, url
 from django.contrib.auth.models import User
 from accounts.views				import *
 from social_network.views 		import *
-
 
 urlpatterns = patterns('',
 	url(r'^$', userpanel_main),
@@ -15,6 +14,9 @@ urlpatterns = patterns('',
 	url(r'^friends/$', userpanel_friends),
 	url(r'friends/search$', userpanel_searchFriend),
 	url(r'friends/requestFriendShip$' , userpanel_requestFriendShip),
+                       
+	url(r'^jobs/$', userpanel_jobs),
+	url(r'^offers/$', userpanel_offers),
 
 	
 	url(r'^profile/$', userpanel_changeinfo),
@@ -22,6 +24,4 @@ urlpatterns = patterns('',
 	url(r'^companyinfo/uploadimage/$', userpanel_changecompanyinfo_uploadimage),
 	url(r'^companyinfo/removeimage/(?P<image_id>\d+)$', userpanel_changecompanyinfo_removeimage),
 	url(r'^companyinfo/zedit/$', userpanel_changecompanyinfo_zedit),
-
-	url(r'^jobs/$', userpanel_jobs),
 )

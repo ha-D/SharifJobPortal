@@ -69,6 +69,24 @@ function rejectOffer(offerid) {
     });
 }
 
+function editJob(jobid){
+    window.location.replace('/jobs/edit/' + jobid + '/');
+}
+
+function deleteJob(jobid){
+    $.ajax({
+        url:'/jobs/delete/' + jobid,
+        type:'get',
+        dataType:'json',
+        success:function (data, status, error) {
+            $("#job" + jobid).fadeOut(FADE_SPEED);
+        },
+
+        error:function (xhr, status, error) {
+        }
+    });
+}
+
 function sendOffer(user){
     $.ajax({
         url:'/jobs/offers/send/' + user,

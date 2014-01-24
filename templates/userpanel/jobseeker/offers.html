@@ -35,7 +35,7 @@
                         {% endifequal %}
                     </div>
                     <div class="summary">
-                        موقعیت شغلی {{ o.jobOpportunity.name }} از شرکت {{ o.jobOpportunity.user.companyName }}
+                        موقعیت شغلی {{ o.jobOpportunity }} از شرکت {{ o.jobOpportunity.user }}
                     </div>
                     <div class="extra text">
                         درخواست در وضعیت {{ o.get_state_display }} قرار دارد.
@@ -87,7 +87,7 @@
                             </div>
                         </div>
                         <div class="summary">
-                            موقعیت شغلی {{ o.jobOpportunity.name }} از شرکت {{ o.jobOpportunity.user.companyName }}
+                            موقعیت شغلی {{ o.jobOpportunity }} از شرکت {{ o.jobOpportunity.user }}
                         </div>
                     </div>
                 </div>

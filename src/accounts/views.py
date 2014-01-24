@@ -38,7 +38,7 @@ def userpanel_main(request):
             return Event_FriendShip.objects.get(pk=e.pk)
 
     if request.userprofile.is_jobseeker():
-        events = Event.objects.all();
+        events = Event.objects.all()
         events = [ getEvent(e).summery() for e in events]
         print(events)
         return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})
@@ -57,15 +57,26 @@ def jobseeker_jobs(request):
     user = request.userprofile
     offers_by_jobseeker = JobOffer.objects.filter(jobSeeker=user, mode=0).order_by('-date')
     offers_by_employer = JobOffer.objects.filter(jobSeeker=user, mode=1).order_by('-date')
-    return template(request, 'userpanel/jobseeker/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+    return template(request, 'userpanel/jobseeker/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
 
 @employer_required
 def employer_jobs(request):
     user = request.userprofile
+    jobs = JobOpportunity.objects.filter(user = user).order_by('-expireDate')
+    items = []
+    for j in jobs:
+        pending = JobOffer.objects.filter(jobOpportunity = j, state = 2).count()
+        accepted = JobOffer.objects.filter(jobOpportunity = j, state = 0).count()
+        rejected = JobOffer.objects.filter(jobOpportunity = j, state = 1).count()
+        items.append( {'job' : j, 'pending':pending, 'accepted' : accepted, 'rejected' : rejected} )
+    return template(request, 'userpanel/employer/jobs.html', {'items' : items})
+
+@employer_required
+def userpanel_offers(request):
+    user = request.userprofile
     offers_by_jobseeker = JobOffer.objects.filter(jobOpportunity__user=user, mode=0).order_by('-date')
     offers_by_employer = JobOffer.objects.filter(jobOpportunity__user=user, mode=1).order_by('-date')
-    return template(request, 'userpanel/employer/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
-
+        return template(request, 'userpanel/employer/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
 
 @user_required #OBSOLETE
 def userpanel_changeinfo_old(request):
