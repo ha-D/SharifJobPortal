@@ -4,7 +4,7 @@ from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
 from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
-from jobs.models import JobOffer
+from jobs.models import JobOffer, JobOpportunity
 from utils.functions		 		import template, json_response, ajax_template
 from accounts.decorators 			import user_required, jobseeker_required, employer_required
 from accounts.forms                	import *
@@ -196,11 +196,23 @@ def jobseeker_jobs(request):
     user = request.userprofile
     offers_by_jobseeker = JobOffer.objects.filter(jobSeeker=user, mode=0).order_by('-date')
     offers_by_employer = JobOffer.objects.filter(jobSeeker=user, mode=1).order_by('-date')
-    return template(request, 'userpanel/jobseeker/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+    return template(request, 'userpanel/jobseeker/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
 
 @employer_required
 def employer_jobs(request):
     user = request.userprofile
+    jobs = JobOpportunity.objects.filter(user = user).order_by('-expireDate')
+    items = []
+    for j in jobs:
+        pending = JobOffer.objects.filter(jobOpportunity = j, state = 2).count()
+        accepted = JobOffer.objects.filter(jobOpportunity = j, state = 0).count()
+        rejected = JobOffer.objects.filter(jobOpportunity = j, state = 1).count()
+        items.append( {'job' : j, 'pending':pending, 'accepted' : accepted, 'rejected' : rejected} )
+    return template(request, 'userpanel/employer/jobs.html', {'items' : items})
+
+@employer_required
+def userpanel_offers(request):
+    user = request.userprofile
     offers_by_jobseeker = JobOffer.objects.filter(jobOpportunity__user=user, mode=0).order_by('-date')
     offers_by_employer = JobOffer.objects.filter(jobOpportunity__user=user, mode=1).order_by('-date')
-    return template(request, 'userpanel/employer/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+    return template(request, 'userpanel/employer/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})

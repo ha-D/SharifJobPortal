@@ -80,7 +80,7 @@ class Employer(UserProfile):
     rate = property(_get_rate)
 
     def __unicode__(self):
-        return mark_safe('<a href="">' + self.companyName + '</a>')
+        return mark_safe('<a href="/employer/' + self.user.username + '/">' + self.companyName + '</a>')
 
     def is_jobseeker(self):
         return False
@@ -111,7 +111,7 @@ class JobSeeker(UserProfile):
     
 
     def __unicode__(self):
-        return mark_safe('<a href="">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
+        return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
 
 
     def is_jobseeker(self):

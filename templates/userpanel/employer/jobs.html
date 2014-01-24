@@ -7,77 +7,46 @@
 {% endblock %}
 
 {% block content %}
-    {% if offers_by_jobseeker %}
-        <div class="ui small purple feed raised segment eventlist">
-            <h4 class="ui header">
-                پیشنهادنامه‌های کارجویان
-            </h4>
-
-            <div class="ui divider"></div>
-            {% for o in offers_by_jobseeker %}
-                <div class="event">
-                    <div class="label">
-                        <img src="{% if o.jobSeeker.image %}{{ o.jobSeeker.image.url }}{% else %}{% static 'images/noimage.jpg' %}{% endif %}">
-                    </div>
-                    <div class="content">
-                        <div class="date">
-                            <div>
-                                {{ o.date }}
-                            </div>
-                            <div id="bothButtons{{ o.id }}" class="ui buttons" {% ifnotequal o.state 2 %}style="display: none"{% endifnotequal %}>
-                                <div class="ui positive button" onclick="acceptOffer({{ o.id }})">قبول</div>
-                                <div class="ui red button" onclick="rejectOffer({{ o.id }})">رد</div>
-                            </div>
-                            <div id="acceptText{{ o.id }}" class="ui green icon" {% ifnotequal o.state 0 %}style="display: none"{% endifnotequal %}>
-                                <i class="icon checkmark"></i>
-                                این پیشنهاد پذیرفته شده است.
-                            </div>
-                            <div id="rejectText{{ o.id }}" class="ui icon" {% ifnotequal o.state 1 %}style="display: none"{% endifnotequal %}>
-                                <i class="icon ban circle"></i>
-                                این پیشنهاد رد شده است.
-                            </div>
-                        </div>
-                        <div class="summary">
-                            کاربر {{ o.jobSeeker }} برای موقعیت شغلی {{ o.jobOpportunity }} درخواست داده است.
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
     <div class="ui small purple feed raised segment eventlist">
         <h4 class="ui header">
-            پیشنهاد‌های شما به کارجویان
+            فرصت‌های شغلی
         </h4>
 
         <div class="ui divider"></div>
-        {% for o in offers_by_employer %}
-            <div class="event">
+        {% for i in items %}
+            <div id="job{{ i.job.id }}" class="event">
                 <div class="label">
-                    <img src="{% if o.jobSeeker.image %}{{ o.jobSeeker.image.url }}{% else %}{% static 'images/noimage.jpg' %}{% endif %}">
                 </div>
                 <div class="content">
                     <div class="date">
                         <div>
-                            {{ o.date }}
+                        تاریخ اعتبار: {{ i.job.expireDate }}
+                        </div>
+                        <div>
+                            <div class="ui buttons">
+                                <div class="ui small positive button" onclick="editJob({{ i.job.id }})">ویرایش</div>
+                                <div class="ui small red button" onclick="deleteJob({{ i.job.id }})">حذف</div>
+                            </div>
                         </div>
                     </div>
                     <div class="summary">
-                        برای کاربر {{ o.jobSeeker }} برای موقعیت شغلی {{ o.jobOpportunity }} درخواست داده‌اید.
+                        {{ i.job }}
                     </div>
-                    <div class="extra text">
-                        درخواست در وضعیت {{ o.get_state_display }} قرار دارد.
-                    </div>
+                    <div class="extra content">{{ i.pending }} پیشنهاد معلق. {{ i.accepted }} پیشنهاد قبول شده {{ i.rejected }} پیشنهاد رد شده</div>
                 </div>
             </div>
         {% empty %}
             <div class="event">
-                <div class="content" style="padding-right: 50px">
-                    <div class="summary">
-                        تا کنون هیچ درخواستی از طرف شما ثبت نشده است.
+                <div class="label">
+                </div>
+                <div class="content">
+                    <div class="date">
                     </div>
-                    <div class="extra text">
-                        می‌توانید با جستجوی کارجویان برای آنان پیشنهاد ارسال کنید.
+                    <div class="summary">
+                        موردی یافت نشد.
+                    </div>
+                    <div class="extra content">
+                        برای ایجاد کردن فرصت شغلی روی گزینه‌ی پایین کلیک کنید.
                     </div>
                 </div>
             </div>
