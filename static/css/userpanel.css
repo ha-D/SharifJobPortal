@@ -222,6 +222,10 @@
 	padding: 10px 50px;
 }
 
+#userpanel #userinfoform.form .profilepic{
+	width: 4.5em;
+}
+
 #userpanel #companyinfoform .basicinfo {
 	padding: 20px;
 	margin-bottom: 60px;

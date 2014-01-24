@@ -8,7 +8,6 @@ from utils.widgets				import SemanticInput
 from markitup.widgets import MarkItUpWidget
 
 class ChangeCompanyInfoForm(forms.ModelForm):
-	content = forms.CharField(widget=MarkItUpWidget())
 	class Meta:
 		model = Employer
 
@@ -24,7 +23,7 @@ class ChangeUserInfoForm(forms.ModelForm):
 
 	class Meta:
 		model = UserProfile
-		fields = ['address', 'postalCode', 'phoneNumber', 'city']
+		fields = ['address', 'postalCode', 'phoneNumber', 'city', 'image']
 
 	def __init__(self, *args, **kwargs):
 		if 'instance' in kwargs:

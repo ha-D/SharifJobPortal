@@ -36,7 +36,7 @@ def userpanel_main(request):
 def userpanel_changeinfo(request):
     context = {}
     if request.method == 'POST':
-        form = ChangeUserInfoForm(request.POST, instance=request.userprofile)
+        form = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
         if form.is_valid():
             form.save()
             context['state'] = 'success'
