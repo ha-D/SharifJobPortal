@@ -134,7 +134,8 @@
 						<li>{{op.user.address}}</li>
 						<li>{{op.user.image.url}}</li>
 						<li>{{op.id}}</li>
-						<li>{{op.user.id}}</li>
+						<li class="compId">{{op.user.id}}</li>
+						<li> {{op.opSkills.all | join:" "}}</li>
 					</ul>
 				</div>
 				<div class="ui divider"></div>
@@ -198,6 +199,11 @@
 			  </div>
 			  <div class="item">
 			    <i class="home icon"></i>
+			    
+			  </div>
+
+			  <div class="item">
+			    <i class="info icon"></i>
 			    
 			  </div>
 			  

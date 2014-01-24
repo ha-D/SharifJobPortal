@@ -43,7 +43,11 @@ init = function(){
 				$(companyList[i]).append(textInfo[i + 4]);
 			}
 		}
-		$('#companyImage img').attr('src', $(companyList[6]).html());
+		$('#companyImage img').attr('src', textInfo[10]);
+		skills = textInfo[13].split(' ');
+		console.log(skills.join())
+		$(companyList[6]).html($('<i>').attr('class', 'info icon'))
+		$(companyList[6]).append(skills.join('، '))
 		$('.ui.modal').modal('show');
 	});
 	

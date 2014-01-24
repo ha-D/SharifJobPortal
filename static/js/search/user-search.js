@@ -1,5 +1,5 @@
 var search = {query : ''}
-
+search['inRating'] = false;
 init = function(){
 	$('.icon.delete').on('click', function(){
 		$(this).parent().remove();
@@ -44,7 +44,11 @@ init = function(){
 				$(companyList[i]).append(textInfo[i + 4]);
 			}
 		}
-		$('#companyImage img').attr('src', $(companyList[6]).html());
+		$('#companyImage img').attr('src', textInfo[10]);
+		skills = textInfo[13].split(' ');
+		console.log(skills.join())
+		$(companyList[6]).html($('<i>').attr('class', 'info icon'))
+		$(companyList[6]).append(skills.join('، '))
 		$('.ui.modal').modal('show');
 	});
 	
@@ -166,22 +170,37 @@ initRating = function(){
 			});
 		}
 		else{
-			empid = $($($(this).parent().parent().parent().siblings('ul')[0]).children()[12]).html()
-			console.log(empid);
-			$.ajax({
-			url : '/search/rate/?emp=' + parseInt(empid) + '&rate=' + curRate,
-			type : 'get',
-			dataType : 'json',
-			success: function(data, status, xhr){
-				if(data['result'] == 1){
-					pholder.html('امتیاز کنونی : ' + data['rate']);
-				}
-			},
-
-			error: function(xhr, status, error){
-
+			if(!search['inRating']){
+				search['inRating'] = true;
+				empid = $($($(this).parent().parent().parent().siblings('ul')[0]).children()[12]).html()
+				console.log(empid);
+				$.ajax({
+				url : '/search/rate/?emp=' + parseInt(empid) + '&rate=' + curRate,
+				type : 'get',
+				dataType : 'json',
+				success: function(data, status, xhr){
+					if(data['result'] == 1){
+						allEmps = $('.compId')
+						for(var i = 0 ; i < allEmps.length ; i++){
+							if(parseInt($(allEmps[i]).text()) == parseInt(empid)){
+								ratingOb = $($(allEmps[i]).parent().parent().find('.small.rating')[0])
+								ratingOb.prev().html('امتیاز کنونی : ' + data['rate']);
+								ratingOb.rating('set rating', parseInt(data['rate']));
+							}
+						}
+						pholder.html('امتیاز کنونی : ' + data['rate']);
+						search['inRating'] = false;
+					}
+					else{
+						search['inRating'] = false;
+					}
 				},
-			});
+
+				error: function(xhr, status, error){
+					search['inRating'] = false;
+					},
+				});
+			}
 		}
 	}});
 }
@@ -190,4 +209,5 @@ initRating = function(){
 window.onload = function(){
 		init();
 		initRating();
+		$('.small.rating').rating('set rating', 1)
 };	
