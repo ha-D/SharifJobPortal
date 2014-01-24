@@ -2,8 +2,6 @@
 from django.db                      import models
 from django.contrib.auth.models     import User
 from django.utils.safestring import mark_safe
-
-from polymorphic                    import PolymorphicModel
 # from social_network.models          import RateForEmployer
 import social_network.models 
 # from jobs.models                    import Skill

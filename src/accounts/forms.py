@@ -3,9 +3,6 @@
 from django						import forms
 from django.contrib.auth.models import User
 from accounts.models 			import JobSeeker, Employer, UserProfile, CompanyImage
-from utils.widgets				import SemanticInput
-
-from markitup.widgets import MarkItUpWidget
 
 class ChangeCompanyInfoForm(forms.ModelForm):
 	class Meta:
