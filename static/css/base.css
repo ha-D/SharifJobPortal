@@ -4,6 +4,11 @@ body{
 	/*background-color: rgb(252, 252, 252);*/
 	background-color: rgb(230, 230, 230);
 }
+
+#portal button{
+	font-family: yekan;
+}
+
 #portal input{
     font-family: yekan;
 }

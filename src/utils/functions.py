@@ -9,7 +9,7 @@ def template(request, address, context = {}):
 	return render_to_response(address, RequestContext(request, context))
 
 def json_response(response):
-    return HttpResponse(json.dumps(response))
+    return HttpResponse(json.dumps(response), content_type="application/json")
 
 def ajax_template(request, address, context ={}):
 	return json_response({

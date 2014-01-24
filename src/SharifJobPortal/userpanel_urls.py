@@ -14,4 +14,5 @@ urlpatterns = patterns('',
 	url(r'^companyinfo/$', userpanel_changecompanyinfo),
 	url(r'^companyinfo/uploadimage/$', userpanel_changecompanyinfo_uploadimage),
 	url(r'^companyinfo/removeimage/(?P<image_id>\d+)$', userpanel_changecompanyinfo_removeimage),
+	url(r'^companyinfo/zedit/$', userpanel_changecompanyinfo_zedit),
 )

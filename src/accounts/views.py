@@ -4,12 +4,13 @@ from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
 from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
-from utils.functions		 		import template, json_response, ajax_template
-from accounts.decorators 			import user_required, employer_required, jobseeker_required
-from accounts.models                import CompanyImage
-from accounts.forms                	import *
-from django.conf 					import settings
 from django.views.decorators.csrf   import csrf_exempt
+from django.conf 					import settings
+
+from utils.functions                import template, json_response, ajax_template
+from accounts.decorators            import user_required, employer_required, jobseeker_required
+from accounts.models                import CompanyImage, PersonalPage
+from accounts.forms                 import *
 
 def mylogin(request):
     if request.user.is_authenticated():
@@ -96,3 +97,46 @@ def userpanel_changecompanyinfo_removeimage(request, image_id):
     images = request.userprofile.images.all()
     images = map(lambda x: {'id': x.id, 'url': x.image.url}, images)
     return json_response({'result': 'success', 'images': images})
+
+
+@csrf_exempt
+def userpanel_changecompanyinfo_zedit(request):
+    action = request.POST.get('action', '')
+
+    try:
+        if action == 'save':
+            page_id = request.POST['page_id']
+            content = request.POST['content']
+
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.content = content
+            page.save()
+
+            return json_response({'result': 'success'})
+
+        elif action == 'remove':
+            page_id = request.POST['page_id']
+
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.delete()
+
+            return json_response({'result': 'success'})
+
+        elif action == 'add':
+            title = request.POST['title']
+            page = PersonalPage.objects.create(user=request.user, title=title)
+            page = {'page_id': page.id, 'title':page.title, 'content': page.content}
+            return json_response({'result': 'success', 'page': page})
+
+        elif action == 'list':
+            pages = PersonalPage.objects.filter(user=request.user)
+            pages = map(lambda x: {'page_id': x.id, 'title':x.title, 'content': x.content}, pages)
+            return json_response({'result': 'success', 'pages': pages})
+
+    except NameError as e:
+        print(e)
+        return json_response({'result': 'fail'})

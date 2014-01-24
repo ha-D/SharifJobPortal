@@ -1,7 +1,7 @@
 from django.conf.urls 	import patterns, include, url
 from django.contrib 	import admin
-from django.conf import settings
-
+from django.conf        import settings
+from utils.views        import zedit_preview
 from ui_test.views 		import show_template
 
 import userpanel_urls
@@ -11,7 +11,7 @@ admin.autodiscover()
 
 
 urlpatterns = patterns('',
-    url(r'^markitup/', include('markitup.urls')),
+    url(r'^zedit/preview/$', zedit_preview),
     url(r'^admin/', include(admin.site.urls)),
     
     url(r'^userpanel/',  include(userpanel_urls)),

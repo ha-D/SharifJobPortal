@@ -111,9 +111,9 @@ class JobSeeker(UserProfile):
         return True
 
 class PersonalPage(models.Model):
-    aboutMe = models.TextField(max_length=3000)
-    background = models.TextField(max_length=3000)
-    projects = models.TextField(max_length=3000)
+    user    = models.ForeignKey(User)
+    title   = models.CharField(max_length = 100)
+    content = models.TextField(null=True, blank=True)
 
 class CompanyImage(models.Model):
     employer = models.ForeignKey(Employer, related_name="images")
