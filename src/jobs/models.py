@@ -1,6 +1,7 @@
 #coding=utf-8
 from django.db          import models
 # from accounts.models    import User, Employer, JobSeeker
+from django.utils.safestring import mark_safe
 from accounts.models import Employer, JobSeeker
 import social_network.models
 
@@ -37,7 +38,7 @@ class JobOpportunity(models.Model):
     rate = property(_get_rate)
 
     def __unicode__(self):
-        return self.name
+        return mark_safe('<a href="">' + self.name + '</a>')
 
 
 class Skill(models.Model):

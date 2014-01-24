@@ -5,11 +5,10 @@ function applyJob(jobid) {
         type:'get',
         dataType:'json',
         success:function (data, status, error) {
-            if (data['done']) {
-                $("#applyButton" + jobid).fadeOut(FADE_SPEED, function () {
-                    $("#refuseButton" + jobid).fadeIn(FADE_SPEED);
-                });
-            }
+            $("#applyButton" + jobid).fadeOut(FADE_SPEED, function () {
+                $("#refuseButton" + jobid).fadeIn(FADE_SPEED);
+            });
+
 
         },
 
@@ -24,11 +23,9 @@ function refuseJob(jobid) {
         type:'get',
         dataType:'json',
         success:function (data, status, error) {
-            if (date['done']) {
-                $("#refuseButton" + jobid).fadeOut(FADE_SPEED, function () {
-                    $("#applyButton" + jobid).fadeIn(FADE_SPEED);
-                });
-            }
+            $("#refuseButton" + jobid).fadeOut(FADE_SPEED, function () {
+                $("#applyButton" + jobid).fadeIn(FADE_SPEED);
+            });
 
         },
 
@@ -65,6 +62,38 @@ function rejectOffer(offerid) {
                 $("#rejectText" + offerid).fadeIn(FADE_SPEED);
             });
 
+        },
+
+        error:function (xhr, status, error) {
+        }
+    });
+}
+
+function sendOffer(user){
+    $.ajax({
+        url:'/jobs/offers/send/' + user,
+        type:'get',
+        dataType:'json',
+        success:function (data, status, error) {
+            $("#sendButton" + user).fadeOut(FADE_SPEED, function () {
+                $("#canelButton" + user).fadeIn(FADE_SPEED);
+            });
+        },
+
+        error:function (xhr, status, error) {
+        }
+    });
+}
+
+function cancelOffer(user){
+    $.ajax({
+        url:'/jobs/offers/cancel/' + user,
+        type:'get',
+        dataType:'json',
+        success:function (data, status, error) {
+            $("#cancelButton" + user).fadeOut(FADE_SPEED, function () {
+                $("#sendButton" + user).fadeIn(FADE_SPEED);
+            });
         },
 
         error:function (xhr, status, error) {
