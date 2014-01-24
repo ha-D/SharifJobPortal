@@ -11,6 +11,9 @@ from utils.functions                import template, json_response, ajax_templat
 from accounts.decorators            import user_required, employer_required, jobseeker_required
 from accounts.models                import CompanyImage, PersonalPage
 from accounts.forms                 import *
+from social_network.models          import *
+from jobs.models                    import JobOffer
+
 
 def mylogin(request):
     if request.user.is_authenticated():
@@ -26,11 +29,42 @@ def mylogout(request):
 
 @user_required
 def userpanel_main(request):
-    print(type(request.userprofile))
+    def getEvent(e):
+        if e.type == Event.COMMENT_ON_EMPLOYER:
+            return Event_CommentOnEmployer.objects.get(pk=e.pk)
+        elif e.type == Event.COMMENT_ON_JOB:
+            return Event_CommentOnOpportunity.objects.get(pk=e.pk)
+        elif e.type == Event.FRIENDSHIP:
+            return Event_FriendShip.objects.get(pk=e.pk)
+
     if request.userprofile.is_jobseeker():
-        return template(request, 'userpanel/jobseeker/main.html')
+        events = Event.objects.all();
+        events = [ getEvent(e).summery() for e in events]
+        print(events)
+        return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})
     elif request.userprofile.is_employer():
         return template(request, 'userpanel/employer/main.html')
+
+@user_required
+def userpanel_jobs(request):
+    if request.userprofile.is_jobseeker():
+        return jobseeker_jobs(request)
+    elif request.userprofile.is_employer():
+        return employer_jobs(request)
+
+@jobseeker_required
+def jobseeker_jobs(request):
+    user = request.userprofile
+    offers_by_jobseeker = JobOffer.objects.filter(jobSeeker=user, mode=0).order_by('-date')
+    offers_by_employer = JobOffer.objects.filter(jobSeeker=user, mode=1).order_by('-date')
+    return template(request, 'userpanel/jobseeker/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+
+@employer_required
+def employer_jobs(request):
+    user = request.userprofile
+    offers_by_jobseeker = JobOffer.objects.filter(jobOpportunity__user=user, mode=0).order_by('-date')
+    offers_by_employer = JobOffer.objects.filter(jobOpportunity__user=user, mode=1).order_by('-date')
+    return template(request, 'userpanel/employer/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
 
 
 @user_required #OBSOLETE
@@ -121,28 +155,24 @@ def userpanel_changecompanyinfo_removeimage(request, image_id):
 @csrf_exempt
 def userpanel_changecompanyinfo_zedit(request):
     action = request.POST.get('action', '')
-
+    
     try:
         if action == 'save':
             page_id = request.POST['page_id']
             content = request.POST['content']
-
             page = PersonalPage.objects.get(pk = page_id)
             if page.user != request.user:
                 raise "Unauthorized"
             page.content = content
             page.save()
-
             return json_response({'result': 'success'})
 
         elif action == 'remove':
             page_id = request.POST['page_id']
-
             page = PersonalPage.objects.get(pk = page_id)
             if page.user != request.user:
                 raise "Unauthorized"
             page.delete()
-
             return json_response({'result': 'success'})
 
         elif action == 'add':
@@ -156,6 +186,6 @@ def userpanel_changecompanyinfo_zedit(request):
             pages = map(lambda x: {'page_id': x.id, 'title':x.title, 'content': x.content}, pages)
             return json_response({'result': 'success', 'pages': pages})
 
-    except NameError as e:
+    except Error as e:
         print(e)
         return json_response({'result': 'fail'})

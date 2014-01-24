@@ -1,7 +1,7 @@
 #coding=utf-8
-
 from django.db                      import models
 from django.contrib.auth.models     import User
+from django.utils.safestring import mark_safe
 
 from polymorphic                    import PolymorphicModel
 # from social_network.models          import RateForEmployer
@@ -25,6 +25,9 @@ class UserProfile(models.Model):
 
     def is_jobseeker(self):
         pass
+
+    def full_name(self):
+        return '%s %s' % (self.user.first_name, self.user.last_name)
 
     def is_employer(self):
         return not self.is_jobseeker()
@@ -77,7 +80,8 @@ class Employer(UserProfile):
         return int(round(frate))
     rate = property(_get_rate)
 
-        
+    def __unicode__(self):
+        return mark_safe('<a href="">' + self.companyName + '</a>')
 
     def is_jobseeker(self):
         return False
@@ -85,7 +89,6 @@ class Employer(UserProfile):
 
 class JobSeeker(UserProfile):
     birthDate = models.DateField(null=True, blank=True)
-
     MALE = 0
     FEMALE = 1
     SEX_CHOICES = (
@@ -107,8 +110,15 @@ class JobSeeker(UserProfile):
     cv = models.FileField(upload_to="cv", null=True, blank=True)
     
 
+    friends = models.ManyToManyField('JobSeeker' , through='social_network.FriendShip' , related_name='friends2')
+    def __unicode__(self):
+        return mark_safe('<a href="">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
+
     def is_jobseeker(self):
         return True
+
+
+
 
 class PersonalPage(models.Model):
     user    = models.ForeignKey(User)

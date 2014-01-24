@@ -7,11 +7,30 @@
 	</div>
 	<tbody>
 	{% for message in inbox %}
+
 	<tr data-message-id='{{message.id}}'>
-		<td class="from">{{message.sender|fullname}}</td>
-		<td class="subject">{{message.subject}}</td>
-		<td class="time">{{message.time|short_time}}</td>
+
+        <td class="from">
+            {% if message.unread %}<b>{% endif %}
+                {{message.sender|fullname}}
+            {% if message.unread %}</b>{% endif %}
+        </td>
+
+		<td class="subject">
+            {% if message.unread %}<b>{% endif %}
+                {{message.subject}}
+            {% if message.unread %}</b>{% endif %}
+        </td>
+
+		<td class="time">
+            {% if message.unread %}<b>{% endif %}
+            {{message.time}}
+            {% if message.unread %}</b>{% endif %}
+        </td>
+
+
 		<td class="reply"><!-- <i class="reply mail icon link icon"></i> --></td>
+
 	</tr>
 	{% endfor %}
 	</tbody>
