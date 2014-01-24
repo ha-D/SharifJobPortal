@@ -7,13 +7,15 @@ initHeader = function(){
 	};
 
 	$('#search-type').on('click', function(){
-		if($(this).attr('name') == '1'){
-			$(this).text('فرصت شغلی');
-			$(this).attr('name', '0');
-		}
-		else{
-			$(this).text('کارجو');	
-			$(this).attr('name', '1');
+		if($(this).attr('class').indexOf('disabled') < 0){
+			if($(this).attr('name') == '1'){
+				$(this).text('فرصت شغلی');
+				$(this).attr('name', '0');
+			}
+			else{
+				$(this).text('کارجو');	
+				$(this).attr('name', '1');
+			}
 		}
 	});
 }

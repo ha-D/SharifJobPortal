@@ -28,7 +28,7 @@ urlpatterns += patterns('',
     url(r'^jobs/', include('jobs.urls')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
-    url(r'^(?P<username>\w+)/', profile_employer),
+    url(r'^employer/(?P<username>\w+)/', profile_employer),
 
 
 	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),

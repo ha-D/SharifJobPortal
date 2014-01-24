@@ -79,7 +79,9 @@ class Employer(UserProfile):
     rate = property(_get_rate)
 
     def __unicode__(self):
-        return mark_safe('<a href="/employer/' + self.user.username + '/">' + self.companyName + '</a>')
+        # Don't do this!!, problems with links in admin
+        # return mark_safe('<a href="/employer/' + self.user.username + '/">' + self.companyName + '</a>')
+        return self.companyName
 
     def is_jobseeker(self):
         return False
@@ -110,7 +112,9 @@ class JobSeeker(UserProfile):
 
     friends = models.ManyToManyField('JobSeeker' , through='social_network.FriendShip' , related_name='friends2')
     def __unicode__(self):
-        return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
+        # Don't do this!!, problems with links in admin
+        # return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
+        return self.user.first_name + ' ' + self.user.last_name
 
     def is_jobseeker(self):
         return True
@@ -119,7 +123,7 @@ class JobSeeker(UserProfile):
 
 
 class PersonalPage(models.Model):
-    user    = models.ForeignKey(User)
+    user    = models.ForeignKey(User, related_name='pages')
     title   = models.CharField(max_length = 100)
     content = models.TextField(null=True, blank=True)
 

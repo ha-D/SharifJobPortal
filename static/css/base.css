@@ -63,7 +63,7 @@ body{
 	margin: auto;
 	margin-top: 0px;
 	width: 1200px;
-	border-radius: 0px;
+	border-radius: 5px;
 	padding-bottom: 100px;
 	min-height: 500px;
 	background-color: rgb(250,250,250);
@@ -136,4 +136,8 @@ body{
 
 .bblue {
 	background-color: blue;
+}
+
+#searchJob{
+	width: 200px;
 }

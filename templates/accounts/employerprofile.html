@@ -6,37 +6,6 @@
 	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
 	<style type="text/css">
-	.rslides {
-  position: relative;
-  list-style: none;
-  overflow: hidden;
-  width: 100%;
-  padding: 0;
-  margin: 0;
-  }
-
-.rslides li {
-  -webkit-backface-visibility: hidden;
-  position: absolute;
-  display: none;
-  width: 100%;
-  left: 0;
-  top: 0;
-  }
-
-.rslides li:first-child {
-  position: relative;
-  display: block;
-  float: left;
-  }
-
-.rslides img {
-  display: block;
-  height: auto;
-  float: left;
-  width: 100%;
-  border: 0;
-  }
 		.profile.employer {
 			padding: 20px 30px;
 		}
@@ -73,8 +42,10 @@
 		.profile.employer .slideshow{
 			float: left;
 			width: 350px;
+			height: 200px;
 			margin-left: 40px;
-			box-shadow: 0 0 20px;
+			/*box-shadow: 0 0 20px;*/
+			background-color: transparent;
 			/*border-radius: 30px;*/
 		}
 
@@ -83,15 +54,17 @@
 
 		.profile.employer .bottomseg {
 			clear: both;
-			padding-top: 30px;
+			padding-top: 80px;
 		}
 
 		.profile.employer .bottomseg .pages{
-			width: 700px;
+			/*width: 700px;*/
 		}
 
 		.profile.employer .bottomseg .pages .page{
 			padding: 30px 30px;
+			height: 500px;
+			overflow-y: auto;
 			display: none;
 		}
 
@@ -143,18 +116,19 @@
 		<div class="bottomseg">
 			<div class="pages">
 				<div class="ui attached tabular menu">
-					{% for page in profile.user.pages.all %}
+					{% for page in pages %}
 						<a class="item {{ page.id }} {% if forloop.first %} active {% endif %}" data-page-id="{{ page.id }}">
 							{{ page.title }}
 						</a>
 					{% endfor %}
 				</div>
-				{% for page in profile.user.pages.all %}
-					<div class="page {{ page.id }} {% if forloop.first %} active {% endif %}">
+				{% for page in pages %}
+					<div class="ui attached bottom segment page {{ page.id }} {% if forloop.first %} active {% endif %}">
 						{{ page.content }}
 					</div>
 				{% endfor %}
 		</div>
+		
 	</div>
 {% endblock page %}
 
@@ -168,7 +142,7 @@
 			});
 
 			$('.pages .menu .item').click(function(){
-				var page_id = %(this).attr('data-page-id');
+				var page_id = $(this).attr('data-page-id');
 				$('.pages .item').removeClass('active');
 				$(this).addClass('active');
 

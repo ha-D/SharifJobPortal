@@ -2,18 +2,20 @@ from django.contrib.auth.views 		import login, logout
 from django.shortcuts            	import render, render_to_response
 from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
-from django.http                 	import HttpResponse, HttpResponseRedirect
+from django.http                 	import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.models 	import User
 from django.views.decorators.csrf   import csrf_exempt
+from django.utils.safestring        import SafeText
 from django.conf 					import settings
 
 from utils.functions                import template, json_response, ajax_template
 from accounts.decorators            import user_required, employer_required, jobseeker_required
-from accounts.models                import CompanyImage, PersonalPage
+from accounts.models                import CompanyImage, PersonalPage, Employer, JobSeeker
 from accounts.forms                 import *
 from social_network.models          import *
 from jobs.models                    import JobOffer
 
+from markdown                       import markdown
 
 def mylogin(request):
     if request.user.is_authenticated():
@@ -113,6 +115,7 @@ def userpanel_changecompanyinfo(request):
     context['images'] = list(request.userprofile.images.all())
     context['compform'] = compform
     context['userform'] = userform
+    context['site_url'] = settings.SITE_URL
 
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
 
@@ -200,3 +203,13 @@ def userpanel_changecompanyinfo_zedit(request):
     except Error as e:
         print(e)
         return json_response({'result': 'fail'})
+
+
+def profile_employer(request, username):
+    employer = Employer.objects.get(user__username = username)
+    pages = list(employer.user.pages.all())
+    for page in pages:
+        page.content = SafeText(markdown(page.content))
+    return render(request, 'accounts/employerprofile.html', {'profile': employer, 'pages': pages})
+
+
