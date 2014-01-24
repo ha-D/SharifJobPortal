@@ -1,5 +1,5 @@
 from django.conf.urls import patterns, url
-from jobs.views import applyJob, refuseJob, acceptOffer, rejectOffer, deleteJob
+from jobs.views import applyJob, refuseJob, acceptOffer, rejectOffer, deleteJob, editJob
 
 urlpatterns = patterns('',
     url(r'apply/(?P<jobid>\d+)$', applyJob),

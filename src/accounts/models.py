@@ -1,5 +1,4 @@
 #coding=utf-8
-
 from django.db                      import models
 from django.contrib.auth.models     import User
 from django.utils.safestring import mark_safe
@@ -27,6 +26,9 @@ class UserProfile(PolymorphicModel):
 
     def is_jobseeker(self):
         pass
+
+    def full_name(self):
+        return '%s %s' % (self.user.first_name, self.user.last_name)
 
     def is_employer(self):
         return not self.is_jobseeker()
@@ -88,7 +90,6 @@ class Employer(UserProfile):
 
 class JobSeeker(UserProfile):
     birthDate = models.DateField(null=True, blank=True)
-
     MALE = 0
     FEMALE = 1
     SEX_CHOICES = (
@@ -110,12 +111,15 @@ class JobSeeker(UserProfile):
     cv = models.FileField(upload_to="cv", null=True, blank=True)
     
 
+    friends = models.ManyToManyField('JobSeeker' , through='social_network.FriendShip' , related_name='friends2')
     def __unicode__(self):
         return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
 
-
     def is_jobseeker(self):
         return True
+
+
+
 
 class PersonalPage(models.Model):
     aboutMe = models.TextField(max_length=3000)
