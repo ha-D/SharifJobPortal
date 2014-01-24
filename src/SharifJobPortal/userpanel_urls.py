@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.contrib.auth.models import User
 from accounts.views import userpanel_main
-from social_network.views import userpanel_inbox, userpanel_inbox_list, userpanel_message, userpanel_send_message, userpanel_sendEmail , userpanel_friends
+from social_network.views import *
 
 urlpatterns = patterns('',
                        url(r'^$', userpanel_main),
@@ -10,5 +10,7 @@ urlpatterns = patterns('',
                        url(r'^inbox/list/$', userpanel_inbox_list),
                        url(r'^inbox/$', userpanel_inbox),
                        url(r'^inbox/send/sendEmail', userpanel_sendEmail),
-                       url(r'^friends' , userpanel_friends),
+                       url(r'^friends/$', userpanel_friends),
+                       url(r'friends/search$', userpanel_searchFriend),
+                       url(r'friends/requestFriendShip$' , userpanel_requestFriendShip),
 )

@@ -5,6 +5,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from jobs.models import JobOpportunity
 from accounts.models import *
+from django.contrib.contenttypes.models import ContentType
 
 
 class Message(models.Model):
@@ -69,6 +70,73 @@ class RateForEmployer(models.Model):
     )
 
     feature = models.PositiveSmallIntegerField(choices=FEATURE_CHOICES, default=SALARY)
+
+class FriendShip(models.Model):
+    jobSeeker1 = models.ForeignKey(JobSeeker , related_name='requestedFriendShips') #kasi ke invite karde :D
+    jobSeeker2 = models.ForeignKey(JobSeeker , related_name='invitedFriendShips')  #kasi ke invite shode!
+    start_date = models.DateTimeField(auto_now_add=True)
+
+    PENDING = 0
+    ACCEPTED = 1
+    FRIENDSHIP_STATUS_CHOICES = (
+        (PENDING, 'معلق'),
+        (ACCEPTED, 'پذیرفته شده'),
+    )
+    status = models.PositiveSmallIntegerField(choices=FRIENDSHIP_STATUS_CHOICES, default=PENDING)
+
+
+class Event(models.Model):
+
+    time = models.DateTimeField(auto_now_add=True)
+    initial_user = models.ForeignKey(JobSeeker)
+
+    COMMENT_ON_EMPLOYER = 0
+    COMMENT_ON_JOB = 1
+    FRIENDSHIP = 2
+    JOB_OFFER = 3
+    JOB_ACCEPT = 4
+    EVENT_TYPE = (
+        (COMMENT_ON_EMPLOYER, 'نظر به کارفرما'),
+        (COMMENT_ON_JOB, 'نظر به فرصت شغلی'),
+        (FRIENDSHIP, 'دوست شدن'),
+        (JOB_OFFER, 'درخواست فرصت شغلی'),
+        (JOB_ACCEPT, 'قبول فرصت شغلی'),
+    )
+    type = models.PositiveSmallIntegerField(choices=EVENT_TYPE)
+
+
+class Event_CommentOnEmployer(Event):
+
+    comment = models.ForeignKey(CommentOnEmployer)
+
+    def __init__(self , *args , **kwargs):
+        super(Event_CommentOnEmployer , self).__init__(*args , **kwargs)
+        self.type = Event.COMMENT_ON_EMPLOYER
+
+
+class Event_CommentOnOpportunity(Event):
+    comment = models.ForeignKey(CommentOnOpportunity)
+
+    def __init__(self , *args , **kwargs):
+        super(Event_CommentOnOpportunity , self).__init__(*args , **kwargs)
+        self.type = Event.COMMENT_ON_JOB
+
+
+class Event_FriendShip(Event):
+    friendShip = models.ForeignKey(FriendShip)
+
+    def __init__(self, *args, **kwargs):
+        super(Event_FriendShip, self).__init__(*args, **kwargs)
+        self.type = Event.FRIENDSHIP
+
+    def summery(self):
+        return dict(
+            first = self.friendShip.jobSeeker1.full_name(),
+            second = self.friendShip.jobSeeker2.full_name(),
+            type=self.type,
+            text = self.friendShip.jobSeeker1.full_name() + ' donbal mikone faaliataye '  + self.friendShip.jobSeeker2.full_name() + " ro :D ",
+            time = self.time
+        )
 
 
 

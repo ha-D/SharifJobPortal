@@ -4,6 +4,7 @@ from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
 from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
+from social_network.models          import *
 
 from utils.functions		 		import template, json_response, ajax_template
 from accounts.decorators 			import user_required
@@ -179,8 +180,23 @@ def userpanel(request):
 
 @user_required
 def userpanel_main(request):
+
+    def getEvent(e):
+        if e.type == Event.COMMENT_ON_EMPLOYER:
+            return Event_CommentOnEmployer.objects.get(pk=e.pk)
+        elif e.type == Event.COMMENT_ON_JOB:
+            return Event_CommentOnOpportunity.objects.get(pk=e.pk)
+        elif e.type == Event.FRIENDSHIP:
+            return Event_FriendShip.objects.get(pk=e.pk)
+
     if request.userprofile.is_jobseeker():
-        return template(request, 'userpanel/jobseeker/main.html')
+        events = Event.objects.all();
+        events = [ getEvent(e).summery() for e in events]
+        print(events)
+
+
+
+        return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})
     elif request.userprofile.is_employer():
         return template(request, 'userpanel/employer/main.html')    
         
