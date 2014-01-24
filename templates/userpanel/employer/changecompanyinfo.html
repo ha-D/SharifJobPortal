@@ -8,74 +8,60 @@
 
 {% block content %}
 <div id="companyinfoform">
-	<h3 class="formheader">مشخصات کاربری</h3>
-	<div id="userinfoform" class="ui small form userinfo formpart">
-		<form method="post" enctype="multipart/form-data">
-			{% csrf_token %}
-			<input type="hidden" name="formtype" value="userinfo">
-			<div class="two fields">
-				{{userform.first_name|semfield}}
-				{{userform.last_name|semfield}}
-			</div>
-			<div class="two fields">
-				{{userform.email|semfield}}
-				{{userform.phoneNumber|semfield}}
-			</div>
-			<div class="two fields">
-				{{userform.address|semfield}}
-				{{userform.postalCode|semfield}}
-			</div>
-			<div class="two fields">
-				{{userform.city|semfield}}
-				<div class="small field">
-					<label for="id_image">عکس</label>
-					<input type="file" id="id_image" name="image">
-					{% if user.userprofile.image %}
-						<img class="profilepic" src="/media/{{user.userprofile.image}}">
-					{% else %}
-						<img class="profilepic" src="/static/images/profilepic.png">
-					{% endif %}
+	{% if state == 'success' %}
+		<div class="change success">
+			تغییرات با موفقیت ثبت شد
+		</div>
+	{% endif %}
+	<form method="post" enctype="multipart/form-data">
+		<h3 class="formheader">مشخصات کاربری</h3>
+		<div id="userinfoform" class="ui small form userinfo formpart">
+				{% csrf_token %}
+				<div class="two fields">
+					{{userform.first_name|semfield}}
+					{{userform.last_name|semfield}}
+				</div>
+				<div class="two fields">
+					{{userform.email|semfield}}
+					{{userform.phoneNumber|semfield}}
+				</div>
+				<div class="two fields">
+					{{userform.address|semfield}}
+					{{userform.postalCode|semfield}}
+				</div>
+				<div class="two fields">
+					{{userform.city|semfield}}
+					<div class="small field">
+						<label for="id_image">عکس</label>
+						<input type="file" id="id_image" name="image">
+						{% if user.userprofile.image %}
+							<img class="profilepic" src="/media/{{user.userprofile.image}}">
+						{% else %}
+							<img class="profilepic" src="/static/images/profilepic.png">
+						{% endif %}
+					</div>	
 				</div>	
-			</div>	
-			
-			<button class="ui small blue submit button" type="submit">ثبت</button>
+		</div>
 
-			{% if userform_state == 'success' %}
-				<div class="change success">
-					تغییرات با موفقیت ثبت شد
+
+		<h3>مشخصات شرکت</h3>
+		<div class="ui basic small form segment formpart companyinfo">
+				<div class="two fields">
+					{{compform.companyName|semfield}}
+					{{compform.companyType|semfield}}
 				</div>
-			{% endif %}
-		</form>
-	</div>
-
-
-	<h3>مشخصات شرکت</h3>
-	<div class="ui basic small form segment formpart companyinfo">
-		<form method="post">
-			{% csrf_token %}
-			<input type="hidden" name="formtype" value="companyinfo">
-			<div class="two fields">
-				{{compform.companyName|semfield}}
-				{{compform.companyType|semfield}}
-			</div>
-			<div class="two fields">
-				{{compform.registrationNumber|semfield}}
-				{{compform.establishDate|semfield}}
-			</div>
-			<div class="two fields">
-				{{compform.webSite|semfield}}
-				{{compform.contactEmail|semfield}}
-			</div>
-
-			<button class="ui small blue submit button" type="submit">ثبت</button>
-
-			{% if companyform_state == 'success' %}
-				<div class="change success">
-					تغییرات با موفقیت ثبت شد
+				<div class="two fields">
+					{{compform.registrationNumber|semfield}}
+					{{compform.establishDate|semfield}}
 				</div>
-			{% endif %}
-		</form>
-	</div>
+				<div class="two fields">
+					{{compform.webSite|semfield}}
+					{{compform.contactEmail|semfield}}
+				</div>
+
+				<button class="ui small blue submit button" type="submit">ثبت</button>
+		</div>
+	</form>
 
 	<h3>عکس‌های شرکت</h3>
 	<div class="ui basic segment formpart imageupload">

@@ -215,6 +215,8 @@
 }
 
 #userpanel .change.success {
+	margin-top: 10px;
+	font-size: 16px;
 	color: green;
 }
 

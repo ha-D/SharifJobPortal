@@ -32,8 +32,9 @@ def userpanel_main(request):
     elif request.userprofile.is_employer():
         return template(request, 'userpanel/employer/main.html')
 
-@user_required
-def userpanel_changeinfo(request):
+
+@user_required #OBSOLETE
+def userpanel_changeinfo_old(request):
     context = {}
     if request.method == 'POST':
         form = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
@@ -50,21 +51,16 @@ def userpanel_changeinfo(request):
 def userpanel_changecompanyinfo(request):
     context = {}
     if request.method == 'POST':
-        if request.POST['formtype'] == 'userinfo':
-            userform = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
-            compform = ChangeCompanyInfoForm(instance = request.userprofile)
-            if userform.is_valid():
-                userform.save()
-                context['userform_state'] = 'success'
-
-        elif request.POST['formtype'] == 'companyinfo':
-            compform = ChangeCompanyInfoForm(request.POST, instance=request.userprofile)
-            userform = ChangeUserInfoForm(instance = request.userprofile)
-            if compform.is_valid():
-                compform.save()
-                context['companyform_state'] = 'success'
-            else:
-                print(compform.errors)
+        userform = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
+        compform = ChangeCompanyInfoForm(request.POST, instance=request.userprofile)
+        if userform.is_valid() and compform.is_valid():
+            userform.save()
+            compform.save()
+            context['state'] = 'success'
+        else:
+            print(compform.errors)
+            print(userform.errors)
+            print("SHIT")
     else:
         userform = ChangeUserInfoForm(instance = request.userprofile)
         compform = ChangeCompanyInfoForm(instance = request.userprofile)
@@ -74,6 +70,14 @@ def userpanel_changecompanyinfo(request):
     context['userform'] = userform
 
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
+
+
+@user_required
+def userpanel_changeinfo(request):
+    if request.userprofile.is_employer():
+        return userpanel_changecompanyinfo(request)
+    else:
+        return userpanel_changejobseekerinfo(request)
 
 @csrf_exempt
 def userpanel_changecompanyinfo_uploadimage(request):

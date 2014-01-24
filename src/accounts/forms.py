@@ -10,6 +10,7 @@ from markitup.widgets import MarkItUpWidget
 class ChangeCompanyInfoForm(forms.ModelForm):
 	class Meta:
 		model = Employer
+		exclude = ('user',)
 
 class CompanyImageUploadForm(forms.ModelForm):
 	class Meta:
