@@ -6,10 +6,12 @@ from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
 from social_network.models          import *
 
+from jobs.models import JobOffer
 from utils.functions		 		import template, json_response, ajax_template
-from accounts.decorators 			import user_required
+from accounts.decorators 			import user_required, jobseeker_required
 from accounts.forms                	import *
 from django.conf 					import settings
+
 
 JOBSEEKER_SESSION = 'register_jobseeker'
 EMPLOYER_SESSION = 'register_employer'
@@ -198,5 +200,18 @@ def userpanel_main(request):
 
         return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})
     elif request.userprofile.is_employer():
-        return template(request, 'userpanel/employer/main.html')    
-        
+        return template(request, 'userpanel/employer/main.html')
+
+@user_required
+def userpanel_jobs(request):
+    if request.userprofile.is_jobseeker():
+        return jobseeker_jobs(request)
+    elif request.userprofile.is_employer():
+        return template(request, 'userpanel/employer/jobs.html')
+
+@jobseeker_required
+def jobseeker_jobs(request):
+    user = request.userprofile
+    offers_by_jobseeker = JobOffer.objects.filter(jobSeeker=user, mode=0).order_by('-date')
+    offers_by_employer = JobOffer.objects.filter(jobSeeker=user, mode=1).order_by('-date')
+    return template(request, 'userpanel/jobseeker/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})

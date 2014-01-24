@@ -1,0 +1,100 @@
+{% extends 'userpanel/userpanel.html' %}
+{% load staticfiles %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jobs.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="ui small purple feed raised segment eventlist">
+        <h4 class="ui header">
+            موقعیت‌های شغلی که شما درخواست داده‌اید.
+        </h4>
+
+        <div class="ui divider"></div>
+        {% for o in offers_by_jobseeker %}
+            <div class="event">
+                <div class="label">
+                    <img src="{% if o.jobOpportunity.user.image %}{{ o.jobOpportunity.user.image.url }}{% else %}{% static 'images/noimage.jpg' %}{% endif %}">
+                </div>
+                <div class="content">
+                    <div class="date">
+                        <div>
+                            {{ o.date }}
+                        </div>
+                        {% ifequal o.state 2 %}
+                            <div id="refuseButton{{ o.jobOpportunity.id }}" class="ui small red button"
+                                 onclick="refuseJob({{ o.jobOpportunity.id }})">
+                                لغو درخواست
+                            </div>
+                            <div id="applyButton{{ o.jobOpportunity.id }}" class="ui small green button"
+                                 onclick="applyJob({{ o.jobOpportunity.id }})" style="display: none">
+                                ارسال درخواست
+                            </div>
+                        {% endifequal %}
+                    </div>
+                    <div class="summary">
+                        موقعیت شغلی {{ o.jobOpportunity.name }} از شرکت {{ o.jobOpportunity.user.companyName }}
+                    </div>
+                    <div class="extra text">
+                        درخواست در وضعیت {{ o.get_state_display }} قرار دارد.
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="event">
+                <div class="content" style="padding-right: 50px">
+                    <div class="summary">
+                        تا کنون هیچ درخواستی از طرف شما ثبت نشده است.
+                    </div>
+                    <div class="extra text">
+                        می‌توانید با جستجوی موقعیت‌های شغلی برای آنها درخواست ارسال کنید.
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if offers_by_employer %}
+        <div class="ui small purple feed raised segment eventlist">
+            <h4 class="ui header">
+                موقعیت‌های شغلی که کارفرمایان به شما پیشنهاد داده‌اند.
+            </h4>
+
+            <div class="ui divider"></div>
+            {% for o in offers_by_employer %}
+                <div class="event">
+                    <div class="label">
+                        <img src="{% if o.jobOpportunity.user.image %}{{ o.jobOpportunity.user.image.url }}{% else %}{% static 'images/noimage.jpg' %}{% endif %}">
+                    </div>
+                    <div class="content">
+                        <div class="date">
+                            <div>
+                                {{ o.date }}
+                            </div>
+                            <div id="bothButtons{{ o.id }}" class="ui buttons" {% ifnotequal o.state 2 %}style="display: none"{% endifnotequal %}>
+                                <div class="ui positive button" onclick="acceptOffer({{ o.id }})">قبول</div>
+                                <div class="ui red button" onclick="rejectOffer({{ o.id }})">رد</div>
+                            </div>
+                            <div id="acceptText{{ o.id }}" class="ui green icon" {% ifnotequal o.state 0 %}style="display: none"{% endifnotequal %}>
+                                <i class="icon checkmark"></i>
+                                این پیشنهاد پذیرفته شده است.
+                            </div>
+                            <div id="rejectText{{ o.id }}" class="ui icon" {% ifnotequal o.state 1 %}style="display: none"{% endifnotequal %}>
+                                <i class="icon ban circle"></i>
+                                این پیشنهاد رد شده است.
+                            </div>
+                        </div>
+                        <div class="summary">
+                            موقعیت شغلی {{ o.jobOpportunity.name }} از شرکت {{ o.jobOpportunity.user.companyName }}
+                        </div>
+                        <div class="extra text">
+                            درخواست در وضعیت {{ o.get_state_display }} قرار دارد.
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}

@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 from jobs.models import JobOpportunity
 from accounts.models import *
 from django.contrib.contenttypes.models import ContentType
+from django.db 				import models
+from django.contrib.auth.models     import User
+from jobs.models					import JobOpportunity
+from accounts.models				import *
 
 
 class Message(models.Model):

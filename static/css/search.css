@@ -31,7 +31,7 @@
 }
 
 #tag-search-input{
-	width: 220px;
+	width: 200px;
 }
 
 #main .tag-search-input-parent{
@@ -87,6 +87,35 @@
 	margin-top: 10px;
 }
 
+.scoreboard{
+	margin-left: 6px;
+	margin-bottom: 7px;
+}
+
+#main .small.rating{
+	margin-right: 30px;
+	margin-top: 6px;
+}
+
+.modal img{
+	width: 150px;
+	float: right;
+	margin-top: 25px;
+}
+
+#companyList{
+	float: right;
+	margin-right: 25px;
+}
+
+#opList{
+	float: right;
+	margin-right: 150px;
+}
+
+#sex-one{
+	margin-left: -5px;
+}
 .clearfix{
 	clear: both;
 }

@@ -28,7 +28,7 @@ def employer_required(function):
     def wrap(request, *args, **kwargs):
         if not request.user.is_authenticated():
             return redirect_to_login(request.get_full_path())
-        elif not instanceof(request.user.userprofile, Employer):
+        elif not request.user.userprofile.is_employer():
             raise Http404
         else:
             return function(request, *args, **kwargs)
@@ -40,7 +40,7 @@ def jobseeker_required(function):
     def wrap(request, *args, **kwargs):
         if not request.user.is_authenticated():
             return redirect_to_login(request.get_full_path())
-        elif not instanceof(request.user.userprofile, JobSeeker):
+        elif not request.user.userprofile.is_jobseeker():
             raise Http404
         else:
             return function(request, *args, **kwargs)
