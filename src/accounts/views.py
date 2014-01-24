@@ -6,7 +6,7 @@ from django.http                 	import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models 	import User
 from jobs.models import JobOffer
 from utils.functions		 		import template, json_response, ajax_template
-from accounts.decorators 			import user_required, jobseeker_required
+from accounts.decorators 			import user_required, jobseeker_required, employer_required
 from accounts.forms                	import *
 from django.conf 					import settings
 
@@ -189,7 +189,7 @@ def userpanel_jobs(request):
     if request.userprofile.is_jobseeker():
         return jobseeker_jobs(request)
     elif request.userprofile.is_employer():
-        return template(request, 'userpanel/employer/jobs.html')
+        return employer_jobs(request)
 
 @jobseeker_required
 def jobseeker_jobs(request):
@@ -197,3 +197,10 @@ def jobseeker_jobs(request):
     offers_by_jobseeker = JobOffer.objects.filter(jobSeeker=user, mode=0).order_by('-date')
     offers_by_employer = JobOffer.objects.filter(jobSeeker=user, mode=1).order_by('-date')
     return template(request, 'userpanel/jobseeker/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+
+@employer_required
+def employer_jobs(request):
+    user = request.userprofile
+    offers_by_jobseeker = JobOffer.objects.filter(jobOpportunity__user=user, mode=0).order_by('-date')
+    offers_by_employer = JobOffer.objects.filter(jobOpportunity__user=user, mode=1).order_by('-date')
+    return template(request, 'userpanel/employer/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})

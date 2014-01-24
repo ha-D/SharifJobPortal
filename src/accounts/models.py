@@ -2,6 +2,7 @@
 
 from django.db                      import models
 from django.contrib.auth.models     import User
+from django.utils.safestring import mark_safe
 
 from polymorphic                    import PolymorphicModel
 # from social_network.models          import RateForEmployer
@@ -78,7 +79,8 @@ class Employer(UserProfile):
         return int(round(frate))
     rate = property(_get_rate)
 
-        
+    def __unicode__(self):
+        return mark_safe('<a href="">' + self.companyName + '</a>')
 
     def is_jobseeker(self):
         return False
@@ -107,6 +109,10 @@ class JobSeeker(UserProfile):
 
     cv = models.FileField(upload_to="cv", null=True, blank=True)
     
+
+    def __unicode__(self):
+        return mark_safe('<a href="">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
+
 
     def is_jobseeker(self):
         return True

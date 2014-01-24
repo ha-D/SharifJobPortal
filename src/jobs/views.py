@@ -30,6 +30,7 @@ def refuseJob(request, jobid):
 def acceptOffer(request, offerid):
     offer = JobOffer.objects.get(id = offerid)
     offer.state = 0
+    offer.offerDate = datetime.now()
     offer.save()
     return json_response({})
 
