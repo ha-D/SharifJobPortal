@@ -1,6 +1,6 @@
 from django.views.decorators.csrf   import csrf_exempt
 from utils.functions 	import json_response
-from markdown 			import markdown
+from markdown import markdown
 
 
 @csrf_exempt

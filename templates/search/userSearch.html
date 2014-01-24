@@ -1,0 +1,148 @@
+{% extends "page.html" %}
+{% load staticfiles %}
+
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
+{% endblock style %}
+
+{% block script %}
+<script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/search/seeker-search.js' %}"></script>
+
+{% endblock script %}
+
+
+{% block page %}
+	<div class="ui grid" id="main">
+		<div class="four wide column">
+			<h4 class="ui top attached inverted red header">
+			  مهارت‌ها
+			</h4>
+			<div class="ui segment attached" id="side-segment">
+				{% for s in skills %}
+				<div class="ui label skill-tag">
+					<i class="delete icon"></i>
+				  	{{s}}
+				</div>
+				{% endfor %}
+				
+				<div class="ui horizontal divider" id="tag-divider">
+				  <i class="add sign icon" id="add-sign"></i>
+				</div>
+
+				<div class="tag-search-input-parent">
+					<div class="ui small icon input" id="tag-search-input">
+					  <input type="text" placeholder="جستجوی مهارت...">
+					  <i class="search icon"></i>
+					</div>
+				</div>
+
+				<div class="ui animated list" id="tag-search-list">
+					{% for sr in skill_result %}
+				  	<a class="item tag-link">
+				    <i class="add icon add-tag-icon"></i>
+				    {{sr.name}}
+				  	</a>
+				  	{% endfor %}
+				  
+				</div>
+				
+			</div>
+		</div>
+		<div class="ten wide column" id="search-results">
+			<h4 class="ui top attached inverted black header">
+			  نتایج جستجو
+			</h4>
+			<div class="ui segment attached">
+
+				{% for op in search_result %}
+
+				<div class="ui grid opportunity">
+					<a href="#"><h4 class="ui header user-header">{{op.user.username}}</h4></a>
+					<div class="four wide column userImage">
+						<img src={{op.image.url}}/>
+					</div>
+					<div class="six wide column user-info">
+						
+						<div class="ui list">
+						  <div class="item">
+						    <i class="User icon"></i>
+						    {{ op.user.first_name}} {{op.user.last_name}}
+						  </div>
+						  
+						  <div class="item">
+						    <i class="{% if op.sex == 0 %} male {% else %} female {% endif %} icon"></i>
+						    {{op.get_sex_display}}
+						  </div>
+						  <div class="item">
+						    <i class="info icon"></i>
+						    {{op.get_job_status_display}}
+						  </div>
+						  <div class="item">
+						    <i class="mail icon"></i>
+						    {{op.user.email}}
+						  </div>
+						  
+
+						</div>
+					</div>
+					<div class="five wide column opp-action">
+						<div class="ui green vertical animated button opp-request" >
+						  <div class="hidden content" >
+						  	<i class="large mail icon"></i>
+						  </div>
+						  <div class="visible content">
+						    ارسال پیام
+						  </div>
+						</div>
+
+						<div class="ui teal button opp-more">
+						    صفحه کاربری
+						</div>
+					</div>
+					<ul class="op-info" style="display:none">
+						<!-- <li>{{op.sex}}</li>
+						<li>{{op.baseSalary}}</li>
+						<li>{{op.number}}</li>
+						<li>{{op.expireDate}}</li>
+
+						<li>{{op.user.companyName}}</li>	
+						<li>{{op.user.companyType}}</li>
+						<li>{{op.user.contactEmail}}</li>
+						<li>{{op.user.phoneNumber}}</li>
+						<li>{{op.user.webSite}}</li>
+						<li>{{op.user.address}}</li>
+						<li>{% if op.user.image %}{{op.user.image.url}}{% endif %}</li>
+						<li>{{op.id}}</li>
+						<li class="compId">{{op.user.id}}</li>
+						<li> {{op.opSkills.all | join:" "}}</li> -->
+					</ul>
+				</div>
+				<div class="ui divider"></div>
+
+				{% endfor %}
+
+
+
+			</div>
+			<div class="ui pagination menu" id="opp-pagination">
+				{% if pre %}
+				  <a class="icon item">
+				    <i class="icon left arrow"></i>
+				  </a>
+				 {% endif %}
+				 {% for page in pages %}
+				  <a class="{% if page == curPage %} active {% endif %} item pagination-item">
+				    {{page}}
+				  </a>
+			  		{% endfor %}
+			  
+			  {% if next %}
+			  <a class="icon item">
+			    <i class="icon right arrow"></i>
+			  </a>
+			  {% endif %}
+			</div>
+		</div>
+	</div>
+{% endblock page %}

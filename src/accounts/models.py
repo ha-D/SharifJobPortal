@@ -99,9 +99,9 @@ class JobSeeker(UserProfile):
     FULL_TIME = 1
     UNEMPLOYED = 2
     JOB_STATUS_CHOICES = (
-        (PART_TIME , 'پاره وقت'),
-        (FULL_TIME , 'تمام وقت'),
-        (UNEMPLOYED , 'بیکار'),
+        (PART_TIME , u'پاره وقت'),
+        (FULL_TIME , u'تمام وقت'),
+        (UNEMPLOYED , u'بیکار'),
     )
     job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True)
 

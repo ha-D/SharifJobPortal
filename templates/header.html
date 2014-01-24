@@ -1,12 +1,17 @@
 <div id="top-menu" class="ui fixed transparent inverted main menu">
     <div class="left menu">
 
+
         <div class="ui small icon input rtl searchbox">
+            <div id = 'search-type' class="ui tiny {% if not user.is_authenticated %} disabled {% endif %} button" name='0'>فرصت شغلی</div>
             <input id="searchJob" type="text" placeholder="جستجو شغل...">
+
             <i id = "searchJobIcon" class="search icon"></i>
+
         </div>
 
     </div>
+
     <div class="right menu">
         {% if user.is_authenticated %}
             <a class="item">

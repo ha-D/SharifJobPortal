@@ -116,6 +116,18 @@
 #sex-one{
 	margin-left: -5px;
 }
+
+.userImage img{
+	width: 120px;
+}
+
+#main .user-info{
+	margin-right: 0px;
+}
+
+#main .user-header{
+	margin-right: 20px;
+}
 .clearfix{
 	clear: both;
 }

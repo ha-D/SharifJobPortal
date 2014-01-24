@@ -8,7 +8,7 @@ from django.http		 		import HttpResponse
 import math
 
 def opSearch(request):
-	pageSize = 3
+	pageSize = 5
 	curPage = 1
 	user = request.user
 	param = request.GET
@@ -67,8 +67,14 @@ def opSearch(request):
 	if  pageNum <= 5:
 		pages = [str(i + 1) for i in range(pageNum)]
 	else:
-		base = (curPage / 3) * 3 + 1
-		pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
+		if curPage % 3 == 0:
+			base = curPage - 2
+		else:
+			base = (curPage / 3) * 3 + 1
+		if pageNum - curPage < 3:
+			pages = ['1', '...', str(pageNum - 2), str(pageNum - 1), str(pageNum)]
+		else:
+			pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
 
 	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
 	return render(request, 'search/opSearch.html', context)
@@ -144,4 +150,62 @@ def updateRate(request):
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
 def userSearch(request):
-	pass
+	pageSize = 5
+	curPage = 1
+	param = request.GET
+	query = param.get('q') or ""
+	print('query', query)
+	skills = []
+	try:
+		skills = json.loads(param.get('sk'))
+	except Exception as ex:
+		print('ok')
+		# print(type(ex).__name__)
+		# print(ex.args)	
+
+	try:
+		curPage = int(param.get('page'))
+	except Exception as ex:
+		print type(ex).__name__
+		print ex.args
+		curPage = 1
+
+	if curPage < 1:
+		curPage = 1
+
+	print("skills", skills)
+	print('curPage', curPage)
+
+	
+	search_result = search.user(query, skills)
+	start = (curPage - 1) * pageSize
+	next = True
+	pre = False
+	count = len(search_result)
+
+	if count < start + 1:
+		search_result = search_result[0:pageSize]
+	else:
+		search_result = search_result[start:start+pageSize]
+		if curPage > 1:
+			pre = True
+		if count <= curPage * pageSize:
+			next = False
+
+
+	pageNum = int(math.ceil((count + 0.0) / pageSize))
+	pages = []
+	if  pageNum <= 5:
+		pages = [str(i + 1) for i in range(pageNum)]
+	else:
+		if curPage % 3 == 0:
+			base = curPage - 2
+		else:
+			base = (curPage / 3) * 3 + 1
+		if pageNum - curPage < 3:
+			pages = ['1', '...', str(pageNum - 2), str(pageNum - 1), str(pageNum)]
+		else:
+			pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
+
+	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
+	return render(request, 'search/userSearch.html', context)
