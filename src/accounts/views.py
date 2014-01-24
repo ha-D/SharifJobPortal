@@ -50,14 +50,29 @@ def userpanel_changeinfo(request):
 def userpanel_changecompanyinfo(request):
     context = {}
     if request.method == 'POST':
-        form = ChangeCompanyInfoForm(request.POST, instance=request.userprofile)
-        if form.is_valid():
-            form.save()
-            context['state'] = 'success'
+        if request.POST['formtype'] == 'userinfo':
+            userform = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
+            compform = ChangeCompanyInfoForm(instance = request.userprofile)
+            if userform.is_valid():
+                userform.save()
+                context['userform_state'] = 'success'
+
+        elif request.POST['formtype'] == 'companyinfo':
+            compform = ChangeCompanyInfoForm(request.POST, instance=request.userprofile)
+            userform = ChangeUserInfoForm(instance = request.userprofile)
+            if compform.is_valid():
+                compform.save()
+                context['companyform_state'] = 'success'
+            else:
+                print(compform.errors)
     else:
-        form = ChangeCompanyInfoForm(instance = request.userprofile)
+        userform = ChangeUserInfoForm(instance = request.userprofile)
+        compform = ChangeCompanyInfoForm(instance = request.userprofile)
+
     context['images'] = list(request.userprofile.images.all())
-    context['form'] = form
+    context['compform'] = compform
+    context['userform'] = userform
+
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
 
 @csrf_exempt

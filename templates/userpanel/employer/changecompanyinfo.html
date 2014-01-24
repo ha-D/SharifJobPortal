@@ -8,26 +8,68 @@
 
 {% block content %}
 <div id="companyinfoform">
-	<h3>مشخات</h3>
-	<div class="ui basic small form segment formpart basicinfo">
+	<h3 class="formheader">مشخصات کاربری</h3>
+	<div id="userinfoform" class="ui small form userinfo formpart">
+		<form method="post" enctype="multipart/form-data">
+			{% csrf_token %}
+			<input type="hidden" name="formtype" value="userinfo">
+			<div class="two fields">
+				{{userform.first_name|semfield}}
+				{{userform.last_name|semfield}}
+			</div>
+			<div class="two fields">
+				{{userform.email|semfield}}
+				{{userform.phoneNumber|semfield}}
+			</div>
+			<div class="two fields">
+				{{userform.address|semfield}}
+				{{userform.postalCode|semfield}}
+			</div>
+			<div class="two fields">
+				{{userform.city|semfield}}
+				<div class="small field">
+					<label for="id_image">عکس</label>
+					<input type="file" id="id_image" name="image">
+					{% if user.userprofile.image %}
+						<img class="profilepic" src="/media/{{user.userprofile.image}}">
+					{% else %}
+						<img class="profilepic" src="/static/images/profilepic.png">
+					{% endif %}
+				</div>	
+			</div>	
+			
+			<button class="ui small blue submit button" type="submit">ثبت</button>
+
+			{% if userform_state == 'success' %}
+				<div class="change success">
+					تغییرات با موفقیت ثبت شد
+				</div>
+			{% endif %}
+		</form>
+	</div>
+
+
+	<h3>مشخصات شرکت</h3>
+	<div class="ui basic small form segment formpart companyinfo">
 		<form method="post">
 			{% csrf_token %}
+			<input type="hidden" name="formtype" value="companyinfo">
 			<div class="two fields">
-				{{form.companyName|semfield}}
-				{{form.companyType|semfield}}
+				{{compform.companyName|semfield}}
+				{{compform.companyType|semfield}}
 			</div>
 			<div class="two fields">
-				{{form.registrationNumber|semfield}}
-				{{form.establishDate|semfield}}
+				{{compform.registrationNumber|semfield}}
+				{{compform.establishDate|semfield}}
 			</div>
 			<div class="two fields">
-				{{form.webSite|semfield}}
-				{{form.contactEmail|semfield}}
+				{{compform.webSite|semfield}}
+				{{compform.contactEmail|semfield}}
 			</div>
 
 			<button class="ui small blue submit button" type="submit">ثبت</button>
 
-			{% if state == 'success' %}
+			{% if companyform_state == 'success' %}
 				<div class="change success">
 					تغییرات با موفقیت ثبت شد
 				</div>
@@ -56,23 +98,10 @@
 		</div>
 	</div>
 
-	<h3>صفحه شخصی</h3>
+	<h3>صفحه شرکت</h3>
 	<div class="ui basic segment formpart imageupload">
 		<div class="zedit container">
-			<!-- <div class="zedit item">
-				<div class="zedit title">
-					<h4>
-						<i class="icon remove"></i>
-						درباره من
-					</h4>
-				</div>
-				<textarea class="zedit markup"></textarea>
-				<div class="zedit buttons">
-					<div class="zedit ui tiny green button">
-						نمایش صفحه
-					</div>
-				</div>
-			</div> -->
+
 		</div>
 	</div>	
 </div>

@@ -226,7 +226,15 @@
 	width: 4.5em;
 }
 
-#userpanel #companyinfoform .basicinfo {
+#userpanel #companyinfoform .companyinfo {
 	padding: 20px;
 	margin-bottom: 60px;
+}
+
+#userpanel .formpart{
+	margin-bottom: 70px;
+}
+
+#userpanel .formheader{
+	margin-top: 40px;
 }
