@@ -91,8 +91,7 @@
 						  <i class="icon"></i>
 						  <i class="icon"></i>
 						</div>
-						{% if op in appliedfor %}
-						<div class="ui red vertical animated button opp-request">
+						<div id = "refuseButton{{ op.id }}" onclick="refuseJob({{ op.id }})" class="ui red vertical animated button opp-request" style="{% if op.id not in appliedfor %}display: none{% endif %}">
 						  <div class="hidden content">
 						  	<i class="large remove icon"></i>
 						  </div>
@@ -100,16 +99,14 @@
 						    لغو درخواست
 						  </div>
 						</div>
-						{% else %}
-						<div class="ui green vertical animated button opp-request">
-						  <div class="hidden content">
+						<div id = "applyButton{{ op.id }}" onclick="applyJob({{ op.id }})" class="ui green vertical animated button opp-request" style="{% if op.id in appliedfor %}display: none{% endif %}">
+						  <div class="hidden content" >
 						  	<i class="large mail icon"></i>
 						  </div>
 						  <div class="visible content">
 						    ارسال درخواست
 						  </div>
 						</div>
-						{% endif %}
 
 						<div class="ui teal button opp-more">
 						    اطلاعات کامل
@@ -127,7 +124,7 @@
 						<li>{{op.user.phoneNumber}}</li>
 						<li>{{op.user.webSite}}</li>
 						<li>{{op.user.address}}</li>
-						<li>{{op.user.image.url}}</li>
+						<li>{% if op.user.image %}{{op.user.image.url}}{% endif %}</li>
 						<li>{{op.id}}</li>
 						<li>{{op.user.id}}</li>
 					</ul>

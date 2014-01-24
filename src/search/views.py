@@ -1,5 +1,5 @@
 from accounts.models import JobSeeker, Employer
-from jobs.models import JobOpportunity
+from jobs.models import JobOpportunity, JobOffer
 from social_network.models import RateForOpportunity, RateForEmployer
 import json
 import search
@@ -23,13 +23,17 @@ def opSearch(request):
 			for sob in skillOb:
 				skills.append(sob.name)
 		except Exception as ex:
-		    template = "An exception of type {0} occured. Arguments:\n{1!r}"
-		    message = template.format(type(ex).__name__, ex.args)
-		    print message
-		    skills = []
+			template = "An exception of type {0} occured. Arguments:\n{1!r}"
+			message = template.format(type(ex).__name__, ex.args)
+			print message
+			skills = []
 
 	search_result = search.opportunity(query, skills)
-	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result}
+	jobs = [] if not request.user.is_authenticated() else JobOffer.objects.filter(jobSeeker = request.userprofile).values_list('jobOpportunity').distinct()
+	appliedfor = []
+	for j in jobs:
+		appliedfor.append(j[0])
+	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'appliedfor' : appliedfor}
 	return render(request, 'search/opSearch.html', context)
 
 

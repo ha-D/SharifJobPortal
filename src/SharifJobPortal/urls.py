@@ -18,7 +18,8 @@ urlpatterns = patterns('',
 
     url(r'^accounts/', include('accounts.urls')),
 
-    url(r'^search/', include('search.urls')),    
+    url(r'^search/', include('search.urls')),
+    url(r'^jobs/', include('jobs.urls')),
     url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
 	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
