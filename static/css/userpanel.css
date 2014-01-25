@@ -202,3 +202,76 @@
 .ui.segment.nopadding {
 	padding: 0px;
 }
+
+
+
+/**********/
+/* Friends **/
+/**********/
+
+#userpanel #friends .header{
+    font-family: yekan;
+    font-size: 16px;
+}
+
+#userpanel #friends_list .image{
+    width: 90px;
+    height: 90px;
+}
+
+
+
+#userpanel #friends_list .borderless{
+    border: none;
+    float: right;
+    margin: 20px;
+    border: hidden;
+}
+
+#userpanel #friends_list{
+    width: 700px;
+    height: 440px;
+    overflow-y: scroll;
+    direction: ltr;
+    float: right;
+}
+
+#userpanel #friends_list .label{
+    width: 100%;
+    float: right;
+    text-align: center;
+}
+
+#userpanel #friends_search .image{
+    width: 45px;
+    height: 45px;
+    display: inline;
+    float: right;
+    margin-left: 15px;
+}
+
+#userpanel #friends_search .nametag{
+    margin-top: 10px;
+    vertical-align: middle;
+    font-family: terafik;
+    float: right;
+    display: inline;
+
+}
+
+#userpanel #friends_search .button{
+    float: left;
+    text-align: center;
+    margin-top: 10px;
+    font-family: terafik;
+}
+
+
+#userpanel #friends_search{
+    display: inline;
+    float: right;
+    width: 335px;
+    margin-right: 20px;
+}
+
+
