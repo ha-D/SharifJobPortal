@@ -25,8 +25,8 @@
                                 {{ o.date }}
                             </div>
                             <div id="bothButtons{{ o.id }}" class="ui buttons" {% ifnotequal o.state 2 %}style="display: none"{% endifnotequal %}>
-                                <div class="ui positive button" onclick="acceptOffer({{ o.id }})">قبول</div>
-                                <div class="ui red button" onclick="rejectOffer({{ o.id }})">رد</div>
+                                <div class="ui tiny positive button" onclick="acceptOffer({{ o.id }})">قبول</div>
+                                <div class="ui tiny red button" onclick="rejectOffer({{ o.id }})">رد</div>
                             </div>
                             <div id="acceptText{{ o.id }}" class="ui green icon" {% ifnotequal o.state 0 %}style="display: none"{% endifnotequal %}>
                                 <i class="icon checkmark"></i>
