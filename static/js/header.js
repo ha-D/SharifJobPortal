@@ -2,7 +2,12 @@ initHeader = function(){
 	document.getElementById('searchJobIcon').onclick = function(){
 		query = $('#searchJob').val().trim();
 		if(query.length > 0){
-			window.location.href = '/search/?q=' + query;
+			if($('#search-type').attr('name') == '0'){
+				window.location.href = '/search?q=' + query;
+			}
+			else{
+				window.location.href = '/search/user?q=' + query;
+			}
 		}
 	};
 
