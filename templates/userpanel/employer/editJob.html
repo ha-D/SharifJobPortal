@@ -1,0 +1,103 @@
+{% extends 'userpanel/userpanel.html' %}
+{% load staticfiles %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jobs.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+    <div class="ui small purple feed raised segment eventlist">
+        <h4 class="ui header">
+            فرصت شغلی
+        </h4>
+
+        <div class="ui divider"></div>
+        <form class="jobsForm" action="" method="post">
+            <div class="ui form basicinfo visible">
+                {% csrf_token %}
+                <div class="two fields">
+                    <div class="field">
+                        <label>نام:</label>
+
+                        <div class="ui left labeled input">
+                            {{ form.name }}
+                            <div class="ui corner label">
+                                <i class="icon asterisk"></i>
+                            </div>
+                        </div>
+                        {% if form.name.errors %}
+                            <div class="ui red pointing prompt label transition visible">{{ form.name.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="field sex">
+                        <label>جنسیت:</label>
+                        <div class="wrap">
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="sex" value="0">
+                                <label><i class="male large icon"></i></label>
+                            </div>
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="sex" value="1">
+                                <label><i class="female large icon"></i></label>
+                            </div>
+                            <div class="ui radio checkbox">
+                                <input type="radio" name="sex" value="2">
+                                <label><i class="female large icon"></i></label>
+                            </div>
+                            {% if form.sex.errors %}
+                                <div class="ui red pointing prompt label transition visible">{{form.sex.errors.0}}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>حقوق پایه:</label>
+
+                        <div class="ui left labeled input">
+                            {{ form.baseSalary }}
+                            <div class="ui corner label">
+                                <i class="icon asterisk"></i>
+                            </div>
+                        </div>
+                        {% if form.baseSalary.errors %}
+                            <div class="ui red pointing prompt label transition visible">{{ form.baseSalary.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="field">
+                        <label>اضافه کاری:</label>
+
+                        <div class="ui left labeled input">
+                            {{ form.number }}
+                            <div class="ui corner label">
+                                <i class="icon asterisk"></i>
+                            </div>
+                        </div>
+                        {% if form.number.errors %}
+                            <div class="ui red pointing prompt label transition visible">{{ form.number.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="two fields">
+                    <div class="field">
+                        <label>تاریخ اعتبار:</label>
+
+                        <div class="ui left labeled input">
+                            {{ form.expireDate }}
+                            <div class="ui corner label">
+                                <i class="icon asterisk"></i>
+                            </div>
+                        </div>
+                        {% if form.expireDate.errors %}
+                            <div class="ui red pointing prompt label transition visible">{{ form.expireDate.errors.0 }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="field">
+                        <div class="ui teal submit button jobs alignleft">ارسال</div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

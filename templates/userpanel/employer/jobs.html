@@ -24,8 +24,8 @@
                         </div>
                         <div>
                             <div class="ui buttons">
-                                <div class="ui small positive button" onclick="editJob({{ i.job.id }})">ویرایش</div>
-                                <div class="ui small red button" onclick="deleteJob({{ i.job.id }})">حذف</div>
+                                <div class="ui tiny positive button" onclick="editJob({{ i.job.id }})">ویرایش</div>
+                                <div class="ui tiny red button" onclick="deleteJob({{ i.job.id }})">حذف</div>
                             </div>
                         </div>
                     </div>
@@ -52,4 +52,5 @@
             </div>
         {% endfor %}
     </div>
+    <div class="ui small positive button" onclick="newJob()">افزودن</div>
 {% endblock %}

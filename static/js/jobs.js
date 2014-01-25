@@ -69,8 +69,12 @@ function rejectOffer(offerid) {
     });
 }
 
+function newJob(){
+    window.location.href = '/jobs/new/';
+}
+
 function editJob(jobid){
-    window.location.replace('/jobs/edit/' + jobid + '/');
+    window.location.href = '/jobs/edit/' + jobid + '/';
 }
 
 function deleteJob(jobid){
@@ -118,3 +122,11 @@ function cancelOffer(user){
         }
     });
 }
+
+function init(){
+    $('.submit.button.jobs').click( function(){
+        $('.jobsForm').submit();
+    });
+}
+
+$(document).ready( init );

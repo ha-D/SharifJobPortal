@@ -24,11 +24,11 @@
                             {{ o.date }}
                         </div>
                         {% ifequal o.state 2 %}
-                            <div id="refuseButton{{ o.jobOpportunity.id }}" class="ui small red button"
+                            <div id="refuseButton{{ o.jobOpportunity.id }}" class="ui tiny red button"
                                  onclick="refuseJob({{ o.jobOpportunity.id }})">
                                 لغو درخواست
                             </div>
-                            <div id="applyButton{{ o.jobOpportunity.id }}" class="ui small green button"
+                            <div id="applyButton{{ o.jobOpportunity.id }}" class="ui tiny green button"
                                  onclick="applyJob({{ o.jobOpportunity.id }})" style="display: none">
                                 ارسال درخواست
                             </div>

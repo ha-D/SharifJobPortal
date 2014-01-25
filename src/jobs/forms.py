@@ -1,4 +1,4 @@
-from django.forms import forms
+from django import forms
 from jobs.models import JobOpportunity
 
 class JobForm(forms.ModelForm):
