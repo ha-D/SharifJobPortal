@@ -98,8 +98,9 @@ init = function(){
 	};
 
 	$('.pagination-item').on('click', function(e){
+		curPage = parseInt($('.pagination-item.active').text().trim());
 		reqPage = parseInt($(this).text().trim());
-		if(!isNaN(reqPage)){
+		if(!isNaN(reqPage) && curPage !== reqPage){
 			searchAjax(search['query'], reqPage)
 		}
 

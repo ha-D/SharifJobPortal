@@ -1,9 +1,19 @@
+from accounts.models import JobSeeker, Employer
+
 class UserMiddleware:
     def process_request(self, request):
 		try:
 			if request.user.is_authenticated():# and not request.user.is_superuser:
-				profile = request.user.userprofile
-				request.userprofile = profile
+				try:
+					userprofile = JobSeeker.objects.get(user = request.user)
+				except:
+					try:
+						userprofile = Employer.objects.get(user = request.user)
+					except:
+						userprofile = None
+
+				request.user.userprofile = userprofile
+				request.userprofile = userprofile
 		except:
 			pass
 		return None

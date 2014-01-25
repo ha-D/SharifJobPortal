@@ -2,24 +2,21 @@
 from django.db                      import models
 from django.contrib.auth.models     import User
 from django.utils.safestring import mark_safe
-
-from polymorphic                    import PolymorphicModel
 # from social_network.models          import RateForEmployer
 import social_network.models 
 # from jobs.models                    import Skill
 
 class City(models.Model):
     name = models.CharField(max_length=20)
-
     def __unicode__(self):
         return self.name
 
-class UserProfile(PolymorphicModel):
-    address = models.CharField(max_length=300)
-    postalCode = models.CharField(max_length=15)
-    phoneNumber = models.CharField(max_length=15)
-    image = models.ImageField(null = True, blank = True, upload_to="avatar")
-    city = models.ForeignKey(City)
+class UserProfile(models.Model):
+    address = models.CharField(max_length=300, verbose_name="آدرس")
+    postalCode = models.CharField(max_length=15, verbose_name="کد پستی")
+    phoneNumber = models.CharField(max_length=15, verbose_name="شماره تلفن")
+    image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس")
+    city = models.ForeignKey(City, verbose_name="شهر")
     personalPage = models.OneToOneField('accounts.PersonalPage' , unique=True, null=True, blank=True)
     
     user = models.OneToOneField(User , unique=True)
@@ -33,8 +30,8 @@ class UserProfile(PolymorphicModel):
     def is_employer(self):
         return not self.is_jobseeker()
 
-    # class Meta:
-    #     abstract = True
+    class Meta:
+        abstract = True
 
     def __unicode__(self):
         return self.user.username
@@ -60,14 +57,14 @@ class CompanyType(models.Model):
 
 
 class Employer(UserProfile):
-    companyName = models.CharField(max_length=30)
+    companyName = models.CharField(max_length=30, verbose_name="نام شرکت")
     
-    companyType = models.ForeignKey(CompanyType)
+    companyType = models.ForeignKey(CompanyType, verbose_name="نوع شرکت")
     
-    registrationNumber = models.CharField(max_length=20)
-    contactEmail = models.EmailField()
-    webSite = models.URLField()
-    establishDate = models.DateField()
+    registrationNumber = models.CharField(max_length=20, verbose_name="شماره ثبت")
+    contactEmail = models.EmailField(verbose_name="آدرسی الکترونیکی ارتباط")
+    webSite = models.URLField(verbose_name="تارنمای شرکت")
+    establishDate = models.DateField(verbose_name="تاریخ تاسیس")
     
     def _get_rate(self):
         ratings = social_network.models.RateForEmployer.objects.all().filter(employer__user__username = self.user.username)
@@ -82,7 +79,9 @@ class Employer(UserProfile):
     rate = property(_get_rate)
 
     def __unicode__(self):
-        return mark_safe('<a href="/employer/' + self.user.username + '/">' + self.companyName + '</a>')
+        # Don't do this!!, problems with links in admin
+        # return mark_safe('<a href="/employer/' + self.user.username + '/">' + self.companyName + '</a>')
+        return self.companyName
 
     def is_jobseeker(self):
         return False
@@ -102,9 +101,9 @@ class JobSeeker(UserProfile):
     FULL_TIME = 1
     UNEMPLOYED = 2
     JOB_STATUS_CHOICES = (
-        (PART_TIME , 'پاره وقت'),
-        (FULL_TIME , 'تمام وقت'),
-        (UNEMPLOYED , 'بیکار'),
+        (PART_TIME , u'پاره وقت'),
+        (FULL_TIME , u'تمام وقت'),
+        (UNEMPLOYED , u'بیکار'),
     )
     job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True)
 
@@ -113,7 +112,9 @@ class JobSeeker(UserProfile):
 
     friends = models.ManyToManyField('JobSeeker' , through='social_network.FriendShip' , related_name='friends2')
     def __unicode__(self):
-        return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
+        # Don't do this!!, problems with links in admin
+        # return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
+        return self.user.first_name + ' ' + self.user.last_name
 
     def is_jobseeker(self):
         return True
@@ -122,10 +123,13 @@ class JobSeeker(UserProfile):
 
 
 class PersonalPage(models.Model):
-    aboutMe = models.TextField(max_length=3000)
-    background = models.TextField(max_length=3000)
-    projects = models.TextField(max_length=3000)
+    user    = models.ForeignKey(User, related_name='pages')
+    title   = models.CharField(max_length = 100)
+    content = models.TextField(null=True, blank=True)
 
+class CompanyImage(models.Model):
+    employer = models.ForeignKey(Employer, related_name="images")
+    image = models.ImageField(upload_to='employer_pics/')
 
 class Record(models.Model):
     user = models.ForeignKey(User)
@@ -133,4 +137,3 @@ class Record(models.Model):
     endDate = models.DateField()
     position = models.CharField(max_length=20)
     companyName = models.CharField(max_length=30)
-
