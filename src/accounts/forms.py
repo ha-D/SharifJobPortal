@@ -2,7 +2,50 @@
 
 from django						import forms
 from django.contrib.auth.models import User
-from accounts.models 			import JobSeeker, Employer
+from accounts.models 			import JobSeeker, Employer, UserProfile, CompanyImage
+
+class ChangeCompanyInfoForm(forms.ModelForm):
+	class Meta:
+		model = Employer
+		exclude = ('user',)
+
+class CompanyImageUploadForm(forms.ModelForm):
+	class Meta:
+		model = CompanyImage
+		fields = ['image']
+
+class ChangeUserInfoForm(forms.ModelForm):
+	first_name = forms.CharField(max_length = 100, label="نام")
+	last_name = forms.CharField(max_length = 100, label="نام خواندوادگی")
+	email = forms.EmailField(label="آدرس الکترونیکی")
+
+	class Meta:
+		model = UserProfile
+		fields = ['address', 'postalCode', 'phoneNumber', 'city', 'image']
+
+	def __init__(self, *args, **kwargs):
+		if 'instance' in kwargs:
+			user =  kwargs['instance'].user
+			fields = {
+				'first_name': user.first_name,
+				'last_name': user.last_name,
+				'email': user.email
+			}
+			super(ChangeUserInfoForm, self).__init__(initial=fields,*args, **kwargs)
+		else:
+			super(ChangeUserInfoForm, self).__init__(*args, **kwargs)
+
+	def save(self):
+		profile = super(ChangeUserInfoForm, self).save(commit=True)
+		user = profile.user
+		user.first_name = self.cleaned_data['first_name']
+		user.last_name = self.cleaned_data['last_name']
+		user.email = self.cleaned_data['email']
+		user.save()
+
+
+
+# -- Register Forms
 
 class RegisterUserForm(forms.ModelForm):
 	password_repeat = forms.CharField(widget=forms.PasswordInput)
@@ -91,18 +134,6 @@ class EmployerRegisterProfileForm(forms.ModelForm):
 
 	def __init__(self, *args, **kwargs):
 		super(EmployerRegisterProfileForm, self).__init__(*args, **kwargs)
-
-		# placeholders = {
-		# 	'first_name': 'نام',
-		# 	'last_name':  'نام خواندوادگی',
-		# 	'username':   'نام کاربری',
-		# 	'email':	  'آدرس الکترونیکی',
-		# 	'password':	  'رمز عبور',
-		# 	'password_repeat': 'تکرار رمز عبور'
-		# }
-
-		# for field in placeholders:
-		# 	self.fields[field].widget.attrs.update({'placeholder': placeholders[field]})
 
 	def save(self):
 		employer = super(EmployerRegisterProfileForm, self).save(commit = False)

@@ -1,0 +1,46 @@
+{% extends 'userpanel/userpanel.html' %}
+{% load filters %}
+
+{% block content-title %}
+تغییر مشخصات کاربری
+{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+	<div id="userinfoform" class="ui small form basicinfo visible">
+		{% csrf_token %}
+		<div class="two fields">
+			{{form.first_name|semfield}}
+			{{form.last_name|semfield}}
+		</div>
+		<div class="two fields">
+			{{form.email|semfield}}
+			{{form.phoneNumber|semfield}}
+		</div>
+		<div class="two fields">
+			{{form.address|semfield}}
+			{{form.postalCode|semfield}}
+		</div>
+		<div class="two fields">
+			{{form.city|semfield}}
+			<div class="small field">
+				<label for="id_image">عکس</label>
+				<input type="file" id="id_image" name="image">
+				{% if user.userprofile.image %}
+					<img class="profilepic" src="/media/{{user.userprofile.image}}">
+				{% else %}
+					<img class="profilepic" src="/static/images/profilepic.png">
+				{% endif %}
+			</div>	
+		</div>	
+		
+		<button class="ui small blue submit button" type="submit">ثبت</button>
+
+		{% if state == 'success' %}
+			<div class="change success">
+				تغییرات با موفقیت ثبت شد
+			</div>
+		{% endif %}
+	</div>
+
+</form>
+{% endblock %}

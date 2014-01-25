@@ -13,11 +13,11 @@ MEDIA_DIR       = BASE_DIR + 'media/'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+SITE_URL = 'http://jobs.sharif.edu/'
 LOGIN_REDIRECT_URL = '/userpanel/'
 LOGOUT_REDIRECT_URL = '/home/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
-SESSION_COOKIE_AGE = 36000000
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -69,7 +69,6 @@ FIXTURE_DIRS = (BASE_DIR + 'fixtures',)
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
 MEDIA_ROOT = MEDIA_DIR
-print(MEDIA_ROOT)
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.

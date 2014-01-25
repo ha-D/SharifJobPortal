@@ -94,12 +94,24 @@ init = function(){
 	
 	document.getElementById('searchJobIcon').onclick = function(){
 		query = $('#searchJob').val().trim();	
-		searchAjax(query, 1);
+		if($('#search-type').attr('name') == '1'){
+			skillOb = $('.skill-tag');
+			skills = new Array();
+			for(var i = 0 ; i < skillOb.length ; i++){
+				skills[i] = $(skillOb[i]).text().trim();
+			}
+			skillString = JSON.stringify(skills);
+			window.location.href = '/search/user?q='+query + '&sk=' + skillString;
+		}
+		else{
+			searchAjax(query, 1)
+		}
 	};
 
 	$('.pagination-item').on('click', function(e){
+		curPage = parseInt($('.pagination-item.active').text().trim());
 		reqPage = parseInt($(this).text().trim());
-		if(!isNaN(reqPage)){
+		if(!isNaN(reqPage) && curPage !== reqPage){
 			searchAjax(search['query'], reqPage)
 		}
 

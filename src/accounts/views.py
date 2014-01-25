@@ -2,164 +2,20 @@ from django.contrib.auth.views 		import login, logout
 from django.shortcuts            	import render, render_to_response
 from django.template             	import RequestContext
 from django.template.loader     	import render_to_string
-from django.http                 	import HttpResponse, HttpResponseRedirect
+from django.http                 	import HttpResponse, HttpResponseRedirect, Http404
 from django.contrib.auth.models 	import User
-from social_network.models          import *
-
-from jobs.models import JobOffer
-from utils.functions		 		import template, json_response, ajax_template
-from accounts.decorators 			import user_required, jobseeker_required, employer_required
-from accounts.forms                	import *
+from django.views.decorators.csrf   import csrf_exempt
+from django.utils.safestring        import SafeText
 from django.conf 					import settings
 
+from utils.functions                import template, json_response, ajax_template
+from accounts.decorators            import user_required, employer_required, jobseeker_required
+from accounts.models                import CompanyImage, PersonalPage, Employer, JobSeeker
+from accounts.forms                 import *
+from social_network.models          import *
+from jobs.models                    import JobOffer
 
-JOBSEEKER_SESSION = 'register_jobseeker'
-EMPLOYER_SESSION = 'register_employer'
-
-def register_jobseeker_skills(request, session_name):
-	if request.method == 'POST':
-		return json_response({'result': 1}), 1
-
-	return json_response({
-	    'result': 1,
-	    'data': render_to_string('accounts/register/jobseeker/skills.html', RequestContext(request))
-	}), None
-
-
-def register_jobseeker_finalize(request, session_name):
-    session_steps = request.session[session_name]['steps']
-
-    user = session_steps['user_info']
-    jobseeker = session_steps['personal_info']
-    jobseeker_work = session_steps['work_info']
-
-    user.save()
-
-    jobseeker.user = user
-    jobseeker.job_status = jobseeker_work.job_status
-    jobseeker.cv = jobseeker_work.cv
-    jobseeker.save()
-
-    del request.session[session_name]
-
-    return json_response({
-    	'result': 1,
-    	'data': render_to_string('accounts/register/jobseeker/final.html', RequestContext(request))
-    }), None
-
-def register_employer_finalize(request, session_name):
-    session_steps = request.session[session_name]['steps']
-
-    user = session_steps['user_info']
-    employer = session_steps['company_info']
-
-    user.save()
-
-    employer.user = user
-    employer.save()
-    
-    del request.session[session_name]
-
-    return json_response({
-    	'result': 1,
-    	'data': render_to_string('accounts/register/employer/final.html', RequestContext(request))
-    }), None	
-
-def register_form(request, session_name, template, step, register_form):
-	if request.method == 'POST':
-		form = register_form(request.POST)
-		if form.is_valid():
-			request.session[session_name]['post'][step] = request.POST
-			obj = form.save()
-			return json_response({'result': 1}), obj
-		else:
-			result = 0
-	else:
-		post = request.session[session_name]['post'].get(step)
-		form =  register_form() if post == None else register_form(post)
-		result = 1
-
-	return json_response({
-		'result': result,
-		'data': render_to_string('accounts/register/' + template, RequestContext(request, {'form': form}))
-	}), None
-
-def register(request, action, steps, step_views, session_name, base_template):
-	if action == 'ajax':
-		step = request.GET.get('step')
-		step = steps.index(step) if step in steps else None
-
-		state = request.session.get(session_name)
-		if step == None or state == None:
-			step = 0
-			state = {
-				'current_step': 0,
-				'steps': {},
-				'post': {}
-			}
-			request.session[session_name] = state
-			request.session.save()
-
-
-		# No skipping steps  faulty, doesn't work for skills
-		# if state['current_step'] < step:
-		# 	print("No skipping " + str(state['current_step']) + " < " +  str(step))
-		# 	step = state['current_step']
-
-		response, result =  step_views[steps[step]](request, session_name)
-
-		if result != None:
-			state['steps'][steps[step]] = result
-			if state['current_step'] == step:
-				state['current_step'] += 1
-		
-		request.session.save()
-
-		return response
-
-	elif action == 'steps':
-		return json_response({'steps': steps})
-
-	elif action == 'clear':
-		if session_name in request.session:
-			del request.session[session_name]
-		return HttpResponse("Cleared")
-
-	else:
-		return render_to_response('accounts/register/' + base_template)
-
-
-
-def _lambda(template, step, form):
-    return lambda req, session: register_form(request=req, session_name=session, template=template, step=step,
-        register_form=form)
-
-
-def register_jobseeker(request, action):
-    steps = ['user_info', 'personal_info', 'work_info', 'skills', 'confirm', 'finalize']
-    step_views = {
-        'user_info':     _lambda('user_info.html', 'user_info', RegisterUserForm),
-        'personal_info': _lambda('jobseeker/personal_info.html', 'personal_info', JobSeekerRegisterProfileForm),
-        'work_info':     _lambda('jobseeker/work_info.html', 'work_info', JobSeekerRegisterWorkForm),
-        'skills':         register_jobseeker_skills,
-        'confirm':       _lambda('confirm.html', 'confirm', RegisterFinalForm),
-        'finalize':       register_jobseeker_finalize
-    }
-
-    return register(request, action, steps, step_views, JOBSEEKER_SESSION, 'jobseeker.html')
-
-
-def register_employer(request, action):
-    steps = ['user_info', 'company_info', 'confirm', 'finalize']
-    step_views = {
-        'user_info':    _lambda('user_info.html', 'user_info', RegisterUserForm),
-        'company_info': _lambda('employer/company_info.html', 'company_info', EmployerRegisterProfileForm),
-        'confirm':      _lambda('confirm.html', 'confirm', RegisterFinalForm),
-        'finalize':      register_employer_finalize
-    }
-
-    return register(request, action, steps, step_views, EMPLOYER_SESSION, 'employer.html')
-
+from markdown                       import markdown
 
 def mylogin(request):
     if request.user.is_authenticated():
@@ -174,15 +30,7 @@ def mylogout(request):
     return logout(request, next_page=settings.LOGOUT_REDIRECT_URL)
 
 @user_required
-def userpanel(request):
-    if request.userprofile.is_jobseeker():
-        return template(request, 'userpanel/jobseeker.html')
-    elif request.userprofile.is_employer():
-        return template(request, 'userpanel/employer.html')
-
-@user_required
 def userpanel_main(request):
-
     def getEvent(e):
         if e.type == Event.COMMENT_ON_EMPLOYER:
             return Event_CommentOnEmployer.objects.get(pk=e.pk)
@@ -192,12 +40,9 @@ def userpanel_main(request):
             return Event_FriendShip.objects.get(pk=e.pk)
 
     if request.userprofile.is_jobseeker():
-        events = Event.objects.all();
+        events = Event.objects.all()
         events = [ getEvent(e).summery() for e in events]
         print(events)
-
-
-
         return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})
     elif request.userprofile.is_employer():
         return template(request, 'userpanel/employer/main.html')
@@ -214,11 +59,157 @@ def jobseeker_jobs(request):
     user = request.userprofile
     offers_by_jobseeker = JobOffer.objects.filter(jobSeeker=user, mode=0).order_by('-date')
     offers_by_employer = JobOffer.objects.filter(jobSeeker=user, mode=1).order_by('-date')
-    return template(request, 'userpanel/jobseeker/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+    return template(request, 'userpanel/jobseeker/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
 
 @employer_required
 def employer_jobs(request):
     user = request.userprofile
+    jobs = JobOpportunity.objects.filter(user = user).order_by('-expireDate')
+    items = []
+    for j in jobs:
+        pending = JobOffer.objects.filter(jobOpportunity = j, state = 2).count()
+        accepted = JobOffer.objects.filter(jobOpportunity = j, state = 0).count()
+        rejected = JobOffer.objects.filter(jobOpportunity = j, state = 1).count()
+        items.append( {'job' : j, 'pending':pending, 'accepted' : accepted, 'rejected' : rejected} )
+    return template(request, 'userpanel/employer/jobs.html', {'items' : items})
+
+@employer_required
+def userpanel_offers(request):
+    user = request.userprofile
     offers_by_jobseeker = JobOffer.objects.filter(jobOpportunity__user=user, mode=0).order_by('-date')
     offers_by_employer = JobOffer.objects.filter(jobOpportunity__user=user, mode=1).order_by('-date')
-    return template(request, 'userpanel/employer/jobs.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+    return template(request, 'userpanel/employer/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
+
+@user_required #OBSOLETE
+def userpanel_changeinfo_old(request):
+    context = {}
+    if request.method == 'POST':
+        form = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
+        if form.is_valid():
+            form.save()
+            context['state'] = 'success'
+    else:
+        form = ChangeUserInfoForm(instance = request.userprofile)
+
+    context['form'] = form
+    return render(request, 'userpanel/changeuserinfo.html', context)
+
+@employer_required
+def userpanel_changecompanyinfo(request):
+    context = {}
+    if request.method == 'POST':
+        userform = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
+        compform = ChangeCompanyInfoForm(request.POST, instance=request.userprofile)
+        if userform.is_valid() and compform.is_valid():
+            userform.save()
+            compform.save()
+            context['state'] = 'success'
+        else:
+            print(compform.errors)
+            print(userform.errors)
+            print("SHIT")
+    else:
+        userform = ChangeUserInfoForm(instance = request.userprofile)
+        compform = ChangeCompanyInfoForm(instance = request.userprofile)
+
+    context['images'] = list(request.userprofile.images.all())
+    context['compform'] = compform
+    context['userform'] = userform
+    context['site_url'] = settings.SITE_URL
+
+    return render(request, 'userpanel/employer/changecompanyinfo.html', context)
+
+
+@user_required
+def userpanel_changeinfo(request):
+    if request.userprofile.is_employer():
+        return userpanel_changecompanyinfo(request)
+    else:
+        return userpanel_changejobseekerinfo(request)
+
+@csrf_exempt
+def userpanel_changecompanyinfo_uploadimage(request):
+    if request.method == 'POST':
+        form = CompanyImageUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            images_count = len(request.userprofile.images.all())
+            if images_count >= 5:
+                return json_response({'result': 'fail', 'error': 'maximum reached'})            
+
+            comp_image = form.save(commit=False)
+            comp_image.employer = request.userprofile
+            comp_image.save()
+
+            images = request.userprofile.images.all()
+            images = map(lambda x: {'id': x.id, 'url': x.image.url}, images)
+            return json_response({'result': 'success', 'images': images})
+        else:
+            return json_response({'result': 'fail', 'error': 'invalid form'})
+    return json_response({'result': 'fail', 'error': 'get not supported'})
+
+
+@employer_required
+@csrf_exempt
+def userpanel_changecompanyinfo_removeimage(request, image_id):
+    try:
+        comp_image = CompanyImage.objects.get(pk = image_id)
+    except:
+        return json_response({'result': 'fail', 'error': 'invalid id'})
+
+    if comp_image.employer != request.userprofile:
+        return json_response({'result': 'fail', 'error': 'not authorized to delete this image'})        
+
+    comp_image.delete()
+
+    images = request.userprofile.images.all()
+    images = map(lambda x: {'id': x.id, 'url': x.image.url}, images)
+    return json_response({'result': 'success', 'images': images})
+
+
+@csrf_exempt
+def userpanel_changecompanyinfo_zedit(request):
+    action = request.POST.get('action', '')
+    
+    try:
+        if action == 'save':
+            page_id = request.POST['page_id']
+            content = request.POST['content']
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.content = content
+            page.save()
+            return json_response({'result': 'success'})
+
+        elif action == 'remove':
+            page_id = request.POST['page_id']
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.delete()
+            return json_response({'result': 'success'})
+
+        elif action == 'add':
+            title = request.POST['title']
+            page = PersonalPage.objects.create(user=request.user, title=title)
+            page = {'page_id': page.id, 'title':page.title, 'content': page.content}
+            return json_response({'result': 'success', 'page': page})
+
+        elif action == 'list':
+            pages = PersonalPage.objects.filter(user=request.user)
+            pages = map(lambda x: {'page_id': x.id, 'title':x.title, 'content': x.content}, pages)
+            return json_response({'result': 'success', 'pages': pages})
+
+    except Error as e:
+        print(e)
+        return json_response({'result': 'fail'})
+
+
+def profile_employer(request, username):
+    employer = Employer.objects.get(user__username = username)
+    pages = list(employer.user.pages.all())
+    for page in pages:
+        page.content = SafeText(markdown(page.content))
+    return render(request, 'accounts/employerprofile.html', {'profile': employer, 'pages': pages})
+
+

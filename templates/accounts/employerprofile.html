@@ -1,0 +1,154 @@
+{% extends 'page.html' %}
+{% load staticfiles %}
+
+
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
+	<style type="text/css">
+		.profile.employer {
+			padding: 20px 30px;
+		}
+
+		.profile.employer .company.name {
+			padding: 10px;
+			font-size: 40px;
+			font-weight: bold;
+			/*width: 200px;*/
+			float: right;
+		}
+
+		.profile.employer .topseg.right {
+			clear: both;
+			float: right;
+		}
+
+		.profile.employer .info.table{
+			margin-right: 40px;
+			margin-top: 30px;
+			max-width: 400px;
+			clear: both;
+			float: right;
+		}
+
+		.profile.employer .info.table tr{
+			background-color: white;
+		}
+
+		.profile.employer .info.table .key{
+			font-weight: bold;
+		}
+
+		.profile.employer .slideshow{
+			float: left;
+			width: 350px;
+			height: 200px;
+			margin-left: 40px;
+			/*box-shadow: 0 0 20px;*/
+			background-color: transparent;
+			/*border-radius: 30px;*/
+		}
+
+		.profile.employer .slideshow img{
+		}
+
+		.profile.employer .bottomseg {
+			clear: both;
+			padding-top: 80px;
+		}
+
+		.profile.employer .bottomseg .pages{
+			/*width: 700px;*/
+		}
+
+		.profile.employer .bottomseg .pages .page{
+			padding: 30px 30px;
+			height: 500px;
+			overflow-y: auto;
+			display: none;
+		}
+
+		.profile.employer .bottomseg .pages .page.active{
+			display: block;
+		}
+	</style>	
+{% endblock style %}
+
+{% block page %}
+	<div class="employer profile">
+		<div class="topseg">
+			<div class="right">
+				<div class="company name">{{profile.companyName}}</div>
+				<table class="ui small table info">
+					<tr>
+						<td class="key">شماره ثبت</td> <td>{{profile.registrationNumber}}</td>
+					</tr>
+					<tr>
+						<td class="key">نوع شرکت</td> <td>{{profile.companyType}}</td>
+					</tr>
+					<tr>
+						<td class="key">شهر</td> <td>{{profile.city}}</td>
+					</tr>
+					<tr>
+						<td class="key">شماره تلفن</td> <td>{{profile.phoneNumber}}</td>
+					</tr>
+					<tr>
+						<td class="key">آدرس</td> <td>{{profile.address}}</td>
+					</tr>
+					<tr>
+						<td class="key">آدرس الکترونیکی</td> <td>{{profile.contactEmail}}</td>
+					</tr>
+					<tr>
+						<td class="key">تارنما</td> <td><a href="{{profile.webSite}}">{{profile.webSite}}</a></td>
+					</tr>
+				</table>
+			</div>
+			<div class="slideshow">
+				<div >
+					<ul class="rslides">
+					{% for compimage in profile.images.all %}
+						<li><img src="{{ compimage.image.url }}"></li>
+					{% endfor %}
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="bottomseg">
+			<div class="pages">
+				<div class="ui attached tabular menu">
+					{% for page in pages %}
+						<a class="item {{ page.id }} {% if forloop.first %} active {% endif %}" data-page-id="{{ page.id }}">
+							{{ page.title }}
+						</a>
+					{% endfor %}
+				</div>
+				{% for page in pages %}
+					<div class="ui attached bottom segment page {{ page.id }} {% if forloop.first %} active {% endif %}">
+						{{ page.content }}
+					</div>
+				{% endfor %}
+		</div>
+		
+	</div>
+{% endblock page %}
+
+{% block script %}
+	<script type="text/javascript" src="{% static 'js/rslides.js' %}"></script>	
+	<script type="text/javascript" src="{% static 'js/jquery.jcarousel.min.js' %}"></script>	
+	<script type="text/javascript">
+		$(function(){
+			$('.rslides').responsiveSlides({
+				// speed: 700
+			});
+
+			$('.pages .menu .item').click(function(){
+				var page_id = $(this).attr('data-page-id');
+				$('.pages .item').removeClass('active');
+				$(this).addClass('active');
+
+				$('.pages .page').removeClass('active');
+				$('.pages .page.' + page_id).addClass('active');
+			})
+		})
+	</script>
+{% endblock script %}

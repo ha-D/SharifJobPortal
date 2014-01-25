@@ -1,3 +1,5 @@
+portal = {}
+
 function relaxUI(){
 	// $("body").on('onload', ".ui.checkbox", function(){
 	// 	$(this).checkbox();
@@ -28,8 +30,24 @@ function getParam ( sname )
 	return sval;
 }
 
+portal.showConfirmDialog = function(message, yesCallback, noCallback){
+	$('#confirmbox .content').html(message);
+	$('#confirmbox').modal('show')
+	$('#confirmbox .yes.button').unbind('click');
+	$('#confirmbox .no.button').unbind('click');
+	if(typeof(yesCallback) == 'function')
+		$('#confirmbox .yes.button').click(yesCallback);
+	if(typeof(noCallback) == 'function')
+		$('#confirmbox .no.button').click(noCallback);
+	$('#confirmbox .button').click(function(){
+		$("#confirmbox").modal("hide");
+	});
+}
+
 $(document).ready(function(){
 	relaxUI();
 	$(".footer").load('/footer');
+	$('#confirmbox').modal()
+
 });
 

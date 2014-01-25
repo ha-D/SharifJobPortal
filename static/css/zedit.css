@@ -1,0 +1,81 @@
+.zedit.container {
+	padding-right: 10px;
+}
+
+.zedit .zedit.item {
+	clear: both;
+}
+
+.zedit .title .icon.remove {
+	cursor: pointer;
+	margin-bottom: 10px;
+}
+
+.zedit .title .icon.remove:hover {
+	color: rgb(200,100,0);
+}
+
+.zedit .title .icon.remove:active {
+	color: rgb(200,50,0);
+}
+
+.zedit .markup {
+	clear: both;
+	margin-right: 30px;
+}
+
+.zedit .zedit.buttons {
+	clear: both;
+	margin-top: 10px;
+}
+
+.zedit .zedit.button {
+	font-size: 12px;
+	float: left;
+	margin-right: 10px;
+	font-family: yekan;
+}
+
+.zedit .zedit.status {
+	font-size: 12px;
+	margin-right: 50px;
+	float: right;
+}
+
+.zedit .zedit.status.success {
+	color: green;
+}
+
+.zedit .zedit.status.error {
+	color: red;
+}
+
+
+.zedit .markItUpContainer {
+	float: right;
+	margin-bottom: 60px;
+}
+
+.zedit .zedit.add {
+	clear: both;
+	padding: 0px 30px;
+}
+
+.zedit .zedit.add .message{
+	margin-bottom: 30px;
+}
+
+.zedit .zedit.add .input{
+	float: right;
+	width: 500px;
+}
+
+.zedit .zedit.add .button{
+	float: right;
+	margin-right: 20px;
+	width: 100px;
+}
+
+.zedit.modal {
+	direction: rtl;
+}

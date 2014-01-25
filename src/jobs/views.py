@@ -39,3 +39,11 @@ def rejectOffer(request, offerid):
     offer.state = 1
     offer.save()
     return json_response({})
+
+
+def deleteJob(request, jobid):
+    JobOpportunity.objects.get(id = jobid).delete()
+    return json_response({})
+
+def editJob(request, jobid):
+    pass
