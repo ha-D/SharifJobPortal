@@ -97,14 +97,15 @@
 						  <i class="icon"></i>
 						  <i class="icon"></i>
 						</div>
-						<div id = "refuseButton{{ op.id }}" onclick="refuseJob({{ op.id }})" class="ui red vertical animated button opp-request" style="{% if op.id not in appliedfor %}display: none{% endif %}">
+						<!-- <div id = "refuseButton{{ op.id }}" onclick="refuseJob({{ op.id }})" class="ui red vertical animated button opp-request" style="{% if op.id not in appliedfor %}display: none{% endif %}">
 						  <div class="hidden content">
 						  	<i class="large remove icon"></i>
 						  </div>
 						  <div class="visible content">
 						    لغو درخواست
 						  </div>
-						</div>
+						</div> -->
+						{% if user.is_authenticated %}
 						<div id = "applyButton{{ op.id }}" onclick="applyJob({{ op.id }})" class="ui green vertical animated button opp-request" style="{% if op.id in appliedfor %}display: none{% endif %}">
 						  <div class="hidden content" >
 						  	<i class="large mail icon"></i>
@@ -113,8 +114,9 @@
 						    ارسال درخواست
 						  </div>
 						</div>
+						{% endif %}
 
-						<div class="ui teal button opp-more">
+						<div class="ui teal button opp-more" {% if not user.is_authenticated %} style="margin-top: 20px" {% endif %}>
 						    اطلاعات کامل
 						</div>
 					</div>

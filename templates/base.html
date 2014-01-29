@@ -1,7 +1,7 @@
 {% load staticfiles %}
 <html>
 	<head>
-		<title></title>
+		<title>{% block title %}{% endblock %}</title>
 
 		<link rel="stylesheet" type="text/css" href="{% static 'css/fonts.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/semantic.css' %}">

@@ -1,4 +1,4 @@
-portal = {}
+portal = {};
 
 function relaxUI(){
 	// $("body").on('onload', ".ui.checkbox", function(){
@@ -14,6 +14,9 @@ function relaxUI(){
     $('.ui.checkbox').checkbox();
     // $('.ui.radio.checkbox').checkbox();
     $('.ui.dropdown').dropdown();
+    $('.submitButton').click(function(event){
+        $(event.target).closest("form").submit();
+    });
 }
 
 function getParam ( sname )
@@ -51,3 +54,6 @@ $(document).ready(function(){
 
 });
 
+function link(href){
+    window.location.href = href;
+}

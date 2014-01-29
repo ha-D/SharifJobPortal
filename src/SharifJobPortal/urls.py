@@ -1,6 +1,7 @@
 from django.conf.urls 	import patterns, include, url
 from django.contrib 	import admin
 from django.conf        import settings
+from SharifJobPortal.views import index
 from utils.views        import zedit_preview
 from ui_test.views 		import show_template
 from accounts.views           import profile_employer
@@ -17,6 +18,7 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
+    url(r'^$', index),
     url(r'^zedit/preview/$', zedit_preview),
     url(r'^admin/', include(admin.site.urls)),
 
@@ -32,7 +34,7 @@ urlpatterns += patterns('',
 
 
 	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
-	url(r'^(?P<template>\w+)/', show_template),
+	url(r'^(?P<template>\w+)/$', show_template),
 
     # Examples:
     # url(r'^$', 'SharifJobPortal.views.home', name='home'),
