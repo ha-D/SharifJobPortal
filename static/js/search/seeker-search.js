@@ -143,4 +143,6 @@ searchAjax = function(query, page){
 
 window.onload = function(){
 		init();
+		search['query'] = $('#query').html()
+		$('#searchJob').val(search['query']);
 };	

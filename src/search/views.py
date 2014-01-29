@@ -82,7 +82,7 @@ def opSearch(request):
 		else:
 			pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
 
-	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
+	context = {'query':query, 'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
 	return render(request, 'search/opSearch.html', context)
 
 
@@ -220,5 +220,5 @@ def userSearch(request):
 		else:
 			pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
 
-	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
+	context = {'query': query, 'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
 	return render(request, 'search/userSearch.html', context)

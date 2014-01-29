@@ -162,5 +162,6 @@ searchAjax = function(query, page){
 window.onload = function(){
 	init();
 	$('.ui.rating').rating('disable');
-	
+	search['query'] = $('#query').html()
+	$('#searchJob').val(search['query']);
 };

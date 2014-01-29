@@ -253,5 +253,7 @@ initRating = function(){
 window.onload = function(){
 		init();
 		initRating();
+		search['query'] = $('#query').html();
+		$('#searchJob').val(search['query']);
 		// $('.small.rating').rating('set rating', 1)
 };	
