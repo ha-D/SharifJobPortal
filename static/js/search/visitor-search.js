@@ -1,3 +1,5 @@
+search = {}
+search['query'] = ''
 FADE_SPEED = 400
 init = function(){
 	$('.icon.delete').on('click', function(){
@@ -97,6 +99,14 @@ init = function(){
 		
 	};
 
+	document.getElementById('searchForm').onsubmit = function(){
+		query = $('#searchJob').val().trim();
+		searchAjax(query, 1)
+		return false;	
+	};
+
+
+
 	$('.pagination-item').on('click', function(e){
 		curPage = parseInt($('.pagination-item.active').text().trim());
 		reqPage = parseInt($(this).text().trim());
@@ -152,4 +162,5 @@ searchAjax = function(query, page){
 window.onload = function(){
 	init();
 	$('.ui.rating').rating('disable');
+	
 };

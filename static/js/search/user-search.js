@@ -46,7 +46,7 @@ init = function(){
 		}
 		$('#companyImage img').attr('src', textInfo[10]);
 		skills = textInfo[13].split(' ');
-		console.log(skills.join())
+		// console.log(skills.join())
 		$(companyList[6]).html($('<i>').attr('class', 'info icon'))
 		$(companyList[6]).append(skills.join('، '))
 		$('.ui.modal').modal('show');
@@ -93,19 +93,13 @@ init = function(){
 
 	
 	document.getElementById('searchJobIcon').onclick = function(){
-		query = $('#searchJob').val().trim();	
-		if($('#search-type').attr('name') == '1'){
-			skillOb = $('.skill-tag');
-			skills = new Array();
-			for(var i = 0 ; i < skillOb.length ; i++){
-				skills[i] = $(skillOb[i]).text().trim();
-			}
-			skillString = JSON.stringify(skills);
-			window.location.href = '/search/user?q='+query + '&sk=' + skillString;
-		}
-		else{
-			searchAjax(query, 1)
-		}
+		searchButton();
+	};
+
+	document.getElementById('searchForm').onsubmit = function(){
+		// alert('here1')
+		searchButton();
+		return false
 	};
 
 	$('.pagination-item').on('click', function(e){
@@ -129,6 +123,33 @@ init = function(){
 	});
 }
 
+searchButton = function(){
+	query = $('#searchJob').val().trim();	
+		if($('#searchType').attr('name') == '1'){
+			skillOb = $('.skill-tag');
+			skills = new Array();
+			for(var i = 0 ; i < skillOb.length ; i++){
+				skills[i] = $(skillOb[i]).text().trim();
+			}
+			skillString = JSON.stringify(skills);
+			// var x = '/search/user?q='+query + '&sk=' + skillString
+			// window.location.href = x;
+			// console.log(skillString)
+			// console.log(query)
+			// alert('done')
+			$($('#postForm').children()[0]).val(query)
+			$($('#postForm').children()[1]).val(skillString)
+			$('#postForm').submit()
+		}
+		else{
+			// alert($('#searchType').attr('name'))
+			// alert('opp1')
+			searchAjax(query, 1)
+		}
+}
+
+
+
 searchAjax = function(query, page){
 	if(query.length >= 0){
 		skillOb = $('.skill-tag');
@@ -137,7 +158,7 @@ searchAjax = function(query, page){
 			skills[i] = $(skillOb[i]).text().trim();
 		}
 		skillString = JSON.stringify(skills);
-		console.log(skillString);
+		// console.log(skillString);
 		$.ajax({
 			url: '/search/?ajax&q=' + query + '&sk=' + skillString + '&page=' + page,
 			type : 'get',
@@ -161,46 +182,58 @@ searchAjax = function(query, page){
 
 
 initRating = function(){
-	$('.ui.rating').rating({onRate : function(){
-		curRate = $(this).rating('get rating');
-		pholder = $(this).prev()
-		if($(this).attr('class').indexOf('opp-rating') >= 0){
-			opid = $($($(this).parent().siblings('ul')[0]).children()[11]).html()
-			$.ajax({
-			url : '/search/rate/?op=' + parseInt(opid) + '&rate=' + curRate,
+	$('.ui.rating.opp-rating').rating({onRate : function(e){
+		// curStar = e
+		// console.log(curStar)
+		// console.log('eee is', e)
+		curRate1 = $(this).rating('get rating');
+		pholder1 = $(this).prev()
+		// if($(this).attr('class').indexOf('opp-rating') >= 0){
+		opid = $($($(this).parent().siblings('ul')[0]).children()[11]).html();
+		$.ajax({
+			url : '/search/rate/?op=' + parseInt(opid) + '&rate=' + curRate1,
 			type : 'get',
 			dataType : 'json',
 			success: function(data, status, xhr){
+				// alert('doing ajax')
 				if(data['result'] == 1){
-					pholder.html('امتیاز کنونی : ' + data['rate']);
+					pholder1.html('امتیاز کنونی : ' + data['rate']);
 				}
 			},
 
 			error: function(xhr, status, error){
 
-				},
-			});
-		}
-		else{
-			if(!search['inRating']){
-				search['inRating'] = true;
-				empid = $($($(this).parent().parent().parent().siblings('ul')[0]).children()[12]).html()
-				console.log(empid);
-				$.ajax({
+			},
+		});
+		// }
+	}} ) ;
+
+	$('.user-rating').rating({onRate : function(e){
+		if(!search['inRating']){
+			curRate = $(this).rating('get rating');
+			// alert($(this).attr('id'))
+			pholder = $(this).prev()
+			search['inRating'] = true;
+			empid = $($($(this).parent().parent().parent().siblings('ul')[0]).children()[12]).html()
+			$.ajax({
 				url : '/search/rate/?emp=' + parseInt(empid) + '&rate=' + curRate,
 				type : 'get',
 				dataType : 'json',
 				success: function(data, status, xhr){
+					// alert('doing ajax 2')
+					// console.log('staaars', data['rate'])
 					if(data['result'] == 1){
 						allEmps = $('.compId')
+
 						for(var i = 0 ; i < allEmps.length ; i++){
 							if(parseInt($(allEmps[i]).text()) == parseInt(empid)){
 								ratingOb = $($(allEmps[i]).parent().parent().find('.small.rating')[0])
-								ratingOb.prev().html('امتیاز کنونی : ' + data['rate']);
+								
 								ratingOb.rating('set rating', parseInt(data['rate']));
+								ratingOb.prev().html('امتیاز کنونی: ' + data['rate']);
 							}
 						}
-						pholder.html('امتیاز کنونی : ' + data['rate']);
+						pholder.html('امتیاز کنونی: ' + data['rate']);
 						search['inRating'] = false;
 					}
 					else{
@@ -208,18 +241,17 @@ initRating = function(){
 					}
 				},
 
-				error: function(xhr, status, error){
-					search['inRating'] = false;
-					},
-				});
-			}
+			error: function(xhr, status, error){
+				// alert('erooororor')
+				search['inRating'] = false;
+				},
+			});
 		}
 	}});
 }
 
-
 window.onload = function(){
 		init();
 		initRating();
-		$('.small.rating').rating('set rating', 1)
+		// $('.small.rating').rating('set rating', 1)
 };	

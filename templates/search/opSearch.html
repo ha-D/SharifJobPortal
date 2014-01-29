@@ -6,7 +6,7 @@
 {% endblock style %}
 
 {% block script %}
-<script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/search.js' %}"></script> -->
 {% if user.is_authenticated %}
 <script type="text/javascript" src="{% static 'js/search/user-search.js' %}"></script>
 {% else %}
@@ -76,7 +76,7 @@
 						  <div class="item">
 						  	<i class="thumbs up icon"></i>
 						  	<div>امتیاز کنونی: {{op.user.rate}}</div>
-						  	 <div class="ui small star rating" data-rating="{{op.user.rate}}">
+						  	 <div id="emp{{op.id}}" class="ui small star rating user-rating" data-rating="{{op.user.rate}}">
 							  <i class="icon"></i>
 							  <i class="icon"></i>
 							  <i class="icon"></i>
@@ -237,4 +237,8 @@
 	    <div class="ui secondary button" id="closeModal">بستن</div>
 	  </div>
 	</div>
+	<form id="postForm" method="post" action="/search/user">
+		<input type="hidden" name="q">
+		<input type="hidden" name="sk">
+	</form>
 {% endblock page %}

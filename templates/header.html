@@ -1,13 +1,27 @@
 {% load message_tags %}
 
 <div id="top-menu" class="ui fixed transparent inverted main menu">
+
     <div class="left menu">
 
 
-        <form onsubmit="searchOnSubmit()">
+        <form id='searchForm'>
+
             <div class="ui small icon input rtl searchbox">
-                <div id = 'search-type' class="ui tiny {% if not user.is_authenticated %} disabled {% endif %} button" name='0'>فرصت شغلی</div>
-                <input id="searchJob" type="text" placeholder="جستجو شغل...">
+                <!-- <div id = 'search-type' class="ui tiny {% if not user.is_authenticated %} disabled {% endif %} button" name='0'>فرصت شغلی</div> -->
+                {% if user.is_authenticated %}
+                <div  id="toggleDiv">
+                    <span class="search-type">کارجو</span>             
+                    <div class="ui toggle checkbox" style="float:right">
+
+                      <input id="searchType" class="def {% if not user.is_authenticated %} disabled {% endif %}" type="checkbox" name="1">
+                      <label id="jobLabel" class="search-type">فرصت شغلی </label> 
+                    </div>
+                </div>
+                {% endif %}
+                <!-- <div class="clearfix"></div> -->
+
+                <input name="q" id="searchJob" type="text" placeholder="جستجو...">
 
                 <i id = "searchJobIcon" class="search icon"></i>
 

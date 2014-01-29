@@ -19,7 +19,7 @@ LOGOUT_REDIRECT_URL = '/home/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 
-APPEND_SLASH = True
+APPEND_SLASH = False
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),

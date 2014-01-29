@@ -49,20 +49,13 @@ init = function(){
 
 	
 	document.getElementById('searchJobIcon').onclick = function(){
-		query = $('#searchJob').val().trim();	
-		
-		if($('#search-type').attr('name') == '0'){
-			skillOb = $('.skill-tag');
-			skills = new Array();
-			for(var i = 0 ; i < skillOb.length ; i++){
-				skills[i] = $(skillOb[i]).text().trim();
-			}
-			skillString = JSON.stringify(skills);
-			window.location.href = '/search?q='+query + '&sk=' + skillString;
-		}
-		else{
-			searchAjax(query, 1)
-		}
+		searchButton();
+	};
+
+	document.getElementById('searchForm').onsubmit = function(){
+		// alert('here2')
+		searchButton();
+		return false;
 	};
 
 	$('.pagination-item').on('click', function(e){
@@ -86,6 +79,30 @@ init = function(){
 	});
 }
 
+searchButton = function(){
+	query = $('#searchJob').val().trim();	
+		
+		if($('#searchType').attr('name') == '0'){
+			skillOb = $('.skill-tag');
+			skills = new Array();
+			for(var i = 0 ; i < skillOb.length ; i++){
+				skills[i] = $(skillOb[i]).text().trim();
+			}
+			skillString = JSON.stringify(skills);
+			// alert($('#searchType').attr('name'))
+			// alert('app')
+			// window.location.href = '/search?q='+query + '&sk=' + skillString;
+			$($('#postForm').children()[0]).val(query)
+			$($('#postForm').children()[1]).val(skillString)
+			$('#postForm').submit()
+		}
+		else{
+			// alert($('#searchType').attr('name'))
+			// alert('user')
+			searchAjax(query, 1)
+		}
+}
+
 searchAjax = function(query, page){
 	if(query.length >= 0){
 		skillOb = $('.skill-tag');
@@ -94,24 +111,29 @@ searchAjax = function(query, page){
 			skills[i] = $(skillOb[i]).text().trim();
 		}
 		skillString = JSON.stringify(skills);
-		console.log(skillString);
+		// console.log(skillString);
+		console.log('priiiint')
 		$.ajax({
 			url: '/search/user?ajax&q=' + query + '&sk=' + skillString + '&page=' + page,
 			type : 'get',
 			dataType : 'html',
 			success : function(data, status, xhr){
+				console.log('recieved')
 				newDiv = $(data);
-				console.log(data)
+				// console.log(data)
 				newDiv = $(newDiv.find('#search-results')[0]);
+
 				$('#search-results').remove();
 				$('#main').append(newDiv);
+
 				// console.log($('#main').html())
 				init();
 				search['query'] = query;
 				window.scrollTo(0);
+
 			},
 			error : function(xhr, status, error){
-
+				console.log('error')
 			},
 		});
 	}
