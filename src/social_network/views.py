@@ -19,6 +19,8 @@ def userpanel_inbox(request):
 @user_required
 def userpanel_inbox_list(request):
     messages = request.user.recieved_messages.all()
+    print(request.user)
+    print(messages)
     return template(request, 'userpanel/inbox/list.html', {'inbox': messages})
 
 

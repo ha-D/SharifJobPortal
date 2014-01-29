@@ -38,7 +38,8 @@ class JobOpportunity(models.Model):
     rate = property(_get_rate)
 
     def __unicode__(self):
-        return mark_safe('<a href="/jobs/' + str(self.id) + '/">' + self.name + '</a>')
+        # return mark_safe('<a href="/jobs/' + str(self.id) + '/">' + self.name + '</a>')
+        return self.name
 
 
 class Skill(models.Model):
