@@ -1,6 +1,10 @@
 var search = {query : ''}
 search['inRating'] = false;
 init = function(){
+	$('#closeModal').on('click', function(){
+
+	});
+
 	$('.icon.delete').on('click', function(){
 		$(this).parent().remove();
 	});
@@ -45,11 +49,34 @@ init = function(){
 			}
 		}
 		$('#companyImage img').attr('src', textInfo[10]);
-		skills = textInfo[13].split(' ');
-		// console.log(skills.join())
-		$(companyList[6]).html($('<i>').attr('class', 'info icon'))
-		$(companyList[6]).append(skills.join('، '))
-		$('.ui.modal').modal('show');
+		// skills = textInfo[13].split(' ');
+		// // console.log(skills.join())
+		// if(skills.length > 0){
+		// 	$(companyList[6]).html($('<i>').attr('class', 'info icon'));
+		// 	skillString = skills.join(', ');
+		// 	skillString = skillString.substr(2, skillString.length);
+		// 	// alert(skillString)
+		// 	$(companyList[6]).append(skillString);
+		// }
+		skills = textInfo[13].split('، ');
+		$(companyList[6]).html($('<i>').attr('class', 'info icon'));
+		// alert(skills.length)
+		if(skills.length > 3){
+			len1 = 0;
+			for(var j = 0 ; j < 3 ; j++){
+				len1 += skills[j].length
+			}
+			// alert(textInfo[13].length)
+			// alert(len1)
+			$(companyList[6]).append(textInfo[13].substr(0, len1 + 2 * 3))
+			$(companyList[6]).append($('<br>'));
+			$(companyList[6]).append(textInfo[13].substr(len1 + 2 * 3))
+		}
+		else{
+			$(companyList[6]).append(textInfo[13])	
+		}
+		
+		$('#moreModal').modal('show');
 	});
 	
 	$('#tag-search-input input').on('keyup', function(){

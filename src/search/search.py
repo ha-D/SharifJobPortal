@@ -39,6 +39,11 @@ def getFinalQuery(words):
 	for q in nameQueryList:
 		finalQuery = finalQuery | q
 
+	if u'مرد' in words:
+		finalQuery = finalQuery | Q(sex = 0) | Q(sex = 2)
+	elif u'زن' in words:
+		finalQuery = finalQuery | Q(sex = 1) | Q(sex = 2)
+
 	# if u'مرد' in words:
 	# 	finalQuery = finalQuery | Q(sex = 0)
 	# elif u'زن' in words:

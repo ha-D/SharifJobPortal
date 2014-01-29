@@ -1,6 +1,8 @@
 {% extends "page.html" %}
 {% load staticfiles %}
 
+{% block title %}جستجوی فرصت شغلی{% endblock %}
+
 {% block style %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
 {% endblock style %}
@@ -106,7 +108,7 @@
 						  </div>
 						</div> -->
 						{% if user.is_authenticated %}
-						<div id = "applyButton{{ op.id }}" onclick="applyJob({{ op.id }})" class="ui green vertical animated button opp-request" style="{% if op.id in appliedfor %}display: none{% endif %}">
+						<div id = "applyButton{{ op.id }}" class="ui green vertical animated button opp-request" style="{% if op.id in appliedfor %}display: none{% endif %}">
 						  <div class="hidden content" >
 						  	<i class="large mail icon"></i>
 						  </div>
@@ -135,7 +137,7 @@
 						<li>{% if op.user.image %}{{op.user.image.url}}{% endif %}</li>
 						<li>{{op.id}}</li>
 						<li class="compId">{{op.user.id}}</li>
-						<li> {{op.opSkills.all | join:" "}}</li>
+						<li> {{op.opSkills.all | join:"، "}}</li>
 					</ul>
 				</div>
 				<div class="ui divider"></div>
@@ -166,7 +168,7 @@
 		</div>
 	</div>
 	
-	<div class="ui small modal">
+	<div class="ui small modal" id="moreModal">
 	  <div class="header" id="opName">
 	    نام فرصت شغلی
 	  </div>

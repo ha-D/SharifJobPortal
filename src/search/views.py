@@ -11,7 +11,7 @@ from django.contrib.auth.decorators import login_required
 
 @csrf_exempt
 def opSearch(request):
-	pageSize = 1
+	pageSize = 4
 	curPage = 1
 	user = request.user
 	if request.method == "GET":
@@ -160,7 +160,7 @@ def updateRate(request):
 @csrf_exempt
 @login_required
 def userSearch(request):
-	pageSize = 1
+	pageSize = 4
 	curPage = 1
 	if request.method == "GET":
 		param = request.GET
