@@ -254,7 +254,8 @@ def profile_employer_comments(request, employer_id):
             page_size = request.POST.get('page_size', 5)
             body = request.POST['comment']
             employer = Employer.objects.get(pk = employer_id)
-            CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
+            comment  = CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
+            Event_CommentOnEmployer.create(comment=comment)
 
             return list_comments(1, page_size)
     else:
