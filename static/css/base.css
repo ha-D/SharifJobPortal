@@ -111,7 +111,7 @@ body{
 	box-shadow: -0.3em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
 }
 
-.ui.form textarea{
+.ui.form textarea:focus{
 	box-shadow: -0.3em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
 }
 

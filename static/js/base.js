@@ -77,7 +77,6 @@ portal.zComment = function(options){
 	}
 
 	function addComments(comments, page, pageCount){
-		console.log(comments);
 		var comDiv = zSeg.find('.ui.comments')
 		comDiv.html('');
 		for(var i = 0; i < comments.length; i++){
@@ -176,7 +175,6 @@ portal.zComment = function(options){
 		zSeg.on('click', '.pagination .previous.item', function(){
 			var page = zSeg.currentPage + 1;
 			loadPage(page);
-			console.log($(this).parent());	
 			$(this).removeClass('active');
 		})
 

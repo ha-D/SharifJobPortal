@@ -34,7 +34,8 @@ def userpanel_message(request, message_id):
 
 @user_required
 def userpanel_send_message(request):
-    return template(request, 'userpanel/inbox/send.html')
+    receiver = request.GET.get('to', None)
+    return template(request, 'userpanel/inbox/send.html', {'receiver': receiver})
 
 
 @csrf_exempt

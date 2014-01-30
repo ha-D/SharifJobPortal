@@ -20,6 +20,8 @@ class UserProfile(models.Model):
     profilePage = models.URLField(unique=True, null=True, blank=True)
     user = models.OneToOneField(User , unique=True)
 
+    def _username(self):
+        return self.user.username
     def _first_name(self):
         return self.user.first_name
     def _last_name(self):
@@ -27,6 +29,7 @@ class UserProfile(models.Model):
     def _full_name(self):
         return '%s %s' % (self.first_name, self.last_name)
 
+    username   = property(_username)
     first_name = property(_first_name)
     last_name  = property(_last_name)
     full_name  = property(_full_name)

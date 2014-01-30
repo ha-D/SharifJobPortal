@@ -5,6 +5,7 @@
 {% block style %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
 	<style type="text/css">
 		.profile.employer {
 			padding: 30px 40px;
@@ -15,7 +16,7 @@
 			font-size: 40px;
 			font-weight: bold;
 			/*width: 200px;*/
-			float: right;
+			/*float: right;*/
 		}
 
 		.profile.employer .company.name .rating{
@@ -23,17 +24,12 @@
 			margin-right: 25px;
 		}
 
-		.profile.employer .topseg.right {
-			clear: both;
-			float: right;
-		}
-
 		.profile.employer .info.table{
 			margin-right: 40px;
 			margin-top: 30px;
 			max-width: 400px;
-			clear: both;
-			float: right;
+			/*clear: both;*/
+			/*float: right;*/
 		}
 
 		.profile.employer .info.table tr{
@@ -44,17 +40,27 @@
 			font-weight: bold;
 		}
 
+		.profile.employer .topseg .right .actions{
+			margin-top: 30px;
+			margin-right: 35px;
+		}
+
+		.profile.employer .topseg .right .actions .button{
+			margin-right: 18px;
+		}
+
 		.profile.employer .slideshow{
-			float: left;
-			width: 350px;
-			height: 200px;
 			margin-left: 40px;
-			/*box-shadow: 0 0 20px;*/
 			background-color: transparent;
-			/*border-radius: 30px;*/
+			position: absolute;
+			top: 80px;
+			left: 80px;
+			box-shadow: 0 0 10px;
 		}
 
 		.profile.employer .slideshow img{
+			width: 380px;
+			height: 250px;
 		}
 
 		.profile.employer .bottomseg {
@@ -65,12 +71,13 @@
 		}
 
 		.profile.employer .bottomseg .pages{
-			/*width: 1100px;*/
+			width: 950px;
 		}
 
 		.profile.employer .bottomseg .pages .page{
 			padding: 30px 30px;
-			height: 500px;
+			min-height: 350px;
+			max-height: 500px;
 			overflow-y: auto;
 			display: none;
 		}
@@ -82,6 +89,7 @@
 		.profile.employer .bottomseg .commentseg{
 			margin-top: 50px;
 		}
+
 	</style>	
 {% endblock style %}
 
@@ -122,14 +130,43 @@
 						<td class="key">تارنما</td> <td><a href="{{profile.webSite}}">{{profile.webSite}}</a></td>
 					</tr>
 				</table>
+
+				<div class="actions">
+					<div class="ui small labeled icon green button">
+						دنبال کن
+						<i class="icon star"></i>
+					</div>
+					<a class="ui small labeled icon red button" href="/userpanel/inbox/send/?to={{profile.username}}">
+						ارسال پیام
+						<i class="icon mail"></i>
+					</a>
+				</div>
 			</div>
 			<div class="slideshow">
-				<div >
-					<ul class="rslides">
-					{% for compimage in profile.images.all %}
-						<li><img src="{{ compimage.image.url }}"></li>
+				<div id="employer-carousel" class="carousel slide" data-ride="carousel">
+				  <!-- Indicators -->
+				  <ol class="carousel-indicators">
+				  	{% for compimage in profile.images.all %}
+				  		<li data-target="#employer-carousel" data-slide-to="{{forloop.counter}}" {% if forloop.first %} class="active" {% endif %}></li>
 					{% endfor %}
-					</ul>
+				  </ol>
+
+				  <!-- Wrapper for slides -->
+				  <div class="carousel-inner">
+			  		{% for compimage in profile.images.all %}
+				  		<div class="item {% if forloop.first %} active {% endif %}">
+					      <img src="{{ compimage.image.url }}">
+					    </div>
+					{% endfor %}
+				  </div>
+
+				  <!-- Controls -->
+				  <a class="left carousel-control" href="#employer-carousel" data-slide="next">
+				    <span class="glyphicon glyphicon-chevron-left"></span>
+				  </a>
+				  <a class="right carousel-control" href="#employer-carousel" data-slide="prev">
+				    <span class="glyphicon glyphicon-chevron-right"></span>
+				  </a>
 				</div>
 			</div>
 		</div>
@@ -202,6 +239,7 @@
 {% block script %}
 	<script type="text/javascript" src="{% static 'js/rslides.js' %}"></script>	
 	<script type="text/javascript" src="{% static 'js/jquery.jcarousel.min.js' %}"></script>	
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script type="text/javascript">
 		$(function(){
 			$('.commentseg').zComment({
@@ -210,8 +248,7 @@
 				addForm: {% if user.userprofile and user.userprofile.is_jobseeker %} true {% else %} false {% endif %}
 			});
 
-			$('.rslides').responsiveSlides({
-			});
+			$('.carousel').carousel();
 
 			$(".rating").rating("set rating", {{ profile.rate }});
 			$(".rating").rating();
