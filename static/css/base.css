@@ -141,3 +141,63 @@ body{
 #searchJob{
 	width: 200px;
 }
+
+
+  /******************/
+ /**** Comments ****/
+/******************/
+
+.commentseg > .right {
+	float: right;
+	/*border: 1px solid black;*/
+	padding: 10px 70px 0px 10px;
+	/*min-height: 200px;*/
+}
+.commentseg > .left {
+	float: right;
+	width: 400px;
+	position: absolute;
+	left: 100px;
+		padding-bottom: 30px;
+}
+
+.commentseg .ui.comments {
+	padding-top: 10px;
+}
+
+.commentseg .ui.comments .comment {
+	/*margin-right: 20px;*/
+}
+
+.commentseg .ui.comments .comment .content .text{
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+.commentseg .ui.comments .comment .content .date{
+	font-size: 12px;
+	margin-right: 5px;
+}
+
+.commentseg .ui.comments .comment .content .author{
+	text-decoration: none;
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.commentseg .menu.pagination {
+	margin-top: 100px;
+	/*margin-right: 20px;*/
+} 
+
+.commentseg .menu.pagination .items {
+	padding: 0;
+	margin: 0;
+	display: inline;
+}
+
+
+.commentseg .reply.form .submit.button {
+	margin-top: 10px;
+}

@@ -1,3 +1,5 @@
+#coding=utf-8
+
 from django.contrib.auth.views 		import login, logout
 from django.shortcuts            	import render, render_to_response
 from django.template             	import RequestContext
@@ -6,6 +8,7 @@ from django.http                 	import HttpResponse, HttpResponseRedirect, Htt
 from django.contrib.auth.models 	import User
 from django.views.decorators.csrf   import csrf_exempt
 from django.utils.safestring        import SafeText
+from django.core.paginator          import Paginator
 from django.conf 					import settings
 
 from utils.functions                import template, json_response, ajax_template
@@ -205,6 +208,20 @@ def userpanel_changecompanyinfo_zedit(request):
         return json_response({'result': 'fail'})
 
 
+
+#####################
+### Profile Pages ###
+#####################
+
+def comment_to_dict(comment):
+    return {
+        'author': comment.user.full_name,
+        'author_url': comment.user.profilePage,
+        'image': comment.user.image.url,
+        'date': 'همین الان',
+        'content': comment.body
+    }
+
 def profile_employer(request, username):
     employer = Employer.objects.get(user__username = username)
     pages = list(employer.user.pages.all())
@@ -212,4 +229,23 @@ def profile_employer(request, username):
         page.content = SafeText(markdown(page.content))
     return render(request, 'accounts/employerprofile.html', {'profile': employer, 'pages': pages})
 
+@csrf_exempt
+def profile_employer_comments(request, employer_id):
+    if request.method == 'POST':
+        action = request.POST['action']
+        if action == 'list':
+            page_size = request.POST.get('page_size', 5)
+            page      = request.POST.get('page', 1)
 
+            comments = CommentOnEmployer.objects.filter(employer__id = employer_id)
+            p = Paginator(comments, page_size)
+            comments = map(comment_to_dict, p.page(page).object_list)
+            return json_response({'result': 'success', 'page':page, 'pageCount':p.num_pages , 'comments': comments})
+
+        elif action == 'add':
+            body = request.POST['comment']
+            employer = Employer.objects.get(pk = employer_id)
+            comment = CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
+            return json_response({'result': 'success', 'comment': comment_to_dict(comment)})
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})

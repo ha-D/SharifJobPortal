@@ -154,6 +154,47 @@
 					<i class="icon comment"></i>
 					نظرات
 				</h2>
+
+				<div class="right">
+					<div class="ui comments">
+						<div class="comment">
+							<a class="avatar">
+				            	<img src="/static/images/avatar.png">
+				          	</a>
+							<div class="content">
+								<a class="author">هادی ذوالفقاری</a>
+								<div class="metadata">
+									<span class="date">دو روز پیش</span>
+								</div>
+								<div class="text">
+									خیلی جای خوبه، راصیم ازش کلا شسیبشسب
+								</div>
+							</div>
+						</div>
+						<div class="ui small pagination menu">
+							<a class="icon item"><i class="icon right arrow"></i></a>
+								<a class="active item">1</a>
+							<div class='items'>
+								<div class="disabled item">...</div>
+								<a class="item">10</a>
+								<a class="item">11</a>
+								<a class="item">12</a>
+							</div>
+							<a class="icon item"><i class="icon left arrow"></i></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="left">
+					<form class="ui reply form">
+				      <div class="field">
+				        <textarea></textarea>
+				      </div>
+				      <div class="ui fluid blue labeled submit icon button">
+				        <i class="icon edit"></i> ثبت نظر
+				      </div>
+				    </form>
+				</div>
 			</div>
 		</div>
 {% endblock page %}
@@ -163,11 +204,20 @@
 	<script type="text/javascript" src="{% static 'js/jquery.jcarousel.min.js' %}"></script>	
 	<script type="text/javascript">
 		$(function(){
+			$('.commentseg').zComment({
+				url: '/comments/employer/{{ profile.id }}/',
+				pagination: true,
+				addForm: {% if user.userprofile and user.userprofile.is_jobseeker %} true {% else %} false {% endif %}
+			});
+
 			$('.rslides').responsiveSlides({
 			});
 
-			$(".rating").rating();
 			$(".rating").rating("set rating", {{ profile.rate }});
+			$(".rating").rating();
+			{% if not user.userprofile or user.userprofile.is_employer %}
+				$(".rating").rating('disable');
+			{% endif %}
 
 			$('.profile .menu .item').click(function(){
 				var page_id = $(this).attr('data-page-id');

@@ -17,15 +17,22 @@ class UserProfile(models.Model):
     phoneNumber = models.CharField(max_length=15, verbose_name="شماره تلفن")
     image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس")
     city = models.ForeignKey(City, verbose_name="شهر")
-    personalPage = models.OneToOneField('accounts.PersonalPage' , unique=True, null=True, blank=True)
-    
+    profilePage = models.URLField(unique=True, null=True, blank=True)
     user = models.OneToOneField(User , unique=True)
+
+    def _first_name(self):
+        return self.user.first_name
+    def _last_name(self):
+        return self.user.last_name
+    def _full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    first_name = property(_first_name)
+    last_name  = property(_last_name)
+    full_name  = property(_full_name)
 
     def is_jobseeker(self):
         pass
-
-    def full_name(self):
-        return '%s %s' % (self.user.first_name, self.user.last_name)
 
     def is_employer(self):
         return not self.is_jobseeker()

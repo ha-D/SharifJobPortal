@@ -104,5 +104,5 @@ def userpanel_requestFriendShip(request):
     friendShip = FriendShip(jobSeeker1=user1 , jobSeeker2=user2)
     friendShip.save()
     print('friendship successfuly sabt shod :D ')
-    return json_response(({'status' : 'you have successfully invited  "' + user2.full_name() + '"  to be your friend.'}))
+    return json_response(({'status' : 'you have successfully invited  "' + user2.full_name + '"  to be your friend.'}))
 
