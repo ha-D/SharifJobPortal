@@ -1,15 +1,29 @@
 initHeader = function(){
 	document.getElementById('searchJobIcon').onclick = function(){
-		alert('here1')
+		// alert('here1')
 		query = $('#searchJob').val().trim();
 		if(query.length > 0){
 			if($('#searchType').attr('name') == '0'){
-				window.location.href = '/search?q=' + query;
+				window.location.href = '/search/op?q=' + query;
 			}
 			else{
 				window.location.href = '/search/user?q=' + query;
 			}
 		}
+	};
+
+	document.getElementById('searchFrom').onsubmit = function(){
+		alert('in submit')
+		query = $('#searchJob').val().trim();
+		if(query.length > 0){
+			if($('#searchType').attr('name') == '0'){
+				window.location.href = '/search/op?q=' + query;
+			}
+			else{
+				window.location.href = '/search/user?q=' + query;
+			}
+		}
+		return false;
 	};
 
 	$('#searchType').checkbox({
