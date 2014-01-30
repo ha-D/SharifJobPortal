@@ -220,12 +220,9 @@ def userpanel_changejobseekerinfo_skills(request):
     if request.method == 'POST':
         action = request.POST.get('action')
         if action == 'list possible':
-            print("listing")
             query = request.POST.get('query', '')
             if query == '':
                 skills = Skill.objects.all()
-                print("HERE")
-                print(skills)
             else:
                 skills = Skill.objects.filter(name__contains = query)
 
