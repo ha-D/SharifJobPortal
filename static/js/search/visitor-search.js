@@ -1,3 +1,5 @@
+search = {}
+search['query'] = ''
 FADE_SPEED = 400
 init = function(){
 	$('.icon.delete').on('click', function(){
@@ -45,10 +47,16 @@ init = function(){
 		}
 		$('#companyImage img').attr('src', textInfo[10]);
 		skills = textInfo[13].split(' ');
-		console.log(skills.join())
-		$(companyList[6]).html($('<i>').attr('class', 'info icon'))
-		$(companyList[6]).append(skills.join('، '))
-		$('.ui.modal').modal('show');
+		// if(skills.length > 0){
+		// 	$(companyList[6]).html($('<i>').attr('class', 'info icon'));
+		// 	skillString = skills.join(', ');
+		// 	skillString = skillString.substr(2, skillString.length);
+		// 	// alert(skillString)
+		// 	$(companyList[6]).append(skillString);
+		// }
+		$(companyList[6]).html($('<i>').attr('class', 'info icon'));
+		$(companyList[6]).append(textInfo[13]);
+		$('#moreModal').modal('show');
 	});
 	
 	$('#tag-search-input input').on('keyup', function(){
@@ -96,6 +104,14 @@ init = function(){
 		searchAjax(query, 1)
 		
 	};
+
+	document.getElementById('searchForm').onsubmit = function(){
+		query = $('#searchJob').val().trim();
+		searchAjax(query, 1)
+		return false;	
+	};
+
+
 
 	$('.pagination-item').on('click', function(e){
 		curPage = parseInt($('.pagination-item.active').text().trim());
@@ -152,4 +168,6 @@ searchAjax = function(query, page){
 window.onload = function(){
 	init();
 	$('.ui.rating').rating('disable');
+	search['query'] = $('#query').html()
+	$('#searchJob').val(search['query']);
 };

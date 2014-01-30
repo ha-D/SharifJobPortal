@@ -39,6 +39,11 @@ def getFinalQuery(words):
 	for q in nameQueryList:
 		finalQuery = finalQuery | q
 
+	if u'مرد' in words:
+		finalQuery = finalQuery | Q(sex = 0) | Q(sex = 2)
+	elif u'زن' in words:
+		finalQuery = finalQuery | Q(sex = 1) | Q(sex = 2)
+
 	# if u'مرد' in words:
 	# 	finalQuery = finalQuery | Q(sex = 0)
 	# elif u'زن' in words:
@@ -136,7 +141,26 @@ def getUserFinalQuery(words):
 
 	return finalQuery
 
-def user_rank(normalOps, biwordsOps, skills, words, biwords):
+def getOriginalQuery(words):
+	userNameQueryList = [Q(user__username__contains = w) for w in words]
+	firstNameQueryList = [Q(user__first_name__contains = w) for w in words]
+	lastNameQueryList = [Q(user__last_name__contains = w) for w in words]
+	emailQueryList = [Q(user__email__contains = w) for w in words]
+	if len(words) == 0:
+		return 
+	finalQuery = userNameQueryList[0]
+	if len(finalQuery) > 1:
+		for q in finalQuery[1:]:
+			finalQuery = finalQuery | q
+	for q in firstNameQueryList:
+		finalQuery = finalQuery | q
+	for q in lastNameQueryList:
+		finalQuery = finalQuery | q
+	for q in emailQueryList:
+		finalQuery = finalQuery | q
+	return finalQuery	
+
+def user_rank(normalOps, biwordsOps, skills, words, biwords, normalOrg):
 	if biwordsOps and normalOps:
 		allOps = biwordsOps | normalOps
 	elif biwordsOps:
@@ -185,15 +209,21 @@ def user_rank(normalOps, biwordsOps, skills, words, biwords):
 
 	print('skill', skillMatch)
 	allOps = [op.id for op in allOps]
+	if normalOrg:
+		normalOrg = [op.id for op in normalOrg]
+	else:
+		normalOrg = []
 	resList = []
 	for k in skillMatch:
-		boost = 0
+		boost = 1.5
 		if k in sexFilter:
 			boost += 1
 		if k in opSexFilter:
 			boost -= 1
 		if k in biwordsOps:
 			boost += 2
+		if k in normalOrg:
+			boost += 1
 		if k in statusFilter:
 			boost += 1
 		skillMatch[k] += boost
@@ -212,15 +242,24 @@ def user(query, skills):
 	biwords = []
 	biwordsOps = None
 	normalOps = JobSeeker.objects.filter(getUserFinalQuery(words))
+
+	gwords = [w for w in words if w != u'مرد' and w != u'زن']
+	normalQ = getOriginalQuery(gwords)
+	if normalQ:
+		normalOrg = JobSeeker.objects.filter()
+	else:
+		normalOrg = None
+	print(normalOrg)
 	if len(words) > 1:
 		words2 = words[1:] + [words[0]]
 		biwords = [ s + " " + k for s,k in zip(words, words2)]
 		# user.username user.companyName, name
 		finalBiwordQuery = getUserFinalQuery(biwords)
 		biwordsOps = JobSeeker.objects.filter(finalBiwordQuery)
+		# biwordOgs = JobSeeker.objects.filter(getOriginalQuery(biwords))
 		normalOps = normalOps.exclude(finalBiwordQuery)
 	res = []
-	ranks = user_rank(normalOps, biwordsOps, skills, words, biwords)
+	ranks = user_rank(normalOps, biwordsOps, skills, words, biwords, normalOrg)
 	for r in ranks:
 		res.append(JobSeeker.objects.get(id = r))
 	return res

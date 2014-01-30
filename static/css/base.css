@@ -142,6 +142,28 @@ body{
 	width: 200px;
 }
 
+#jobLabel{
+	color: white;
+	margin-right: -10px;
+	margin-left: 5px;
+}
+
+.search-type{
+	color:white;
+	display:inline;
+	float:right;
+	margin-left:5px;
+}
+
+#toggleDiv{
+	float:right;
+	margin-top:10px;
+	margin-left:10px;
+}
+
+.clearfix{
+	clear:both;
+}
 
   /******************/
  /**** Comments ****/
