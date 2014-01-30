@@ -73,7 +73,7 @@ portal.zComment = function(options){
 		content.append($("<div>").addClass("text").text(comment.content));
 
 		comm.append(content);
-		comDiv.prepend(comm);
+		comDiv.append(comm);
 	}
 
 	function addComments(comments, page, pageCount){
@@ -95,18 +95,23 @@ portal.zComment = function(options){
 			pagesDiv.append(a);
 		}
 
-		if(comments.length > 0)
+		if(comments.length > 0){
 			zSeg.find('.right .pagination').show();
+			zSeg.find('.right .columnholder').hide();
+		}else{
+			zSeg.find('.right .columnholder').show();
+		}
 	}
 
 	function loadPage(page){
 		$.ajax({
 			url: zSeg.options.url,
 			type: 'post',
-			data: { action: 'list', page: page },
+			data: { action: 'list', page: page, page_size: zSeg.options.pageSize },
 			success: function(data){
 				if(data.result == 'success'){
 					addComments(data.comments, data.page, data.pageCount);
+					zSeg.currentPage = data.page;
 				}
 			}
 		})
@@ -115,6 +120,7 @@ portal.zComment = function(options){
 	if(typeof(options) == 'object'){
 		/* Initial Values */
 		options.title = options.title || 'نظرات';
+		options.pageSize = options.pageSize || 5;
 		if(!options.url){
 			throw "Must give a url for zComments";
 		}
@@ -135,12 +141,14 @@ portal.zComment = function(options){
 			append($("<i>").addClass("icon comment")).append(options.title));
 
 		var pagination = $("<div>").addClass("ui pagination menu");
-		pagination.append($("<a>").addClass("icon item").append($("<i>").addClass("icon right arrow")));
+		pagination.append($("<a>").addClass("icon next item").append($("<i>").addClass("icon right arrow")));
 		pagination.append($("<div>").addClass("items"));
-		pagination.append($("<a>").addClass("icon item").append($("<i>").addClass("icon left arrow")));
+		pagination.append($("<a>").addClass("icon previous item").append($("<i>").addClass("icon left arrow")));
 
+		var holder = $("<div>").addClass("columnholder");
 		var right = $("<div>").addClass("right");
 		right.append($("<div>").addClass("ui comments"));
+		right.append(holder);
 		if(options.pagination)
 			right.append(pagination);
 
@@ -152,6 +160,7 @@ portal.zComment = function(options){
 		if(options.addForm)
 			left.append(form);
 
+		holder.show();
 		pagination.hide();
 		zSeg.append(right).append(left);
 
@@ -164,16 +173,28 @@ portal.zComment = function(options){
 			loadPage(page);
 		})
 
+		zSeg.on('click', '.pagination .previous.item', function(){
+			var page = zSeg.currentPage + 1;
+			loadPage(page);
+			console.log($(this).parent());	
+			$(this).removeClass('active');
+		})
+
+		zSeg.on('click', '.pagination .next.item', function(){
+			var page = zSeg.currentPage - 1;
+			loadPage(page);
+			$(this).removeClass('active');
+		})
+
 		zSeg.find('.submit.button').click(function(){
 			var comment = zSeg.find('textarea.add.text').val();
 			$.ajax({
 				url: zSeg.options.url,
 				type: 'post',
-				data: { action: 'add', comment: comment },
+				data: { action: 'add', comment: comment, page_size: zSeg.options.pageSize},
 				success: function(data){
 					if(data.result == 'success'){
-						addComment(data.comment);
-						zSeg.find('.right .pagination').show();
+						addComments(data.comments);
 					}else{
 						console.log('Error');
 						console.log(data);

@@ -231,21 +231,31 @@ def profile_employer(request, username):
 
 @csrf_exempt
 def profile_employer_comments(request, employer_id):
+    def list_comments(page, page_size):
+        comments = CommentOnEmployer.objects.filter(employer__id = employer_id).order_by('-time')
+        p = Paginator(comments, page_size)
+        print('Page %d   Num Pages %d ' % (page, p.num_pages))
+        if page > p.num_pages:
+            page = p.num_pages
+            print('in here')
+        if page < 0:
+            page = 0
+        comments = map(comment_to_dict, p.page(page).object_list)
+        return json_response({'result': 'success', 'page':page, 'pageCount':p.num_pages , 'comments': comments})
+
     if request.method == 'POST':
         action = request.POST['action']
         if action == 'list':
             page_size = request.POST.get('page_size', 5)
-            page      = request.POST.get('page', 1)
-
-            comments = CommentOnEmployer.objects.filter(employer__id = employer_id)
-            p = Paginator(comments, page_size)
-            comments = map(comment_to_dict, p.page(page).object_list)
-            return json_response({'result': 'success', 'page':page, 'pageCount':p.num_pages , 'comments': comments})
+            page      = int(request.POST.get('page', 1))
+            return list_comments(page, page_size)
 
         elif action == 'add':
+            page_size = request.POST.get('page_size', 5)
             body = request.POST['comment']
             employer = Employer.objects.get(pk = employer_id)
-            comment = CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
-            return json_response({'result': 'success', 'comment': comment_to_dict(comment)})
+            CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
+
+            return list_comments(1, page_size)
     else:
         return json_response({'result': 'fail', 'error': 'get not supported'})

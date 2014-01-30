@@ -153,6 +153,12 @@ body{
 	padding: 10px 70px 0px 10px;
 	/*min-height: 200px;*/
 }
+
+.commentseg > .right .columnholder {
+	display: inline;
+	min-height: 200px;
+}
+
 .commentseg > .left {
 	float: right;
 	width: 400px;
@@ -163,6 +169,7 @@ body{
 
 .commentseg .ui.comments {
 	padding-top: 10px;
+	max-width: 450px;
 }
 
 .commentseg .ui.comments .comment {
@@ -172,6 +179,7 @@ body{
 .commentseg .ui.comments .comment .content .text{
 	margin-right: 10px;
 	margin-top: 10px;
+	font-family: nazli;
 }
 
 .commentseg .ui.comments .comment .content .date{
@@ -187,7 +195,7 @@ body{
 }
 
 .commentseg .menu.pagination {
-	margin-top: 100px;
+	margin-top: 50px;
 	/*margin-right: 20px;*/
 } 
 
@@ -200,4 +208,8 @@ body{
 
 .commentseg .reply.form .submit.button {
 	margin-top: 10px;
+}
+
+.commentseg .reply.form textarea {
+	font-size: 14px;
 }
