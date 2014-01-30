@@ -115,9 +115,9 @@ class JobSeeker(UserProfile):
         (FULL_TIME , u'تمام وقت'),
         (UNEMPLOYED , u'بیکار'),
     )
-    job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True)
+    job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True, verbose_name=u'وضعیت شغلی')
 
-    cv = models.FileField(upload_to="cv", null=True, blank=True)
+    cv = models.FileField(upload_to="cv", null=True, blank=True, verbose_name=u'کارنامک کاری')
     
 
     friends = models.ManyToManyField('JobSeeker' , through='social_network.FriendShip' , related_name='friends2')

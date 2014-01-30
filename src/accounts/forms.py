@@ -4,6 +4,11 @@ from django						import forms
 from django.contrib.auth.models import User
 from accounts.models 			import JobSeeker, Employer, UserProfile, CompanyImage
 
+class ChangeJobseekerInfoForm(forms.ModelForm):
+	class Meta:
+		model = JobSeeker
+		fields = ('job_status', 'cv',)
+
 class ChangeCompanyInfoForm(forms.ModelForm):
 	class Meta:
 		model = Employer
@@ -12,7 +17,7 @@ class ChangeCompanyInfoForm(forms.ModelForm):
 class CompanyImageUploadForm(forms.ModelForm):
 	class Meta:
 		model = CompanyImage
-		fields = ['image']
+		fields = ('image',)
 
 class ChangeUserInfoForm(forms.ModelForm):
 	first_name = forms.CharField(max_length = 100, label="نام")
@@ -21,7 +26,7 @@ class ChangeUserInfoForm(forms.ModelForm):
 
 	class Meta:
 		model = UserProfile
-		fields = ['address', 'postalCode', 'phoneNumber', 'city', 'image']
+		fields = ('address', 'postalCode', 'phoneNumber', 'city', 'image')
 
 	def __init__(self, *args, **kwargs):
 		if 'instance' in kwargs:
@@ -45,7 +50,10 @@ class ChangeUserInfoForm(forms.ModelForm):
 
 
 
-# -- Register Forms
+
+########################
+#### Register Forms ####
+########################
 
 class RegisterUserForm(forms.ModelForm):
 	password_repeat = forms.CharField(widget=forms.PasswordInput)

@@ -16,7 +16,7 @@ from accounts.decorators            import user_required, employer_required, job
 from accounts.models                import CompanyImage, PersonalPage, Employer, JobSeeker
 from accounts.forms                 import *
 from social_network.models          import *
-from jobs.models                    import JobOffer
+from jobs.models                    import JobOffer, Skill
 
 from markdown                       import markdown
 
@@ -83,19 +83,56 @@ def userpanel_offers(request):
     offers_by_employer = JobOffer.objects.filter(jobOpportunity__user=user, mode=1).order_by('-date')
     return template(request, 'userpanel/employer/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
 
-@user_required #OBSOLETE
-def userpanel_changeinfo_old(request):
-    context = {}
-    if request.method == 'POST':
-        form = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
-        if form.is_valid():
-            form.save()
-            context['state'] = 'success'
-    else:
-        form = ChangeUserInfoForm(instance = request.userprofile)
 
-    context['form'] = form
-    return render(request, 'userpanel/changeuserinfo.html', context)
+####################################
+#######    Info Pages    ########
+####################################
+
+@user_required
+def userpanel_changeinfo(request):
+    if request.userprofile.is_employer():
+        return userpanel_changecompanyinfo(request)
+    else:
+        return userpanel_changejobseekerinfo(request)
+
+@csrf_exempt
+def userpanel_info_profile_pages(request):
+    action = request.POST.get('action', '')
+    
+    try:
+        if action == 'save':
+            page_id = request.POST['page_id']
+            content = request.POST['content']
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.content = content
+            page.save()
+            return json_response({'result': 'success'})
+
+        elif action == 'remove':
+            page_id = request.POST['page_id']
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.delete()
+            return json_response({'result': 'success'})
+
+        elif action == 'add':
+            title = request.POST['title']
+            page = PersonalPage.objects.create(user=request.user, title=title)
+            page = {'page_id': page.id, 'title':page.title, 'content': page.content}
+            return json_response({'result': 'success', 'page': page})
+
+        elif action == 'list':
+            pages = PersonalPage.objects.filter(user=request.user)
+            pages = map(lambda x: {'page_id': x.id, 'title':x.title, 'content': x.content}, pages)
+            return json_response({'result': 'success', 'pages': pages})
+
+    except Error as e:
+        print(e)
+        return json_response({'result': 'fail'})
+
 
 @employer_required
 def userpanel_changecompanyinfo(request):
@@ -107,10 +144,6 @@ def userpanel_changecompanyinfo(request):
             userform.save()
             compform.save()
             context['state'] = 'success'
-        else:
-            print(compform.errors)
-            print(userform.errors)
-            print("SHIT")
     else:
         userform = ChangeUserInfoForm(instance = request.userprofile)
         compform = ChangeCompanyInfoForm(instance = request.userprofile)
@@ -121,14 +154,6 @@ def userpanel_changecompanyinfo(request):
     context['site_url'] = settings.SITE_URL
 
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
-
-
-@user_required
-def userpanel_changeinfo(request):
-    if request.userprofile.is_employer():
-        return userpanel_changecompanyinfo(request)
-    else:
-        return userpanel_changejobseekerinfo(request)
 
 @csrf_exempt
 def userpanel_changecompanyinfo_uploadimage(request):
@@ -169,49 +194,82 @@ def userpanel_changecompanyinfo_removeimage(request, image_id):
     return json_response({'result': 'success', 'images': images})
 
 
+
+@jobseeker_required
+def userpanel_changejobseekerinfo(request):
+    context = {}
+    if request.method == 'POST':
+        userform = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
+        jobsform = ChangeJobseekerInfoForm(request.POST, instance=request.userprofile)
+        if userform.is_valid() and jobsform.is_valid():
+            userform.save()
+            jobsform.save()
+            context['state'] = 'success'
+    else:
+        userform = ChangeUserInfoForm(instance = request.userprofile)
+        jobsform = ChangeJobseekerInfoForm(instance = request.userprofile)
+
+    context['jobsform'] = jobsform
+    context['userform'] = userform
+    context['site_url'] = settings.SITE_URL
+
+    return render(request, 'userpanel/jobseeker/changejobseekerinfo.html', context)
+
 @csrf_exempt
-def userpanel_changecompanyinfo_zedit(request):
-    action = request.POST.get('action', '')
-    
-    try:
-        if action == 'save':
-            page_id = request.POST['page_id']
-            content = request.POST['content']
-            page = PersonalPage.objects.get(pk = page_id)
-            if page.user != request.user:
-                raise "Unauthorized"
-            page.content = content
-            page.save()
-            return json_response({'result': 'success'})
+def userpanel_changejobseekerinfo_skills(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'list possible':
+            print("listing")
+            query = request.POST.get('query', '')
+            if query == '':
+                skills = Skill.objects.all()
+                print("HERE")
+                print(skills)
+            else:
+                skills = Skill.objects.filter(name__contains = query)
 
-        elif action == 'remove':
-            page_id = request.POST['page_id']
-            page = PersonalPage.objects.get(pk = page_id)
-            if page.user != request.user:
-                raise "Unauthorized"
-            page.delete()
-            return json_response({'result': 'success'})
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
 
-        elif action == 'add':
-            title = request.POST['title']
-            page = PersonalPage.objects.create(user=request.user, title=title)
-            page = {'page_id': page.id, 'title':page.title, 'content': page.content}
-            return json_response({'result': 'success', 'page': page})
+        elif action == 'list current':
+            query = request.POST.get('query', '')
+            if query == '':
+                skills = request.userprofile.skills.all() 
+            else:
+                skills = request.userprofile.skills.filter(name__contains = query)
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
 
-        elif action == 'list':
-            pages = PersonalPage.objects.filter(user=request.user)
-            pages = map(lambda x: {'page_id': x.id, 'title':x.title, 'content': x.content}, pages)
-            return json_response({'result': 'success', 'pages': pages})
+        elif action == 'add current':
+            skill = request.POST.get('skill', '')
+            try:
+                request.userprofile.skills.get(name=skill)
+            except:
+                skill = Skill.objects.get_or_create(name=skill)[0]
+                request.userprofile.skills.add(skill)
 
-    except Error as e:
-        print(e)
-        return json_response({'result': 'fail'})
+            skills = request.userprofile.skills.all()
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
+
+        elif action == 'remove current':
+            skill = request.POST.get('skill', '')
+            try:
+                skill = Skill.objects.get(name=skill)
+                request.userprofile.skills.remove(skill)
+            except:
+                pass
+
+            skills = request.userprofile.skills.all()
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
 
 
 
-#####################
-### Profile Pages ###
-#####################
+####################################
+#######    Profile Pages    ########
+####################################
 
 def comment_to_dict(comment):
     return {

@@ -164,6 +164,39 @@ body{
 .clearfix{
 	clear:both;
 }
+  
+  /******************/
+ /* Skill Chooser  */
+/******************/
+
+.skill.chooser .column {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.skill.chooser .column .item:hover{
+	background-color: rgba(200,200,200,0.6);
+	cursor: pointer;
+}
+
+.skill.chooser .skill.container {
+	height: 300px;
+	overflow-y: auto;
+	margin-right: 3px;
+}
+
+.skill.chooser .left.skill.container {
+	margin-right: 2px;
+}
+
+.skill.chooser .skill.searchbar {
+	width: 100%;
+}
+
+.skill.chooser .skill.searchbar .icon.add{
+	cursor: pointer;
+	color: green;
+}
 
   /******************/
  /**** Comments ****/

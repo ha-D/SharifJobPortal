@@ -193,6 +193,7 @@ portal.zComment = function(options){
 				success: function(data){
 					if(data.result == 'success'){
 						addComments(data.comments);
+						 zSeg.find('textarea.add.text').val('');
 					}else{
 						console.log('Error');
 						console.log(data);
@@ -209,6 +210,209 @@ portal.zComment = function(options){
 
 }
 
+portal.skills = function(options){
+	var zSkill = $(this);
+
+	options = options || {}
+
+	function addPossibleSkills(skills){
+		var list = zSkill.find('.column.possible .skill.list');
+		function addSkill(skill){
+			var item = $("<div>").addClass("item").attr("data-skill", skill);
+			item.append($("<div>").addClass("right floated small green ui icon button")
+				.append($("<i>").addClass("add icon")));
+			item.append($("<div>").addClass("content").append(skill));
+			list.append(item);
+		}
+
+		list.html('');
+		for(var i = 0; i < skills.length; i++){
+			addSkill(skills[i]);
+		}
+	}
+
+	function addCurrentSkills(skills){
+		var list = zSkill.find('.column.current .skill.list');
+		function addSkill(skill){
+			var item = $("<div>").addClass("item").attr("data-skill", skill);
+			item.append($("<div>").addClass("right floated tiny red ui icon button")
+				.append($("<i>").addClass("remove icon")));
+			item.append($("<div>").addClass("content").append(skill));
+			list.append(item);
+		}
+
+		list.html('');
+		for(var i = 0; i < skills.length; i++){
+			addSkill(skills[i]);
+		}	
+	}
+
+	function loadPossibleSkills(query){
+		query = query || '';
+		$.ajax({
+			url: zSkill.options.url,
+			type: 'post',
+			data: {action: 'list possible', query: query},
+			dataType: 'json',
+			success: function(data){
+				if(data.result == 'success'){
+					addPossibleSkills(data.skills);
+				}else{
+					console.log('Error');
+					console.log(data);
+				}
+			}
+		})
+	}
+
+	function loadCurrentSkills(query){
+		query = query || '';
+
+		$.ajax({
+			url: zSkill.options.url,
+			type: 'post',
+			data: {action: 'list current', query: query},
+			dataType: 'json',
+			success: function(data){
+				if(data.result == 'success'){
+					addCurrentSkills(data.skills);
+				}else{
+					console.log('Error');
+					console.log(data);
+				}
+			}
+		})
+	}
+
+	if(typeof(options) == 'object'){
+
+		/* Initialize */
+		zSkill.options = options;
+
+		if(!zSkill.hasClass("skill")) zSkill.addClass('skill');
+		if(!zSkill.hasClass("chooser")) zSkill.addClass('chooser');
+
+		if(zSkill.options.url === undefined){
+			throw 'No url given';
+		}
+
+
+		/* Initialize Html */
+		zSkill.html('');
+
+		var grid = $("<div>").addClass("ui two column middle aligned relaxed grid basic segment");
+		
+		var colPos = $("<div>").addClass("column possible");
+		colPos.append($("<p>").html("از لیست زیر مهارت‌های خود را انتخاب کنید:"));
+		colPos.append($("<div>").addClass("ui top attached icon input right skill searchbar")
+			.append($("<input>").attr('type', 'text').attr('placeholder', 'جستجو...'))
+			.append($("<i>").addClass("search icon")));
+		colPos.append($("<div>").addClass('ui attached segment right skill container')
+				.append($("<div>").addClass("ui inverted dimmer skill")
+				.append($("<div>").addClass("ui text loader")
+					.append($("<i>").addClass("loading icon")).append("لطفا صبر کنید.")))
+				.append($("<div>").addClass("ui divided skill list")));
+
+		var divider = $("<div>").addClass("ui vertical icon divider").append($("<i>").addClass("exchange icon"));
+
+		var colCur = $("<div>").addClass("column current");
+		colCur.append($("<p>").html("مهارت‌های شما:"));
+		colCur.append($("<div>").addClass("ui top attached icon input right skill searchbar")
+			.append($("<input>").attr('type', 'text').attr('placeholder', 'جستجو...'))
+			.append($("<i>").addClass("search icon")));
+		colCur.append($("<div>").addClass('ui attached segment right skill container')
+				.append($("<div>").addClass("ui inverted dimmer skill")
+				.append($("<div>").addClass("ui text loader")
+					.append($("<i>").addClass("loading icon")).append("لطفا صبر کنید.")))
+				.append($("<div>").addClass("ui divided skill list")));		
+
+		grid.append(colPos).append(divider).append(colCur);
+
+		zSkill.append(grid);
+
+		loadPossibleSkills();
+		loadCurrentSkills();
+
+		
+		/* Events */
+
+		function sendAdd(skill){
+			$.ajax({
+				url: zSkill.options.url,
+				type: 'post',
+				data: { action: 'add current', skill: skill },
+				dataType: 'json',
+				success: function(data){
+					if(data.result == 'success'){
+						addCurrentSkills(data.skills);
+						zSkill.find('.column.current .searchbar input').val('');
+					}else{
+						console.log(data);
+					}
+				}
+			})
+		}
+
+		zSkill.on('keyup', ".column.possible .skill.searchbar input[type='text']", function(e){
+			loadPossibleSkills($(this).val());
+
+			var el = zSkill.find('.column.possible .searchbar .icon');
+			var inp = zSkill.find('.column.possible .searchbar input');
+			if(inp.val() == '')
+				el.addClass('search').removeClass('add');
+			else
+				el.removeClass('search').addClass('add');
+
+			if (e.keyCode == 13 && inp.val() != ''){
+				sendAdd(inp.val());
+				inp.val('');
+				el.addClass('search').removeClass('add');
+				loadPossibleSkills();
+			}
+		})
+
+		zSkill.on('keyup', ".column.current .skill.searchbar input[type='text']", function(){
+			loadCurrentSkills($(this).val());
+		})
+
+		zSkill.on('click', '.column.possible .searchbar .icon.add', function(){
+			var el = zSkill.find('.column.possible .searchbar .icon');
+			var inp = zSkill.find('.column.possible .searchbar input');
+			sendAdd(inp.val());
+			inp.val('');
+			el.addClass('search').removeClass('add');
+			loadPossibleSkills();
+		})
+
+		zSkill.on('click', '.column.possible .item', function(){
+			var item = $(this);
+			var skill = item.attr('data-skill');
+
+			sendAdd(skill);
+		})
+
+		zSkill.on('click', '.column.current .item .button', function(){
+			var item = $(this).parents('.item');
+			var skill = item.attr('data-skill');
+
+			$.ajax({
+				url: zSkill.options.url,
+				type: 'post',
+				data: { action: 'remove current', skill: skill },
+				dataType: 'json',
+				success: function(data){
+					if(data.result == 'success'){
+						addCurrentSkills(data.skills);
+						zSkill.find('.column.current .searchbar input').val('');
+					}else{
+						console.log(data);
+					}
+				}
+			})
+		})
+	}
+}
+
 $(document).ready(function(){
 	relaxUI();
 	$(".footer").load('/footer');
@@ -216,5 +420,6 @@ $(document).ready(function(){
 
 
 	$.fn.zComment = portal.zComment;
+	$.fn.skills = portal.skills;
 });
 
