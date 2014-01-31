@@ -33,6 +33,12 @@
                     {{userform.city|semfield}}
                     <div class="small field">
                         <label for="id_image">عکس</label>
+                        {% if user.userprofile.image %}
+                            <div class="image clear">
+                                <input id="image-clear_id" name="image-clear" type='checkbox'>
+                                <label for="image-clear_id">پاک کردن</label>
+                            </div>
+                        {% endif %}
                         <input type="file" id="id_image" name="image">
                         {% if user.userprofile.image %}
                             <img class="profilepic" src="/media/{{user.userprofile.image}}">
@@ -43,12 +49,25 @@
                 </div>  
         </div>
 
-
         <h3>مشخصات کاری</h3>
         <div class="ui basic small form segment formpart workinfo">
             <div class="two fields">
                 {{jobsform.job_status|semfield}}
-                {{jobsform.cv|semfield}}
+                <div class="cv field">
+                    <label for="id_cv">کارنامک کاری</label>
+                    {% if jobsform.cv.value %}
+                    <div class="current cv">
+                        در حال حاضر:
+                        <a href="/media/{{jobsform.cv.value}}">{{jobsform.cv.value}}</a>
+                        <div class="remove">
+                            <input id="cv-clear_id" name="cv-clear" type='checkbox'>
+                            <label for="cv-clear_id">پاک کردن</label>
+                        </div>
+                    </div>
+                    تغییر
+                    {% endif %}
+                    <input type="file" id="id_cv" name="cv">
+                </div>
             </div>
             <button class="ui small blue submit button" type="submit">ثبت</button>
         </div>
@@ -98,11 +117,24 @@
 
 {% block style %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'markitup/skins/simple/style.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'markitup/sets/markdown/style.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/zedit.css' %}">
     <style type="text/css">
+        .formpart.workinfo{
+            margin-right: 30px;
+        }
+        .formpart.workinfo .cv.field .current.cv{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .formpart.workinfo .cv.field .current.cv a{
+            margin-right: 10px;
+        }
+        .formpart.workinfo .cv.field .current.cv .remove{
+            margin-top: 10px;
+        }
+
         .formpart.privacy {
             padding-bottom: 40px;
             padding-right: 70px;
