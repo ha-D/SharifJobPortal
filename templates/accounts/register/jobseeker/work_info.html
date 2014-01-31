@@ -1,20 +1,10 @@
+{% load filters %}
 <div class="ui form basicinfo visible">
     {% csrf_token %}
     <div class="two fields">
         <div class="field">
             <label>وضعیت شغلی</label>
-            <div class="ui left labeled input">
-                <input type="hidden" id="jobstatus-input" name="job_status">
-                <div class="ui dropdown jobstatus">
-                  <div class="text">{{form.job_status.field.choices.0.1}}</div>
-                  <i class="dropdown icon"></i>
-                  <div class="menu">
-                    {% for job_status in form.job_status.field.choices %}
-                        <div class="item" data-value="{{job_status.0}}">{{job_status.1}}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-            </div>
+            {{form.job_status|addclass:"chosen-select"}}
             {% if form.job_status.errors %}
             <div class="ui red pointing prompt label transition visible">{{form.job_status.errors.0}}</div>
             {% endif %}
@@ -50,4 +40,9 @@
 </div>
 <script type="text/javascript">
     register.initWorkInfo();
+
+    $(".chosen-select").chosen({
+        disable_search_threshold: 10,
+        width: '70%'
+    });
 </script>

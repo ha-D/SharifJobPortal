@@ -30,7 +30,7 @@
                     {{userform.postalCode|semfield}}
                 </div>
                 <div class="two fields">
-                    {{userform.city|semfield}}
+                    {{userform.city|addclass:"chosen-select"|semfield}}
                     <div class="small field">
                         <label for="id_image">عکس</label>
                         {% if user.userprofile.image %}
@@ -54,7 +54,7 @@
         <div class="ui basic small form segment formpart companyinfo">
                 <div class="two fields">
                     {{compform.companyName|semfield}}
-                    {{compform.companyType|semfield}}
+                    {{compform.companyType|addclass:"chosen-select"|semfield}}
                 </div>
                 <div class="two fields">
                     {{compform.registrationNumber|semfield}}
@@ -309,6 +309,11 @@
             $('.zedit.container').zedit({
                 url: '/userpanel/companyinfo/zedit/',
                 showAddForm: true
+            });
+
+            $(".chosen-select").chosen({
+                disable_search_threshold: 10,
+                width: '60%'
             });
         })
     </script>

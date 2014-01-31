@@ -124,8 +124,6 @@ def register_form(request, session_name, template, step, register_form):
             obj = form.save()
             return json_response({'result': 1}), True, obj
         else:
-            print("OPps failed here")
-            print(form.errors)
             result = 0
     else:
         post = request.session[session_name]['post'].get(step)

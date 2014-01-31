@@ -1,3 +1,4 @@
+{% load filters %}
 <div class="ui form basicinfo visible">
     {% csrf_token %}
     <div class="two fields">
@@ -41,18 +42,7 @@
      <div class="two fields">
         <div class="field">
             <label>شهر</label>
-            <div class="ui left labeled icon input">
-                <input type="hidden" id="city-input" name="city">
-                <div class="ui dropdown city">
-                  <div class="text">{{form.city.field.choices.0}}</div>
-                  <i class="dropdown icon"></i>
-                  <div class="menu">
-                    {% for city in form.city.field.choices %}
-                        <div class="item" data-value="{{city.0}}">{{city.1}}</div>
-                    {% endfor %}
-                  </div>
-                </div>
-            </div>
+            {{form.city|addclass:"chosen-select"}}
             {% if form.city.errors %}
             <div class="ui red pointing prompt label transition visible">{{form.city.errors.0}}</div>
             {% endif %}
@@ -115,4 +105,9 @@
 
 <script type="text/javascript">
     register.initPersonalInfo();
+    $(".chosen-select").chosen({
+        disable_search_threshold: 10,
+        width: '70%'
+
+    });
 </script>
