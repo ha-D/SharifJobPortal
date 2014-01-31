@@ -2,6 +2,7 @@
 
 from django						import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms 	import UserCreationForm
 from accounts.models 			import JobSeeker, Employer, UserProfile, CompanyImage
 
 class ChangeJobseekerInfoForm(forms.ModelForm):
@@ -55,11 +56,11 @@ class ChangeUserInfoForm(forms.ModelForm):
 #### Register Forms ####
 ########################
 
-class RegisterUserForm(forms.ModelForm):
-	password_repeat = forms.CharField(widget=forms.PasswordInput)
+class RegisterUserForm(UserCreationForm):
+	# password_repeat = forms.CharField(widget=forms.PasswordInput)
 	class Meta:
 		model = User
-		fields = ['first_name', 'last_name', 'username', 'email', 'password']
+		fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
 	def __init__(self, *args, **kwargs):
 
@@ -69,28 +70,19 @@ class RegisterUserForm(forms.ModelForm):
 		self.fields['last_name'].required = True
 		self.fields['email'].required = True
 		
-		self.fields['password'].widget = forms.PasswordInput()
+		self.fields['password1'].widget = forms.PasswordInput()
 
 		placeholders = {
 			'first_name': 'نام',
 			'last_name':  'نام خواندوادگی',
 			'username':   'نام کاربری',
 			'email':	  'آدرس الکترونیکی',
-			'password':	  'رمز عبور',
-			'password_repeat': 'تکرار رمز عبور'
+			'password1':	  'رمز عبور',
+			'password2': 'تکرار رمز عبور'
 		}
 
 		for field in placeholders:
 			self.fields[field].widget.attrs.update({'placeholder': placeholders[field]})
-
-	def save(self, commit=True):
-		user = super(RegisterUserForm, self).save(commit = False)
-		
-		if commit:
-			user.save()
-
-		return user
-
 
 
 class JobSeekerRegisterProfileForm(forms.ModelForm):
