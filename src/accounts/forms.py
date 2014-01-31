@@ -57,7 +57,6 @@ class ChangeUserInfoForm(forms.ModelForm):
 ########################
 
 class RegisterUserForm(UserCreationForm):
-	# password_repeat = forms.CharField(widget=forms.PasswordInput)
 	class Meta:
 		model = User
 		fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']

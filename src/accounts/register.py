@@ -118,10 +118,10 @@ def register_employer_finalize(request, session_name):
 
 def register_form(request, session_name, template, step, register_form):
     if request.method == 'POST':
-        form = register_form(request.POST)
+        form = register_form(request.POST, request.FILES)
         if form.is_valid():
             request.session[session_name]['post'][step] = request.POST
-            obj = form.save()
+            obj = form.save(commit=False)
             return json_response({'result': 1}), True, obj
         else:
             result = 0
