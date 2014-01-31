@@ -33,6 +33,12 @@
                     {{userform.city|semfield}}
                     <div class="small field">
                         <label for="id_image">عکس</label>
+                        {% if user.userprofile.image %}
+                            <div class="image clear">
+                                <input id="image-clear_id" name="image-clear" type='checkbox'>
+                                <label for="image-clear_id">پاک کردن</label>
+                            </div>
+                        {% endif %}
                         <input type="file" id="id_image" name="image">
                         {% if user.userprofile.image %}
                             <img class="profilepic" src="/media/{{user.userprofile.image}}">
@@ -43,12 +49,25 @@
                 </div>  
         </div>
 
-
         <h3>مشخصات کاری</h3>
         <div class="ui basic small form segment formpart workinfo">
             <div class="two fields">
                 {{jobsform.job_status|semfield}}
-                {{jobsform.cv|semfield}}
+                <div class="cv field">
+                    <label for="id_cv">کارنامک کاری</label>
+                    {% if jobsform.cv.value %}
+                    <div class="current cv">
+                        در حال حاضر:
+                        <a href="/media/{{jobsform.cv.value}}">{{jobsform.cv.value}}</a>
+                        <div class="remove">
+                            <input id="cv-clear_id" name="cv-clear" type='checkbox'>
+                            <label for="cv-clear_id">پاک کردن</label>
+                        </div>
+                    </div>
+                    تغییر
+                    {% endif %}
+                    <input type="file" id="id_cv" name="cv">
+                </div>
             </div>
             <button class="ui small blue submit button" type="submit">ثبت</button>
         </div>
@@ -66,6 +85,10 @@
             <div class="privacy part">
                 <div class="{% cycle 'profile' 'resume' %} privacy">
                     <h4>{% cycle 'امکان دیدن صفحه شخصی' 'امکان دریافت کارنامک کاری'%}</h4>
+                    <div class="ui checkbox public access">
+                      <input type="checkbox" name="public">
+                      <label>دسترسی عمومی</label>
+                    </div>
                     {% for j in '11' %}
                         <div class="ui selection dropdown {% cycle 'jobseeker' 'employer' %} privacy">
                           <input type="hidden" name="privacyfield">
@@ -94,11 +117,24 @@
 
 {% block style %}
     {{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'markitup/skins/simple/style.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'markitup/sets/markdown/style.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'css/zedit.css' %}">
     <style type="text/css">
+        .formpart.workinfo{
+            margin-right: 30px;
+        }
+        .formpart.workinfo .cv.field .current.cv{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .formpart.workinfo .cv.field .current.cv a{
+            margin-right: 10px;
+        }
+        .formpart.workinfo .cv.field .current.cv .remove{
+            margin-top: 10px;
+        }
+
         .formpart.privacy {
             padding-bottom: 40px;
             padding-right: 70px;
@@ -111,6 +147,12 @@
         }
         .formpart.privacy .privacy .employer.privacy {
             margin-right: 20px;
+        }
+
+        .formpart.privacy .privacy .public.access {
+            margin-right: 190px;
+            margin-bottom: 20px;
+            display: block;
         }
 
         .formpart.privacy .privacy .dropdown .menu .item{
@@ -151,24 +193,41 @@
                 url: '/userpanel/info/skills/'
             });
 
+            function setAccessElements(_){
+                if(_.access_profile_public){
+                    $('.formpart.privacy .profile.privacy .public.checkbox').checkbox('enable');
+                    $('.formpart.privacy .profile.privacy .selection.dropdown').hide();
+                }else{
+                    $('.formpart.privacy .profile.privacy .public.checkbox').checkbox('disable');
+                    $('.formpart.privacy .profile.privacy .selection.dropdown').show();
+                }
+                if(_.access_cv_public){
+                    $('.formpart.privacy .resume.privacy .public.checkbox').checkbox('enable');
+                    $('.formpart.privacy .resume.privacy .selection.dropdown').hide();
+                }else{
+                    $('.formpart.privacy .resume.privacy .public.checkbox').checkbox('disable');
+                    $('.formpart.privacy .resume.privacy .selection.dropdown').show();
+                }
+                $('.formpart.privacy .profile.privacy .jobseeker.dropdown')
+                    .dropdown('set selected', _.access_profile_jobseeker)
+                    .dropdown('set value', _.access_profile_jobseeker);
+                $('.formpart.privacy .profile.privacy .employer.dropdown')
+                    .dropdown('set selected', _.access_profile_employer)
+                    .dropdown('set value', _.access_profile_employer);
+                $('.formpart.privacy .resume.privacy .jobseeker.dropdown')
+                    .dropdown('set selected', _.access_cv_jobseeker)
+                    .dropdown('set value', _.access_cv_jobseeker);
+                $('.formpart.privacy .resume.privacy .employer.dropdown')
+                    .dropdown('set selected', _.access_cv_employer)
+                    .dropdown('set value', _.access_cv_employer);
+            }
 
-            $('.formpart.privacy .profile.privacy .jobseeker.dropdown')
-                .dropdown('set selected', {{user.userprofile.access_profile_jobseeker}})
-                .dropdown('set value', {{user.userprofile.access_profile_jobseeker}});;
-            $('.formpart.privacy .profile.privacy .employer.dropdown')
-                .dropdown('set selected', {{user.userprofile.access_profile_employer}})
-                .dropdown('set value', {{user.userprofile.access_profile_employer}});
-            $('.formpart.privacy .resume.privacy .jobseeker.dropdown')
-                .dropdown('set selected', {{user.userprofile.access_cv_jobseeker}})
-                .dropdown('set value', {{user.userprofile.access_cv_jobseeker}});
-            $('.formpart.privacy .resume.privacy .employer.dropdown')
-                .dropdown('set selected', {{user.userprofile.access_cv_employer}})
-                .dropdown('set value', {{user.userprofile.access_cv_employer}});
-
-            $('.formpart.privacy .dropdown.selection').dropdown('setting', 'onChange', function(val, text){
+            function sendAccessData(){
                 var accessData = {
+                    access_profile_public: $('.formpart.privacy .profile.privacy .public.checkbox input')[0].checked,
                     access_profile_jobseeker: $('.formpart.privacy .profile.privacy .jobseeker.dropdown').dropdown('get value'),
                     access_profile_employer: $('.formpart.privacy .profile.privacy .employer.dropdown').dropdown('get value'),
+                    access_cv_public: $('.formpart.privacy .resume.privacy .public.checkbox input')[0].checked,
                     access_cv_jobseeker: $('.formpart.privacy .resume.privacy .jobseeker.dropdown').dropdown('get value'),
                     access_cv_employer: $('.formpart.privacy .resume.privacy .employer.dropdown').dropdown('get value')
                 };
@@ -177,9 +236,29 @@
                     type: 'post',
                     data: accessData,
                     dataType: 'json',
-                    success:function(){}
+                    success:function(data){
+                        if(data.result == 'success'){
+                            setAccessElements(data.permissions);
+                        }else{
+                            console.log(data);
+                        }
+                    }
                 });
-            })
+            }
+
+            access = {
+                access_profile_public:      {{user.userprofile.access_profile_public|jsbool}},
+                access_profile_jobseeker:   {{user.userprofile.access_profile_jobseeker}},
+                access_profile_employer:    {{user.userprofile.access_profile_employer}},
+                access_cv_public:           {{user.userprofile.access_cv_public|jsbool}},
+                access_cv_jobseeker:        {{user.userprofile.access_cv_jobseeker}},
+                access_cv_employer:         {{user.userprofile.access_cv_employer}}
+            }
+            setAccessElements(access);
+
+
+            $('.formpart.privacy .dropdown.selection').dropdown('setting', 'onChange', sendAccessData);
+            $('.formpart.privacy .privacy .public.checkbox').click(sendAccessData)
         })
     </script>
 {% endblock %}

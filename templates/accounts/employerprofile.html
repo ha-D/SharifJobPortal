@@ -1,98 +1,6 @@
 {% extends 'page.html' %}
 {% load staticfiles %}
 
-
-{% block style %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-	<style type="text/css">
-		.profile.employer {
-			padding: 30px 40px;
-		}
-
-		.profile.employer .company.name {
-			padding: 10px;
-			font-size: 40px;
-			font-weight: bold;
-			/*width: 200px;*/
-			/*float: right;*/
-		}
-
-		.profile.employer .company.name .rating{
-			margin-top: 10px;
-			margin-right: 25px;
-		}
-
-		.profile.employer .info.table{
-			margin-right: 40px;
-			margin-top: 30px;
-			max-width: 400px;
-			/*clear: both;*/
-			/*float: right;*/
-		}
-
-		.profile.employer .info.table tr{
-			background-color: white;
-		}
-
-		.profile.employer .info.table .key{
-			font-weight: bold;
-		}
-
-		.profile.employer .topseg .right .actions{
-			margin-top: 30px;
-			margin-right: 35px;
-		}
-
-		.profile.employer .topseg .right .actions .button{
-			margin-right: 18px;
-		}
-
-		.profile.employer .slideshow{
-			margin-left: 40px;
-			background-color: transparent;
-			position: absolute;
-			top: 80px;
-			left: 80px;
-			box-shadow: 0 0 10px;
-		}
-
-		.profile.employer .slideshow img{
-			width: 380px;
-			height: 250px;
-		}
-
-		.profile.employer .bottomseg {
-			clear: both;
-			padding-top: 80px;
-			padding-left: 40px;
-			padding-right: 40px;
-		}
-
-		.profile.employer .bottomseg .pages{
-			width: 950px;
-		}
-
-		.profile.employer .bottomseg .pages .page{
-			padding: 30px 30px;
-			min-height: 350px;
-			max-height: 500px;
-			overflow-y: auto;
-			display: none;
-		}
-
-		.profile.employer .bottomseg .pages .page.active{
-			display: block;
-		}
-
-		.profile.employer .bottomseg .commentseg{
-			margin-top: 50px;
-		}
-
-	</style>	
-{% endblock style %}
-
 {% block page %}
 	<div class="employer profile">
 		<div class="topseg">
@@ -187,51 +95,7 @@
 
 			</div>
 			<div class="commentseg">
-				<h2 class="ui header">
-					<i class="icon comment"></i>
-					نظرات
-				</h2>
-
-				<div class="right">
-					<div class="ui comments">
-						<div class="comment">
-							<a class="avatar">
-				            	<img src="/static/images/avatar.png">
-				          	</a>
-							<div class="content">
-								<a class="author">هادی ذوالفقاری</a>
-								<div class="metadata">
-									<span class="date">دو روز پیش</span>
-								</div>
-								<div class="text">
-									خیلی جای خوبه، راصیم ازش کلا شسیبشسب
-								</div>
-							</div>
-						</div>
-						<div class="ui small pagination menu">
-							<a class="icon item"><i class="icon right arrow"></i></a>
-								<a class="active item">1</a>
-							<div class='items'>
-								<div class="disabled item">...</div>
-								<a class="item">10</a>
-								<a class="item">11</a>
-								<a class="item">12</a>
-							</div>
-							<a class="icon item"><i class="icon left arrow"></i></a>
-						</div>
-					</div>
-				</div>
-
-				<div class="left">
-					<form class="ui reply form">
-				      <div class="field">
-				        <textarea></textarea>
-				      </div>
-				      <div class="ui fluid blue labeled submit icon button">
-				        <i class="icon edit"></i> ثبت نظر
-				      </div>
-				    </form>
-				</div>
+				
 			</div>
 		</div>
 {% endblock page %}
@@ -267,3 +131,94 @@
 		})
 	</script>
 {% endblock script %}
+
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<style type="text/css">
+		.profile.employer {
+			padding: 30px 40px;
+		}
+
+		.profile.employer .company.name {
+			padding: 10px;
+			font-size: 40px;
+			font-weight: bold;
+			/*width: 200px;*/
+			/*float: right;*/
+		}
+
+		.profile.employer .company.name .rating{
+			margin-top: 10px;
+			margin-right: 25px;
+		}
+
+		.profile.employer .info.table{
+			margin-right: 40px;
+			margin-top: 30px;
+			max-width: 400px;
+			/*clear: both;*/
+			/*float: right;*/
+		}
+
+		.profile.employer .info.table tr{
+			background-color: white;
+		}
+
+		.profile.employer .info.table .key{
+			font-weight: bold;
+		}
+
+		.profile.employer .topseg .right .actions{
+			margin-top: 30px;
+			margin-right: 35px;
+		}
+
+		.profile.employer .topseg .right .actions .button{
+			margin-right: 18px;
+		}
+
+		.profile.employer .slideshow{
+			margin-left: 40px;
+			background-color: transparent;
+			position: absolute;
+			top: 80px;
+			left: 80px;
+			box-shadow: 0 0 10px;
+		}
+
+		.profile.employer .slideshow img{
+			width: 380px;
+			height: 250px;
+		}
+
+		.profile.employer .bottomseg {
+			clear: both;
+			padding-top: 80px;
+			padding-left: 40px;
+			padding-right: 40px;
+		}
+
+		.profile.employer .bottomseg .pages{
+			width: 950px;
+		}
+
+		.profile.employer .bottomseg .pages .page{
+			padding: 30px 30px;
+			min-height: 350px;
+			max-height: 500px;
+			overflow-y: auto;
+			display: none;
+		}
+
+		.profile.employer .bottomseg .pages .page.active{
+			display: block;
+		}
+
+		.profile.employer .bottomseg .commentseg{
+			margin-top: 50px;
+		}
+
+	</style>	
+{% endblock style %}

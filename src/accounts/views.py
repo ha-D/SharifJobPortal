@@ -9,6 +9,7 @@ from django.contrib.auth.models 	import User
 from django.views.decorators.csrf   import csrf_exempt
 from django.utils.safestring        import SafeText
 from django.core.paginator          import Paginator
+from django.core.exceptions         import PermissionDenied
 from django.conf 					import settings
 
 from utils.functions                import template, json_response, ajax_template
@@ -16,7 +17,9 @@ from accounts.decorators            import user_required, employer_required, job
 from accounts.models                import CompanyImage, PersonalPage, Employer, JobSeeker
 from accounts.forms                 import *
 from social_network.models          import *
+from social_network.functions       import friends
 from jobs.models                    import JobOffer, Skill
+from jobs.functions                 import request_pending
 
 from markdown                       import markdown
 
@@ -217,18 +220,36 @@ def userpanel_changejobseekerinfo(request):
 
 @csrf_exempt
 def userpanel_changejobseekerinfo_privacy(request):
+    is_true = lambda x: x == True or x == 'true' or x == 'True'
+
     if request.method == 'POST':
         profile = request.userprofile
+        if 'access_profile_public' in request.POST:
+            profile.access_profile_public = is_true(request.POST['access_profile_public'])
         if 'access_profile_jobseeker' in request.POST:
             profile.access_profile_jobseeker = int(request.POST['access_profile_jobseeker'])
         if 'access_profile_employer' in request.POST:
             profile.access_profile_employer = int(request.POST['access_profile_employer'])
+        if 'access_cv_public' in request.POST:
+            profile.access_cv_public = is_true(request.POST['access_cv_public'])
         if 'access_cv_jobseeker' in request.POST:
             profile.access_cv_jobseeker = int(request.POST['access_cv_jobseeker'])
         if 'access_cv_employer' in request.POST:
             profile.access_cv_employer = int(request.POST['access_cv_employer'])
         profile.save()
-        return json_response({'result': 'success'})
+
+        permissions = {
+            'access_profile_public':    profile.access_profile_public,
+            'access_profile_jobseeker': profile.access_profile_jobseeker,
+            'access_profile_employer':  profile.access_profile_employer,
+            'access_cv_public':         profile.access_cv_public,
+            'access_cv_jobseeker':      profile.access_cv_jobseeker,
+            'access_cv_employer':       profile.access_cv_employer
+        }
+
+        print(permissions)
+
+        return json_response({'result': 'success', 'permissions': permissions})
     else:
         return json_response({'result': 'fail', 'error': 'get not supported'})
 
@@ -335,3 +356,73 @@ def profile_employer_comments(request, employer_id):
             return list_comments(1, page_size)
     else:
         return json_response({'result': 'fail', 'error': 'get not supported'})
+
+
+def check_profile_access(request, jobseeker):
+    if jobseeker.access_profile_public:
+        return True
+    elif request.userprofile.is_jobseeker():
+        if request.userprofile.id == jobseeker.id:
+            return True
+        elif jobseeker.access_profile_jobseeker == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_profile_jobseeker == JobSeeker.PART_ACCESS:
+            return friends(request.userprofile, jobseeker)
+        elif jobseeker.access_profile_jobseeker == JobSeeker.ALL_ACCESS:
+            return True
+    else:
+        if jobseeker.access_profile_employer == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_profile_employer == JobSeeker.PART_ACCESS:
+            return request_pending(jobseeker, request.userprofile)
+        elif jobseeker.access_profile_employer == JobSeeker.ALL_ACCESS:
+            return True
+
+def check_cv_access(request, jobseeker):
+    if jobseeker.access_cv_public:
+        return True
+    elif request.userprofile.is_jobseeker():
+        if request.userprofile.id == jobseeker.id:
+            return True
+        elif jobseeker.access_cv_jobseeker == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_cv_jobseeker == JobSeeker.PART_ACCESS:
+            return friends(request.userprofile, jobseeker)
+        elif jobseeker.access_cv_jobseeker == JobSeeker.ALL_ACCESS:
+            return True
+    else:
+        if jobseeker.access_cv_employer == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_cv_employer == JobSeeker.PART_ACCESS:
+            return request_pending(jobseeker, request.userprofile)
+        elif jobseeker.access_cv_employer == JobSeeker.ALL_ACCESS:
+            return True    
+
+def profile_jobseeker(request, username):
+    context = {}
+
+    jobseeker = JobSeeker.objects.get(user__username = username)
+    context['profile'] = jobseeker
+
+    if not check_profile_access(request, jobseeker):
+        raise PermissionDenied
+
+    # Friendship
+    if not request.has_profile:
+        context['is_friend'] = False
+    elif request.userprofile.is_jobseeker():
+        context['is_friend'] = friends(request.userprofile, jobseeker)
+
+    # CV Access:
+    context['cv_access'] = check_cv_access(request, jobseeker)
+
+    skills = jobseeker.skills.all()
+    skills = map(lambda x: x.name, skills)
+    context['skills'] = skills
+
+    pages = list(jobseeker.user.pages.all())
+    for page in pages:
+        page.content = SafeText(markdown(page.content))
+    context['pages'] = pages
+
+    return render(request, 'accounts/jobseekerprofile.html', context)

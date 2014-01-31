@@ -175,6 +175,10 @@ body{
 	clear:both;
 }
   
+select {
+	padding: 4px;
+	min-width: 100px;
+}
   /******************/
  /* Skill Chooser  */
 /******************/

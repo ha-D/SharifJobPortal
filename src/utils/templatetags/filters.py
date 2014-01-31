@@ -34,3 +34,11 @@ def semfield(field):
 	</div>
 	""" % (label, inp, err))
 	
+@register.filter(name='jsbool')
+def jsbool(field):
+	if field == True:
+		return 'true'
+	elif field == False:
+		return 'false'
+	else:
+		return ''
