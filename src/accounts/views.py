@@ -220,18 +220,36 @@ def userpanel_changejobseekerinfo(request):
 
 @csrf_exempt
 def userpanel_changejobseekerinfo_privacy(request):
+    is_true = lambda x: x == True or x == 'true' or x == 'True'
+
     if request.method == 'POST':
         profile = request.userprofile
+        if 'access_profile_public' in request.POST:
+            profile.access_profile_public = is_true(request.POST['access_profile_public'])
         if 'access_profile_jobseeker' in request.POST:
             profile.access_profile_jobseeker = int(request.POST['access_profile_jobseeker'])
         if 'access_profile_employer' in request.POST:
             profile.access_profile_employer = int(request.POST['access_profile_employer'])
+        if 'access_cv_public' in request.POST:
+            profile.access_cv_public = is_true(request.POST['access_cv_public'])
         if 'access_cv_jobseeker' in request.POST:
             profile.access_cv_jobseeker = int(request.POST['access_cv_jobseeker'])
         if 'access_cv_employer' in request.POST:
             profile.access_cv_employer = int(request.POST['access_cv_employer'])
         profile.save()
-        return json_response({'result': 'success'})
+
+        permissions = {
+            'access_profile_public':    profile.access_profile_public,
+            'access_profile_jobseeker': profile.access_profile_jobseeker,
+            'access_profile_employer':  profile.access_profile_employer,
+            'access_cv_public':         profile.access_cv_public,
+            'access_cv_jobseeker':      profile.access_cv_jobseeker,
+            'access_cv_employer':       profile.access_cv_employer
+        }
+
+        print(permissions)
+
+        return json_response({'result': 'success', 'permissions': permissions})
     else:
         return json_response({'result': 'fail', 'error': 'get not supported'})
 
@@ -339,7 +357,9 @@ def profile_employer_comments(request, employer_id):
 
 
 def check_profile_access(request, jobseeker):
-    if request.userprofile.is_jobseeker():
+    if jobseeker.access_profile_public:
+        return True
+    elif request.userprofile.is_jobseeker():
         if request.userprofile.id == jobseeker.id:
             return True
         elif jobseeker.access_profile_jobseeker == JobSeeker.NO_ACCESS:
@@ -357,7 +377,9 @@ def check_profile_access(request, jobseeker):
             return True
 
 def check_cv_access(request, jobseeker):
-    if request.userprofile.is_jobseeker():
+    if jobseeker.access_cv_public:
+        return True
+    elif request.userprofile.is_jobseeker():
         if request.userprofile.id == jobseeker.id:
             return True
         elif jobseeker.access_cv_jobseeker == JobSeeker.NO_ACCESS:
@@ -395,7 +417,7 @@ def profile_jobseeker(request, username):
     skills = jobseeker.skills.all()
     skills = map(lambda x: x.name, skills)
     context['skills'] = skills
-    
+
     pages = list(jobseeker.user.pages.all())
     for page in pages:
         page.content = SafeText(markdown(page.content))

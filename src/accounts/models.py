@@ -122,7 +122,6 @@ class JobSeeker(UserProfile):
     NO_ACCESS   = 0
     PART_ACCESS = 1
     ALL_ACCESS  = 2
-    PUBLIC_ACCESS = 3
     JOBSEEKER_PRIVACY_CHOICES = (
         (NO_ACCESS,     u'هیچ کارجویی'),
         (PART_ACCESS, u'کارجویان دوست'),
@@ -133,15 +132,17 @@ class JobSeeker(UserProfile):
         (PART_ACCESS, u'کارفرمایانی که درخواست استخدام داده‌اید'),
         (ALL_ACCESS, u'همه کارفرمایان'),
     )
+    access_profile_public    = models.BooleanField(default=True)
     access_profile_jobseeker = models.PositiveSmallIntegerField(choices=JOBSEEKER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
     access_profile_employer  = models.PositiveSmallIntegerField(choices=EMPLOYER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+    access_cv_public         = models.BooleanField(default=True)
     access_cv_jobseeker      = models.PositiveSmallIntegerField(choices=JOBSEEKER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
     access_cv_employer       = models.PositiveSmallIntegerField(choices=EMPLOYER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
 
     def _sex_name(self):
         return self.SEX_CHOICES[self.sex][1]
     def _job_status_name(self):
-        return self.JOB_STATUS_CHOICES[self.job_status][]
+        return self.JOB_STATUS_CHOICES[self.job_status][1]
     sex_name = property(_sex_name)
     job_status_name = property(_job_status_name)
 
