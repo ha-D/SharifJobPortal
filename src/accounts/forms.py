@@ -132,7 +132,8 @@ class RegisterFinalForm(forms.Form):
 	terms = forms.BooleanField()
 
 	def save(self):
-		return None
+		# Anything but None should do
+		return True
 
 class EmployerRegisterProfileForm(forms.ModelForm):
 	class Meta:

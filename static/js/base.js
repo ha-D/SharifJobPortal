@@ -304,7 +304,7 @@ portal.skills = function(options){
 		
 		var colPos = $("<div>").addClass("column possible");
 		colPos.append($("<p>").html("از لیست زیر مهارت‌های خود را انتخاب کنید:"));
-		colPos.append($("<div>").addClass("ui top attached icon input right skill searchbar")
+		colPos.append($("<div>").addClass("ui top attached icon input right skill nohigh searchbar")
 			.append($("<input>").attr('type', 'text').attr('placeholder', 'جستجو...'))
 			.append($("<i>").addClass("search icon")));
 		colPos.append($("<div>").addClass('ui attached segment right skill container')
@@ -317,7 +317,7 @@ portal.skills = function(options){
 
 		var colCur = $("<div>").addClass("column current");
 		colCur.append($("<p>").html("مهارت‌های شما:"));
-		colCur.append($("<div>").addClass("ui top attached icon input right skill searchbar")
+		colCur.append($("<div>").addClass("ui top attached icon input right skill nohigh searchbar")
 			.append($("<input>").attr('type', 'text').attr('placeholder', 'جستجو...'))
 			.append($("<i>").addClass("search icon")));
 		colCur.append($("<div>").addClass('ui attached segment right skill container')

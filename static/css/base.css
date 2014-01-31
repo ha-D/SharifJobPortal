@@ -107,8 +107,18 @@ body{
 }
 
 
-.ui.form .field input[type='text']:focus{
+.ui.form input[type='text']:focus{
+	border-radius: 0.3125em;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
 	box-shadow: -0.3em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
+}
+
+.ui.form .nohigh input[type='text']:focus{
+	border-radius: 0.3125em;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	box-shadow: 0em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
 }
 
 .ui.form textarea:focus{
@@ -180,7 +190,7 @@ body{
 }
 
 .skill.chooser .skill.container {
-	height: 300px;
+	height: 270px;
 	overflow-y: auto;
 	margin-right: 3px;
 }

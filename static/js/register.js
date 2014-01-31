@@ -227,25 +227,28 @@ register.initConfirm = function(){
 }
 
 register.initSkills = function(){
-    $(".next.button").click(register.submitForm);
-    $('.ui.checkbox').checkbox();
+    $('.skill.chooser').skills({
+        url: '/accounts/register/jobseeker/skills/handle/'
+    })
+    // $(".next.button").click(register.submitForm);
+    // $('.ui.checkbox').checkbox();
 
-    function skillsRelax(){
-        // $("#skillsStep").click("skills", stepClicked);
-        $("#searchPossibleSkills").change(updatePossibleSkillsList);
-        $("#searchCurrentSkills").change(updateCurrentSkillsList);
-    }
+    // function skillsRelax(){
+    //     // $("#skillsStep").click("skills", stepClicked);
+    //     $("#searchPossibleSkills").change(updatePossibleSkillsList);
+    //     $("#searchCurrentSkills").change(updateCurrentSkillsList);
+    // }
 
-    function updatePossibleSkillsList(){
-        $("#loadingPossibleSkills").addClass("active");
-        setTimeout("$('#loadingPossibleSkills').removeClass('active')", 1500);
-    }
-    function updateCurrentSkillsList(){
-        $("#loadingCurrentSkills").addClass("active");
-        setTimeout("$('#loadingCurrentSkills').removeClass('active')", 1500);
-    }
+    // function updatePossibleSkillsList(){
+    //     $("#loadingPossibleSkills").addClass("active");
+    //     setTimeout("$('#loadingPossibleSkills').removeClass('active')", 1500);
+    // }
+    // function updateCurrentSkillsList(){
+    //     $("#loadingCurrentSkills").addClass("active");
+    //     setTimeout("$('#loadingCurrentSkills').removeClass('active')", 1500);
+    // }
 
-    skillsRelax();
+    // skillsRelax();
 }
 
 $(function(){

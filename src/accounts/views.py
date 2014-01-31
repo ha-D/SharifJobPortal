@@ -279,6 +279,8 @@ def userpanel_changejobseekerinfo_skills(request):
             skills = request.userprofile.skills.all()
             skills = map(lambda x: x.name, skills)
             return json_response({'result': 'success', 'skills': skills})
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
 
 
 

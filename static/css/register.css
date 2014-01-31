@@ -78,29 +78,6 @@
     margin-top: -8px;
 }
 
-#portal .attached.input{
-    width: 351px;
-    margin-right: -2px;
-}
-
-#portal .ui.attached .divided.list{
-    overflow-y: auto;
-    height: 220px;
-}
-
-#portal .skill .ui.loader{
-    top: 37%;
-    right: 15%;
-}
-
-#portal .column.current{
-    margin-top: -14px;
-}
-
-#portal .right.floated.tiny.icon i.icon{
-    margin: 5px;
-}
-
 .link{
     text-decoration: underline;
     color: #00BEAD;
@@ -114,4 +91,23 @@
 .bottomMargined{
     position: relative;
     bottom: 6px;
+}
+
+.register .next.proceed {
+    margin-top: 30px;
+}
+
+.register .form.final .segment {
+    padding-top: 30px;
+    padding-right: 50px;
+}
+
+.register .form.final p{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    margin-right: 35px;
+}
+
+.register .form.final .finished.icon {
+    color: green;
 }
