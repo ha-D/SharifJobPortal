@@ -25,5 +25,6 @@ urlpatterns = patterns('',
 	url(r'^companyinfo/removeimage/(?P<image_id>\d+)$', userpanel_changecompanyinfo_removeimage),
 	url(r'^companyinfo/zedit/$', userpanel_info_profile_pages),
 
-	url(r'^info/skills/$', userpanel_changejobseekerinfo_skills),	
+	url(r'^info/skills/$', userpanel_changejobseekerinfo_skills),
+	url(r'^info/privacy/$', userpanel_changejobseekerinfo_privacy),
 )

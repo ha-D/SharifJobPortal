@@ -1,0 +1,185 @@
+{% extends 'userpanel/userpanel.html' %}
+{% load filters %}
+{% load staticfiles %}
+
+{% block content-title %}
+تغییر مشخصات
+{% endblock %}
+
+{% block content %}
+<div id="jobseekerinfoform" class="infoform">
+    {% if state == 'success' %}
+        <div class="change success">
+            تغییرات با موفقیت ثبت شد
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <h3 class="formheader">مشخصات کاربری</h3>
+        <div id="userinfoform" class="ui small form userinfo formpart">
+                {% csrf_token %}
+                <div class="two fields">
+                    {{userform.first_name|semfield}}
+                    {{userform.last_name|semfield}}
+                </div>
+                <div class="two fields">
+                    {{userform.email|semfield}}
+                    {{userform.phoneNumber|semfield}}
+                </div>
+                <div class="two fields">
+                    {{userform.address|semfield}}
+                    {{userform.postalCode|semfield}}
+                </div>
+                <div class="two fields">
+                    {{userform.city|semfield}}
+                    <div class="small field">
+                        <label for="id_image">عکس</label>
+                        <input type="file" id="id_image" name="image">
+                        {% if user.userprofile.image %}
+                            <img class="profilepic" src="/media/{{user.userprofile.image}}">
+                        {% else %}
+                            <img class="profilepic" src="/static/images/profilepic.png">
+                        {% endif %}
+                    </div>  
+                </div>  
+        </div>
+
+
+        <h3>مشخصات کاری</h3>
+        <div class="ui basic small form segment formpart workinfo">
+            <div class="two fields">
+                {{jobsform.job_status|semfield}}
+                {{jobsform.cv|semfield}}
+            </div>
+            <button class="ui small blue submit button" type="submit">ثبت</button>
+        </div>
+    </form>
+
+    <h3>مهارت‌ها</h3>
+    <div class="ui basic segment formpart skills">
+        <div class="skill chooser">                 
+        </div>
+    </div>
+
+    <h3>حریم شخصی</h3>
+    <div class="ui segment formpart privacy">
+        {% for i in '11' %}
+            <div class="privacy part">
+                <div class="{% cycle 'profile' 'resume' %} privacy">
+                    <h4>{% cycle 'امکان دیدن صفحه شخصی' 'امکان دریافت کارنامک کاری'%}</h4>
+                    {% for j in '11' %}
+                        <div class="ui selection dropdown {% cycle 'jobseeker' 'employer' %} privacy">
+                          <input type="hidden" name="privacyfield">
+                          <div class="text"></div>
+                          <i class="dropdown icon"></i>
+                          <div class="menu">
+                            <div class="item" data-value="0">{% cycle 'هیچ کارجویی' 'هیچ کارفرمایی' %}</div>
+                            <div class="item" data-value="1">{% cycle 'کارجویان دوست' 'کارفرمایانی که درخواست استخدام داده‌اید'%}</div>
+                            <div class="item" data-value="2">{% cycle 'همه‌ی کارجویان' 'همه کارفرمایان'%}</div>
+                          </div>
+                        </div>
+                        
+                    {% endfor %}
+                </div>
+            </div>    
+        {% endfor %}
+    </div>
+
+    <h3>صفحه‌های شخصی</h3>
+    <div class="ui basic segment formpart imageupload">
+        <div class="zedit container">
+        </div>
+    </div>  
+</div>
+{% endblock %}
+
+{% block style %}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'markitup/skins/simple/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'markitup/sets/markdown/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/zedit.css' %}">
+    <style type="text/css">
+        .formpart.privacy {
+            padding-bottom: 40px;
+            padding-right: 70px;
+        }
+        .formpart.privacy .privacy.part:first-child{
+            margin-bottom: 30px;
+        }
+        .formpart.privacy .privacy .jobseeker.privacy {
+            margin-right: 190px;
+        }
+        .formpart.privacy .privacy .employer.privacy {
+            margin-right: 20px;
+        }
+
+        .formpart.privacy .privacy .dropdown .menu .item{
+            z-index: 4000;
+        }
+    </style>
+{% endblock %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jquery.form.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/rslides.js' %}"></script>
+    <script type="text/javascript" src="{% static 'markitup/jquery.markitup.js' %}"></script>
+    <script type="text/javascript" src="{% static 'markitup/sets/markdown/set.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/zedit.js' %}"></script>
+    <script type="text/javascript">
+        $(function(){
+
+            function changeFocus(){
+                var active = this;
+                $('.formpart').each(function(index){
+                    if(this == active){
+                        $(this).fadeTo(300, 1.0);
+                    }else{
+                        $(this).fadeTo(300, 0.5);
+                    }
+                })
+
+            }
+            $('.formpart').hover(changeFocus);
+
+            $('.zedit.container').zedit({
+                url: '/userpanel/companyinfo/zedit/',
+                showAddForm: true
+            });
+
+            $('.skill.chooser').skills({
+                url: '/userpanel/info/skills/'
+            });
+
+
+            $('.formpart.privacy .profile.privacy .jobseeker.dropdown')
+                .dropdown('set selected', {{user.userprofile.access_profile_jobseeker}})
+                .dropdown('set value', {{user.userprofile.access_profile_jobseeker}});;
+            $('.formpart.privacy .profile.privacy .employer.dropdown')
+                .dropdown('set selected', {{user.userprofile.access_profile_employer}})
+                .dropdown('set value', {{user.userprofile.access_profile_employer}});
+            $('.formpart.privacy .resume.privacy .jobseeker.dropdown')
+                .dropdown('set selected', {{user.userprofile.access_cv_jobseeker}})
+                .dropdown('set value', {{user.userprofile.access_cv_jobseeker}});
+            $('.formpart.privacy .resume.privacy .employer.dropdown')
+                .dropdown('set selected', {{user.userprofile.access_cv_employer}})
+                .dropdown('set value', {{user.userprofile.access_cv_employer}});
+
+            $('.formpart.privacy .dropdown.selection').dropdown('setting', 'onChange', function(val, text){
+                var accessData = {
+                    access_profile_jobseeker: $('.formpart.privacy .profile.privacy .jobseeker.dropdown').dropdown('get value'),
+                    access_profile_employer: $('.formpart.privacy .profile.privacy .employer.dropdown').dropdown('get value'),
+                    access_cv_jobseeker: $('.formpart.privacy .resume.privacy .jobseeker.dropdown').dropdown('get value'),
+                    access_cv_employer: $('.formpart.privacy .resume.privacy .employer.dropdown').dropdown('get value')
+                };
+                $.ajax({
+                    url: '/userpanel/info/privacy/',
+                    type: 'post',
+                    data: accessData,
+                    dataType: 'json',
+                    success:function(){}
+                });
+            })
+        })
+    </script>
+{% endblock %}

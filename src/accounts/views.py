@@ -85,7 +85,7 @@ def userpanel_offers(request):
 
 
 ####################################
-#######    Info Pages    ########
+#######    Info Pages       ########
 ####################################
 
 @user_required
@@ -216,6 +216,24 @@ def userpanel_changejobseekerinfo(request):
     return render(request, 'userpanel/jobseeker/changejobseekerinfo.html', context)
 
 @csrf_exempt
+def userpanel_changejobseekerinfo_privacy(request):
+    if request.method == 'POST':
+        profile = request.userprofile
+        if 'access_profile_jobseeker' in request.POST:
+            profile.access_profile_jobseeker = int(request.POST['access_profile_jobseeker'])
+        if 'access_profile_employer' in request.POST:
+            profile.access_profile_employer = int(request.POST['access_profile_employer'])
+        if 'access_cv_jobseeker' in request.POST:
+            profile.access_cv_jobseeker = int(request.POST['access_cv_jobseeker'])
+        if 'access_cv_employer' in request.POST:
+            profile.access_cv_employer = int(request.POST['access_cv_employer'])
+        profile.save()
+        return json_response({'result': 'success'})
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
+
+@csrf_exempt
+@jobseeker_required
 def userpanel_changejobseekerinfo_skills(request):
     if request.method == 'POST':
         action = request.POST.get('action')

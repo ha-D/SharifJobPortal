@@ -116,11 +116,27 @@ class JobSeeker(UserProfile):
         (UNEMPLOYED , u'بیکار'),
     )
     job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True, verbose_name=u'وضعیت شغلی')
-
     cv = models.FileField(upload_to="cv", null=True, blank=True, verbose_name=u'کارنامک کاری')
-    
-
     friends = models.ManyToManyField('JobSeeker' , through='social_network.FriendShip' , related_name='friends2')
+
+    NO_ACCESS   = 0
+    PART_ACCESS = 1
+    ALL_ACCESS  = 2
+    JOBSEEKER_PRIVACY_CHOICES = (
+        (NO_ACCESS,     u'هیچ کارجویی'),
+        (PART_ACCESS, u'کارجویان دوست'),
+        (ALL_ACCESS, u'همه کارجویان'),
+    )
+    EMPLOYER_PRIVACY_CHOICES = (
+        (NO_ACCESS,     u'هیچ کارفرمایی'),
+        (PART_ACCESS, u'کارفرمایانی که درخواست استخدام داده‌اید'),
+        (ALL_ACCESS, u'همه کارفرمایان'),
+    )
+    access_profile_jobseeker = models.PositiveSmallIntegerField(choices=JOBSEEKER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+    access_profile_employer  = models.PositiveSmallIntegerField(choices=EMPLOYER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+    access_cv_jobseeker      = models.PositiveSmallIntegerField(choices=JOBSEEKER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+    access_cv_employer       = models.PositiveSmallIntegerField(choices=EMPLOYER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+
     def __unicode__(self):
         # Don't do this!!, problems with links in admin
         # return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')
