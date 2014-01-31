@@ -1,15 +1,15 @@
-from httplib import HTTPResponse
-import json
-from django.contrib.auth.models import User
-from django.db.models.query_utils import Q
-from django.shortcuts import render_to_response
-from django.views.decorators.csrf import csrf_exempt
-from accounts.models import JobSeeker
-from utils.functions import template, ajax_template, json_response
-from social_network.models import *
-from accounts.decorators import user_required
-from django.http.response import HttpResponse
+from django.contrib.auth.models     import User
+from django.db.models.query_utils   import Q
+from django.shortcuts               import render_to_response
+from django.views.decorators.csrf   import csrf_exempt
+from django.http.response           import HttpResponse
 
+from accounts.models                import JobSeeker
+from utils.functions                import template, ajax_template, json_response
+from social_network.models          import *
+from accounts.decorators            import user_required
+
+import json
 
 @user_required
 def userpanel_inbox(request):
