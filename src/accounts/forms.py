@@ -26,7 +26,7 @@ class CompanyImageUploadForm(forms.ModelForm):
 
 class ChangeUserInfoForm(forms.ModelForm):
 	first_name = forms.CharField(max_length = 100, label="نام")
-	last_name = forms.CharField(max_length = 100, label="نام خواندوادگی")
+	last_name = forms.CharField(max_length = 100, label="نام خاندوادگی")
 	email = forms.EmailField(label="آدرس الکترونیکی")
 
 	class Meta:
