@@ -311,13 +311,19 @@ def userpanel_changejobseekerinfo_skills(request):
 ####################################
 
 def comment_to_dict(comment):
-    return {
+    data =  {
         'author': comment.user.full_name,
         'author_url': comment.user.profilePage,
-        'image': comment.user.image.url,
         'date': 'همین الان',
         'content': comment.body
     }
+
+    if comment.user.image:
+        data['image'] =  comment.user.image.url
+    else:
+        data['image'] =  '/static/images/profilepic.png'
+        
+    return data
 
 def profile_employer(request, username):
     employer = Employer.objects.get(user__username = username)
@@ -352,7 +358,8 @@ def profile_employer_comments(request, employer_id):
             body = request.POST['comment']
             employer = Employer.objects.get(pk = employer_id)
             comment  = CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
-            Event_CommentOnEmployer.create(comment=comment)
+            if request.userprofile.is_jobseeker():
+                Event_CommentOnEmployer.objects.create(comment=comment, initial_user=request.userprofile)
 
             return list_comments(1, page_size)
     else:

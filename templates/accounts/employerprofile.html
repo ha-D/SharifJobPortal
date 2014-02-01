@@ -109,7 +109,7 @@
 			$('.commentseg').zComment({
 				url: '/comments/employer/{{ profile.id }}/',
 				pagination: true,
-				addForm: {% if user.userprofile and user.userprofile.is_jobseeker %} true {% else %} false {% endif %}
+				addForm: {% if user.userprofile and user.userprofile.is_jobseeker %} true {% else %} {% if  user.userprofile == profile %} true {% else %} false {% endif %}{% endif %}
 			});
 
 			$('.carousel').carousel();
