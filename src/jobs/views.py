@@ -92,7 +92,8 @@ def newJob(request):
 def jobPage(request, jobid):
     job = JobOpportunity.objects.get(id = jobid)
     skills = map(lambda x: x.name, job.opSkills.all())
-    return template(request, 'jobs/jobsPage.html', {'job' : job, 'skills':skills})
+    pages = list(job.pages.all())
+    return template(request, 'jobs/jobsPage.html', {'job' : job, 'skills':skills, 'pages':pages})
 
 
 @csrf_exempt
