@@ -32,6 +32,7 @@ urlpatterns += patterns('',
     
     url(r'^employer/(?P<username>\w+)/', profile_employer),
     url(r'^comments/employer/(?P<employer_id>\w+)/', profile_employer_comments),
+    url(r'^rate/employer/(?P<employer_id>\w+)/', profile_employer_rate),
 
     url(r'^user/(?P<username>\w+)/', profile_jobseeker),
 

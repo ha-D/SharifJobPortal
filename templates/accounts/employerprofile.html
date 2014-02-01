@@ -115,7 +115,23 @@
 			$('.carousel').carousel();
 
 			$(".rating").rating("set rating", {{ profile.rate }});
-			$(".rating").rating();
+			$(".rating").rating({
+				onRate: function(value){
+					$.ajax({
+						url: '/rate/employer/{{profile.id}}/',
+						type: 'post',
+						data: {rate: value},
+						dataType: 'json',
+						success: function(data){
+							if(data.result == 'success'){
+
+							} else {
+								console.log(data);
+							}
+						}
+					})
+				}
+			});
 			{% if not user.userprofile or user.userprofile.is_employer %}
 				$(".rating").rating('disable');
 			{% endif %}

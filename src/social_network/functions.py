@@ -7,3 +7,12 @@ from social_network.models 	import *
 '''
 def friends(jobseeker1, jobseeker2):
 	return True
+
+def make_friends(jobseeker1, jobseeker2):
+	pass
+
+def rate_employer(jobseeker, employer, rate):
+	pass
+
+def rate_opportunity(jobseeker, opportunity, rate):
+	pass

@@ -119,7 +119,7 @@ portal.zComment = function(options){
 	if(typeof(options) == 'object'){
 		/* Initial Values */
 		options.title = options.title || 'نظرات';
-		options.pageSize = options.pageSize || 5;
+		options.pageSize = options.pageSize || 4;
 		if(!options.url){
 			throw "Must give a url for zComments";
 		}
