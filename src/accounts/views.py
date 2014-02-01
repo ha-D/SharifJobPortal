@@ -436,7 +436,8 @@ def profile_jobseeker_getcv(request, jobseeker_id):
 
     if check_cv_access(request, jobseeker):
         print(jobseeker.cv.url)
-        serve(request, document_root=settings.MEDIA_ROOT, path=jobseeker.cv.url)
+        # Dirty Fix
+        return serve(request, document_root=settings.MEDIA_ROOT, path=jobseeker.cv.url[7:])
     else:
         raise PermissionDenied
 
