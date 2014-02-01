@@ -4,7 +4,7 @@ from django.conf        import settings
 from SharifJobPortal.views import index
 from utils.views        import zedit_preview
 from ui_test.views 		import show_template
-from accounts.views     import profile_employer, profile_jobseeker, profile_employer_comments
+from accounts.views     import *
 import userpanel_urls
 
 # Uncomment the next two lines to enable the admin:
@@ -34,6 +34,8 @@ urlpatterns += patterns('',
     url(r'^comments/employer/(?P<employer_id>\w+)/', profile_employer_comments),
 
     url(r'^user/(?P<username>\w+)/', profile_jobseeker),
+
+    url(r'^cv/(?P<jobseeker_id>\d+)/', profile_jobseeker_getcv),
 
 	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
 	url(r'^(?P<template>\w+)/$', show_template),

@@ -11,6 +11,7 @@ from django.utils.safestring        import SafeText
 from django.core.paginator          import Paginator
 from django.core.exceptions         import PermissionDenied
 from django.conf 					import settings
+from django.views.static            import serve
 
 from utils.functions                import template, json_response, ajax_template
 from accounts.decorators            import user_required, employer_required, jobseeker_required
@@ -426,3 +427,17 @@ def profile_jobseeker(request, username):
     context['pages'] = pages
 
     return render(request, 'accounts/jobseekerprofile.html', context)
+
+def profile_jobseeker_getcv(request, jobseeker_id):
+    try:
+        jobseeker = JobSeeker.objects.get(pk=jobseeker_id)
+    except:
+        raise Http404
+
+    if check_cv_access(request, jobseeker):
+        print(jobseeker.cv.url)
+        serve(request, document_root=settings.MEDIA_ROOT, path=jobseeker.cv.url)
+    else:
+        raise PermissionDenied
+
+

@@ -6,6 +6,9 @@ from django.contrib.auth.models     import User
 from django.conf                    import settings
 from django.views.decorators.csrf   import csrf_exempt
 
+from shutil                         import copy
+from os                             import remove
+
 from utils.functions                import template, json_response, ajax_template
 from accounts.decorators            import user_required
 from accounts.forms                 import *
@@ -70,7 +73,7 @@ def register_jobseeker_skills(request, session_name):
         'data': render_to_string('accounts/register/jobseeker/skills.html', RequestContext(request))
     }), False, None
 
-
+from django.core.files import File
 def register_jobseeker_finalize(request, session_name):
     session_steps = request.session[session_name]['steps']
 
@@ -78,11 +81,18 @@ def register_jobseeker_finalize(request, session_name):
     jobseeker = session_steps['personal_info']
     jobseeker_work = session_steps['work_info']
 
+
     user.save()
 
     jobseeker.user = user
     jobseeker.job_status = jobseeker_work.job_status
-    jobseeker.cv = jobseeker_work.cv
+
+    dest_file = 'cv/cv_%s.pdf' % user.username
+    src_file = 'cv/%s' % jobseeker_work.cv_filename
+    f = open(settings.MEDIA_ROOT + src_file)
+    jobseeker.cv.save(dest_file, File(f))
+    f.close()
+    remove(settings.MEDIA_ROOT + src_file)
 
     jobseeker.save()
 
