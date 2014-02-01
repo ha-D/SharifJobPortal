@@ -41,7 +41,7 @@ def userpanel_main(request):
 
     if request.userprofile.is_jobseeker():
         events = Event.objects.all()
-        events = [ getEvent(e).summery() for e in events]
+        events = [getEvent(e).summery() for e in events]
         print(events)
         return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})
     elif request.userprofile.is_employer():
@@ -119,7 +119,8 @@ def userpanel_changecompanyinfo(request):
 
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
 
-
+def userpanel_changejobseekerinfo(request):
+    pass
 @user_required
 def userpanel_changeinfo(request):
     if request.userprofile.is_employer():
