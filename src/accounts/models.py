@@ -17,15 +17,25 @@ class UserProfile(models.Model):
     phoneNumber = models.CharField(max_length=15, verbose_name="شماره تلفن")
     image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس")
     city = models.ForeignKey(City, verbose_name="شهر")
-    personalPage = models.OneToOneField('accounts.PersonalPage' , unique=True, null=True, blank=True)
-    
+    profilePage = models.URLField(unique=True, null=True, blank=True)
     user = models.OneToOneField(User , unique=True)
+
+    def _username(self):
+        return self.user.username
+    def _first_name(self):
+        return self.user.first_name
+    def _last_name(self):
+        return self.user.last_name
+    def _full_name(self):
+        return '%s %s' % (self.first_name, self.last_name)
+
+    username   = property(_username)
+    first_name = property(_first_name)
+    last_name  = property(_last_name)
+    full_name  = property(_full_name)
 
     def is_jobseeker(self):
         pass
-
-    def full_name(self):
-        return '%s %s' % (self.user.first_name, self.user.last_name)
 
     def is_employer(self):
         return not self.is_jobseeker()
@@ -37,23 +47,25 @@ class UserProfile(models.Model):
         return self.user.username
 
 class CompanyType(models.Model):
-    PUBLIC = 0
-    PRIVATE = 1
-    SEMI_PRIVATE = 2
+    # PUBLIC = 0
+    # PRIVATE = 1
+    # SEMI_PRIVATE = 2
 
-    COMPANY_TYPE_CHOICES = (
-        (PUBLIC , u'دولتی') ,
-        (PRIVATE , u'خصوصی'),
-        (SEMI_PRIVATE , u'نیمه خصوصی'),
-    )
+    # COMPANY_TYPE_CHOICES = (
+    #     (PUBLIC , u'دولتی') ,
+    #     (PRIVATE , u'خصوصی'),
+    #     (SEMI_PRIVATE , u'نیمه خصوصی'),
+    # )
 
-    companyType = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
+    # companyType = models.PositiveSmallIntegerField(choices=COMPANY_TYPE_CHOICES , default=PUBLIC)
 
+    companyType = models.CharField(max_length=30)
     def __unicode__(self):
-        for s,t in self.COMPANY_TYPE_CHOICES:
-            print(s,t)
-            if self.companyType == s:
-                return t
+        # for s,t in self.COMPANY_TYPE_CHOICES:
+        #     print(s,t)
+        #     if self.companyType == s:
+        #         return t
+        return self.companyType
 
 
 class Employer(UserProfile):
@@ -105,12 +117,37 @@ class JobSeeker(UserProfile):
         (FULL_TIME , u'تمام وقت'),
         (UNEMPLOYED , u'بیکار'),
     )
-    job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True)
-
-    cv = models.FileField(upload_to="cv", null=True, blank=True)
-    
-
+    job_status = models.PositiveSmallIntegerField(choices=JOB_STATUS_CHOICES , default=UNEMPLOYED, null=True, blank=True, verbose_name=u'وضعیت شغلی')
+    cv = models.FileField(upload_to="cv", null=True, blank=True, verbose_name=u'کارنامک کاری')
     friends = models.ManyToManyField('JobSeeker' , through='social_network.FriendShip' , related_name='friends2')
+
+    NO_ACCESS   = 0
+    PART_ACCESS = 1
+    ALL_ACCESS  = 2
+    JOBSEEKER_PRIVACY_CHOICES = (
+        (NO_ACCESS,     u'هیچ کارجویی'),
+        (PART_ACCESS, u'کارجویان دوست'),
+        (ALL_ACCESS, u'همه کارجویان'),
+    )
+    EMPLOYER_PRIVACY_CHOICES = (
+        (NO_ACCESS,     u'هیچ کارفرمایی'),
+        (PART_ACCESS, u'کارفرمایانی که درخواست استخدام داده‌اید'),
+        (ALL_ACCESS, u'همه کارفرمایان'),
+    )
+    access_profile_public    = models.BooleanField(default=True)
+    access_profile_jobseeker = models.PositiveSmallIntegerField(choices=JOBSEEKER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+    access_profile_employer  = models.PositiveSmallIntegerField(choices=EMPLOYER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+    access_cv_public         = models.BooleanField(default=True)
+    access_cv_jobseeker      = models.PositiveSmallIntegerField(choices=JOBSEEKER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+    access_cv_employer       = models.PositiveSmallIntegerField(choices=EMPLOYER_PRIVACY_CHOICES, default=PART_ACCESS, blank=True)
+
+    def _sex_name(self):
+        return self.SEX_CHOICES[self.sex][1]
+    def _job_status_name(self):
+        return self.JOB_STATUS_CHOICES[self.job_status][1]
+    sex_name = property(_sex_name)
+    job_status_name = property(_job_status_name)
+
     def __unicode__(self):
         # Don't do this!!, problems with links in admin
         # return mark_safe('<a href="/user/' + self.user.username + '/">' + self.user.first_name + ' ' + self.user.last_name + '</a>')

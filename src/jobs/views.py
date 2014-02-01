@@ -6,7 +6,7 @@ from accounts.decorators import employer_required
 from accounts.views import userpanel_jobs
 from jobs.forms import JobForm
 from jobs.models import JobOpportunity, JobOffer
-from utils.functions import json_response, template
+from utils.functions1 import json_response, template
 
 @employer_required
 def applyJob(request, jobid):

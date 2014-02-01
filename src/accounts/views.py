@@ -1,3 +1,6 @@
+#coding=utf-8
+from _csv import Error
+
 from django.contrib.auth.views 		import login, logout
 from django.shortcuts            	import render, render_to_response
 from django.template             	import RequestContext
@@ -6,14 +9,18 @@ from django.http                 	import HttpResponse, HttpResponseRedirect, Htt
 from django.contrib.auth.models 	import User
 from django.views.decorators.csrf   import csrf_exempt
 from django.utils.safestring        import SafeText
+from django.core.paginator          import Paginator
+from django.core.exceptions         import PermissionDenied
 from django.conf 					import settings
 
-from utils.functions                import template, json_response, ajax_template
+from utils.functions1                import template, json_response, ajax_template
 from accounts.decorators            import user_required, employer_required, jobseeker_required
 from accounts.models                import CompanyImage, PersonalPage, Employer, JobSeeker
 from accounts.forms                 import *
 from social_network.models          import *
-from jobs.models                    import JobOffer
+from social_network.functions1       import friends
+from jobs.models                    import JobOffer, Skill
+from jobs.functions1                 import request_pending
 
 from markdown                       import markdown
 
@@ -80,19 +87,56 @@ def userpanel_offers(request):
     offers_by_employer = JobOffer.objects.filter(jobOpportunity__user=user, mode=1).order_by('-date')
     return template(request, 'userpanel/employer/offers.html', {'offers_by_jobseeker' : offers_by_jobseeker, 'offers_by_employer' : offers_by_employer})
 
-@user_required #OBSOLETE
-def userpanel_changeinfo_old(request):
-    context = {}
-    if request.method == 'POST':
-        form = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
-        if form.is_valid():
-            form.save()
-            context['state'] = 'success'
-    else:
-        form = ChangeUserInfoForm(instance = request.userprofile)
 
-    context['form'] = form
-    return render(request, 'userpanel/changeuserinfo.html', context)
+####################################
+#######    Info Pages       ########
+####################################
+
+@user_required
+def userpanel_changeinfo(request):
+    if request.userprofile.is_employer():
+        return userpanel_changecompanyinfo(request)
+    else:
+        return userpanel_changejobseekerinfo(request)
+
+@csrf_exempt
+def userpanel_info_profile_pages(request):
+    action = request.POST.get('action', '')
+    
+    try:
+        if action == 'save':
+            page_id = request.POST['page_id']
+            content = request.POST['content']
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.content = content
+            page.save()
+            return json_response({'result': 'success'})
+
+        elif action == 'remove':
+            page_id = request.POST['page_id']
+            page = PersonalPage.objects.get(pk = page_id)
+            if page.user != request.user:
+                raise "Unauthorized"
+            page.delete()
+            return json_response({'result': 'success'})
+
+        elif action == 'add':
+            title = request.POST['title']
+            page = PersonalPage.objects.create(user=request.user, title=title)
+            page = {'page_id': page.id, 'title':page.title, 'content': page.content}
+            return json_response({'result': 'success', 'page': page})
+
+        elif action == 'list':
+            pages = PersonalPage.objects.filter(user=request.user)
+            pages = map(lambda x: {'page_id': x.id, 'title':x.title, 'content': x.content}, pages)
+            return json_response({'result': 'success', 'pages': pages})
+
+    except Error as e:
+        print(e)
+        return json_response({'result': 'fail'})
+
 
 @employer_required
 def userpanel_changecompanyinfo(request):
@@ -104,10 +148,6 @@ def userpanel_changecompanyinfo(request):
             userform.save()
             compform.save()
             context['state'] = 'success'
-        else:
-            print(compform.errors)
-            print(userform.errors)
-            print("SHIT")
     else:
         userform = ChangeUserInfoForm(instance = request.userprofile)
         compform = ChangeCompanyInfoForm(instance = request.userprofile)
@@ -119,8 +159,11 @@ def userpanel_changecompanyinfo(request):
 
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
 
+
 def userpanel_changejobseekerinfo(request):
     pass
+
+
 @user_required
 def userpanel_changeinfo(request):
     if request.userprofile.is_employer():
@@ -167,44 +210,126 @@ def userpanel_changecompanyinfo_removeimage(request, image_id):
     return json_response({'result': 'success', 'images': images})
 
 
+
+@jobseeker_required
+def userpanel_changejobseekerinfo(request):
+    context = {}
+    if request.method == 'POST':
+        userform = ChangeUserInfoForm(request.POST, request.FILES, instance=request.userprofile)
+        jobsform = ChangeJobseekerInfoForm(request.POST, instance=request.userprofile)
+        if userform.is_valid() and jobsform.is_valid():
+            userform.save()
+            jobsform.save()
+            context['state'] = 'success'
+    else:
+        userform = ChangeUserInfoForm(instance = request.userprofile)
+        jobsform = ChangeJobseekerInfoForm(instance = request.userprofile)
+
+    context['jobsform'] = jobsform
+    context['userform'] = userform
+    context['site_url'] = settings.SITE_URL
+
+    return render(request, 'userpanel/jobseeker/changejobseekerinfo.html', context)
+
 @csrf_exempt
-def userpanel_changecompanyinfo_zedit(request):
-    action = request.POST.get('action', '')
-    
-    try:
-        if action == 'save':
-            page_id = request.POST['page_id']
-            content = request.POST['content']
-            page = PersonalPage.objects.get(pk = page_id)
-            if page.user != request.user:
-                raise "Unauthorized"
-            page.content = content
-            page.save()
-            return json_response({'result': 'success'})
+def userpanel_changejobseekerinfo_privacy(request):
+    is_true = lambda x: x == True or x == 'true' or x == 'True'
 
-        elif action == 'remove':
-            page_id = request.POST['page_id']
-            page = PersonalPage.objects.get(pk = page_id)
-            if page.user != request.user:
-                raise "Unauthorized"
-            page.delete()
-            return json_response({'result': 'success'})
+    if request.method == 'POST':
+        profile = request.userprofile
+        if 'access_profile_public' in request.POST:
+            profile.access_profile_public = is_true(request.POST['access_profile_public'])
+        if 'access_profile_jobseeker' in request.POST:
+            profile.access_profile_jobseeker = int(request.POST['access_profile_jobseeker'])
+        if 'access_profile_employer' in request.POST:
+            profile.access_profile_employer = int(request.POST['access_profile_employer'])
+        if 'access_cv_public' in request.POST:
+            profile.access_cv_public = is_true(request.POST['access_cv_public'])
+        if 'access_cv_jobseeker' in request.POST:
+            profile.access_cv_jobseeker = int(request.POST['access_cv_jobseeker'])
+        if 'access_cv_employer' in request.POST:
+            profile.access_cv_employer = int(request.POST['access_cv_employer'])
+        profile.save()
 
-        elif action == 'add':
-            title = request.POST['title']
-            page = PersonalPage.objects.create(user=request.user, title=title)
-            page = {'page_id': page.id, 'title':page.title, 'content': page.content}
-            return json_response({'result': 'success', 'page': page})
+        permissions = {
+            'access_profile_public':    profile.access_profile_public,
+            'access_profile_jobseeker': profile.access_profile_jobseeker,
+            'access_profile_employer':  profile.access_profile_employer,
+            'access_cv_public':         profile.access_cv_public,
+            'access_cv_jobseeker':      profile.access_cv_jobseeker,
+            'access_cv_employer':       profile.access_cv_employer
+        }
 
-        elif action == 'list':
-            pages = PersonalPage.objects.filter(user=request.user)
-            pages = map(lambda x: {'page_id': x.id, 'title':x.title, 'content': x.content}, pages)
-            return json_response({'result': 'success', 'pages': pages})
+        print(permissions)
 
-    except Error as e:
-        print(e)
-        return json_response({'result': 'fail'})
+        return json_response({'result': 'success', 'permissions': permissions})
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
 
+@csrf_exempt
+@jobseeker_required
+def userpanel_changejobseekerinfo_skills(request):
+    if request.method == 'POST':
+        action = request.POST.get('action')
+        if action == 'list possible':
+            query = request.POST.get('query', '')
+            if query == '':
+                skills = Skill.objects.all()
+            else:
+                skills = Skill.objects.filter(name__contains = query)
+
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
+
+        elif action == 'list current':
+            query = request.POST.get('query', '')
+            if query == '':
+                skills = request.userprofile.skills.all() 
+            else:
+                skills = request.userprofile.skills.filter(name__contains = query)
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
+
+        elif action == 'add current':
+            skill = request.POST.get('skill', '')
+            try:
+                request.userprofile.skills.get(name=skill)
+            except:
+                skill = Skill.objects.get_or_create(name=skill)[0]
+                request.userprofile.skills.add(skill)
+
+            skills = request.userprofile.skills.all()
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
+
+        elif action == 'remove current':
+            skill = request.POST.get('skill', '')
+            try:
+                skill = Skill.objects.get(name=skill)
+                request.userprofile.skills.remove(skill)
+            except:
+                pass
+
+            skills = request.userprofile.skills.all()
+            skills = map(lambda x: x.name, skills)
+            return json_response({'result': 'success', 'skills': skills})
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
+
+
+
+####################################
+#######    Profile Pages    ########
+####################################
+
+def comment_to_dict(comment):
+    return {
+        'author': comment.user.full_name,
+        'author_url': comment.user.profilePage,
+        'image': comment.user.image.url,
+        'date': 'همین الان',
+        'content': comment.body
+    }
 
 def profile_employer(request, username):
     employer = Employer.objects.get(user__username = username)
@@ -213,4 +338,104 @@ def profile_employer(request, username):
         page.content = SafeText(markdown(page.content))
     return render(request, 'accounts/employerprofile.html', {'profile': employer, 'pages': pages})
 
+@csrf_exempt
+def profile_employer_comments(request, employer_id):
+    def list_comments(page, page_size):
+        comments = CommentOnEmployer.objects.filter(employer__id = employer_id).order_by('-time')
+        p = Paginator(comments, page_size)
+        print('Page %d   Num Pages %d ' % (page, p.num_pages))
+        if page > p.num_pages:
+            page = p.num_pages
+            print('in here')
+        if page < 0:
+            page = 0
+        comments = map(comment_to_dict, p.page(page).object_list)
+        return json_response({'result': 'success', 'page':page, 'pageCount':p.num_pages , 'comments': comments})
 
+    if request.method == 'POST':
+        action = request.POST['action']
+        if action == 'list':
+            page_size = request.POST.get('page_size', 5)
+            page      = int(request.POST.get('page', 1))
+            return list_comments(page, page_size)
+
+        elif action == 'add':
+            page_size = request.POST.get('page_size', 5)
+            body = request.POST['comment']
+            employer = Employer.objects.get(pk = employer_id)
+            comment  = CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
+            Event_CommentOnEmployer.create(comment=comment)
+
+            return list_comments(1, page_size)
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
+
+
+def check_profile_access(request, jobseeker):
+    if jobseeker.access_profile_public:
+        return True
+    elif request.userprofile.is_jobseeker():
+        if request.userprofile.id == jobseeker.id:
+            return True
+        elif jobseeker.access_profile_jobseeker == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_profile_jobseeker == JobSeeker.PART_ACCESS:
+            return friends(request.userprofile, jobseeker)
+        elif jobseeker.access_profile_jobseeker == JobSeeker.ALL_ACCESS:
+            return True
+    else:
+        if jobseeker.access_profile_employer == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_profile_employer == JobSeeker.PART_ACCESS:
+            return request_pending(jobseeker, request.userprofile)
+        elif jobseeker.access_profile_employer == JobSeeker.ALL_ACCESS:
+            return True
+
+def check_cv_access(request, jobseeker):
+    if jobseeker.access_cv_public:
+        return True
+    elif request.userprofile.is_jobseeker():
+        if request.userprofile.id == jobseeker.id:
+            return True
+        elif jobseeker.access_cv_jobseeker == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_cv_jobseeker == JobSeeker.PART_ACCESS:
+            return friends(request.userprofile, jobseeker)
+        elif jobseeker.access_cv_jobseeker == JobSeeker.ALL_ACCESS:
+            return True
+    else:
+        if jobseeker.access_cv_employer == JobSeeker.NO_ACCESS:
+            return False
+        elif jobseeker.access_cv_employer == JobSeeker.PART_ACCESS:
+            return request_pending(jobseeker, request.userprofile)
+        elif jobseeker.access_cv_employer == JobSeeker.ALL_ACCESS:
+            return True    
+
+def profile_jobseeker(request, username):
+    context = {}
+
+    jobseeker = JobSeeker.objects.get(user__username = username)
+    context['profile'] = jobseeker
+
+    if not check_profile_access(request, jobseeker):
+        raise PermissionDenied
+
+    # Friendship
+    if not request.has_profile:
+        context['is_friend'] = False
+    elif request.userprofile.is_jobseeker():
+        context['is_friend'] = friends(request.userprofile, jobseeker)
+
+    # CV Access:
+    context['cv_access'] = check_cv_access(request, jobseeker)
+
+    skills = jobseeker.skills.all()
+    skills = map(lambda x: x.name, skills)
+    context['skills'] = skills
+
+    pages = list(jobseeker.user.pages.all())
+    for page in pages:
+        page.content = SafeText(markdown(page.content))
+    context['pages'] = pages
+
+    return render(request, 'accounts/jobseekerprofile.html', context)

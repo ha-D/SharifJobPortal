@@ -6,12 +6,18 @@ import search
 from django.shortcuts            import render
 from django.http		 		import HttpResponse
 import math
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 
+@csrf_exempt
 def opSearch(request):
-	pageSize = 5
+	pageSize = 4
 	curPage = 1
 	user = request.user
-	param = request.GET
+	if request.method == "GET":
+		param = request.GET
+	elif request.method == 'POST':
+		param = request.POST
 	query = param.get('q') or ""
 	print('query', query)
 	skills = []
@@ -76,7 +82,7 @@ def opSearch(request):
 		else:
 			pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
 
-	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
+	context = {'query':query, 'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
 	return render(request, 'search/opSearch.html', context)
 
 
@@ -93,6 +99,8 @@ def skillSearch(request):
 	context = {'skills' : [], 'skill_result' : skills, 'search_result' : []}
 	return render(request, 'search/opSearch.html', context)	
 
+
+@login_required
 def updateRate(request):
 	param = request.GET
 	response={}
@@ -122,7 +130,6 @@ def updateRate(request):
 			return HttpResponse(json.dumps(response), content_type="application/json")
 
 		elif 'emp' in param:
-
 			try:
 				emp = Employer.objects.get(id = int(param.get('emp')))
 				ratings = RateForEmployer.objects.filter(user__user__username = request.user.username).filter(employer__id = emp.id)
@@ -130,6 +137,7 @@ def updateRate(request):
 					seeker = JobSeeker.objects.get(user__username = request.user.username)
 					r = RateForEmployer(user = seeker, employer = emp, rate = int(param.get('rate')))
 					r.save()
+
 				else:
 					ratings[0].rate = int(param.get('rate'))
 					ratings[0].save()
@@ -149,10 +157,15 @@ def updateRate(request):
 	# print('here3')
 	return HttpResponse(json.dumps(response), content_type="application/json")
 
+@csrf_exempt
+@login_required
 def userSearch(request):
-	pageSize = 5
+	pageSize = 4
 	curPage = 1
-	param = request.GET
+	if request.method == "GET":
+		param = request.GET
+	elif request.method == "POST":
+		param = request.POST
 	query = param.get('q') or ""
 	print('query', query)
 	skills = []
@@ -207,5 +220,5 @@ def userSearch(request):
 		else:
 			pages = [str(base), str(base + 1), str(base + 2), '...', str(pageNum)]
 
-	context = {'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
+	context = {'query': query, 'skills' : skills, 'skill_result' : [], 'search_result' : search_result, 'pages':pages, 'next':next, 'pre' : pre, 'curPage' : str(curPage)} 
 	return render(request, 'search/userSearch.html', context)

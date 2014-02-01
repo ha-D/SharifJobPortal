@@ -2,7 +2,13 @@
 
 from django						import forms
 from django.contrib.auth.models import User
+from django.contrib.auth.forms 	import UserCreationForm
 from accounts.models 			import JobSeeker, Employer, UserProfile, CompanyImage
+
+class ChangeJobseekerInfoForm(forms.ModelForm):
+	class Meta:
+		model = JobSeeker
+		fields = ('job_status', 'cv',)
 
 class ChangeCompanyInfoForm(forms.ModelForm):
 	class Meta:
@@ -12,7 +18,7 @@ class ChangeCompanyInfoForm(forms.ModelForm):
 class CompanyImageUploadForm(forms.ModelForm):
 	class Meta:
 		model = CompanyImage
-		fields = ['image']
+		fields = ('image',)
 
 class ChangeUserInfoForm(forms.ModelForm):
 	first_name = forms.CharField(max_length = 100, label="نام")
@@ -21,7 +27,7 @@ class ChangeUserInfoForm(forms.ModelForm):
 
 	class Meta:
 		model = UserProfile
-		fields = ['address', 'postalCode', 'phoneNumber', 'city', 'image']
+		fields = ('address', 'postalCode', 'phoneNumber', 'city', 'image')
 
 	def __init__(self, *args, **kwargs):
 		if 'instance' in kwargs:
@@ -45,13 +51,15 @@ class ChangeUserInfoForm(forms.ModelForm):
 
 
 
-# -- Register Forms
 
-class RegisterUserForm(forms.ModelForm):
-	password_repeat = forms.CharField(widget=forms.PasswordInput)
+########################
+#### Register Forms ####
+########################
+
+class RegisterUserForm(UserCreationForm):
 	class Meta:
 		model = User
-		fields = ['first_name', 'last_name', 'username', 'email', 'password']
+		fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2']
 
 	def __init__(self, *args, **kwargs):
 
@@ -61,28 +69,19 @@ class RegisterUserForm(forms.ModelForm):
 		self.fields['last_name'].required = True
 		self.fields['email'].required = True
 		
-		self.fields['password'].widget = forms.PasswordInput()
+		self.fields['password1'].widget = forms.PasswordInput()
 
 		placeholders = {
 			'first_name': 'نام',
 			'last_name':  'نام خواندوادگی',
 			'username':   'نام کاربری',
 			'email':	  'آدرس الکترونیکی',
-			'password':	  'رمز عبور',
-			'password_repeat': 'تکرار رمز عبور'
+			'password1':	  'رمز عبور',
+			'password2': 'تکرار رمز عبور'
 		}
 
 		for field in placeholders:
 			self.fields[field].widget.attrs.update({'placeholder': placeholders[field]})
-
-	def save(self, commit=True):
-		user = super(RegisterUserForm, self).save(commit = False)
-		
-		if commit:
-			user.save()
-
-		return user
-
 
 
 class JobSeekerRegisterProfileForm(forms.ModelForm):
@@ -124,7 +123,8 @@ class RegisterFinalForm(forms.Form):
 	terms = forms.BooleanField()
 
 	def save(self):
-		return None
+		# Anything but None should do
+		return True
 
 class EmployerRegisterProfileForm(forms.ModelForm):
 	class Meta:

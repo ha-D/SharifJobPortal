@@ -1,10 +1,11 @@
 {% load staticfiles %}
 <html>
 	<head>
-		<title></title>
+		<title>{% block title %}{% endblock %}</title>
 
 		<link rel="stylesheet" type="text/css" href="{% static 'css/fonts.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/semantic.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'css/chosen.min.css' %}">
 		<link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
 		{% block style %}
 
@@ -12,6 +13,7 @@
 		
 		<script type="text/javascript" src="{% static 'js/jquery.js' %}"></script>
 		<script type="text/javascript" src="{% static 'js/semantic.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/chosen.jquery.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/base.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/header.js' %}"></script>
 		{% block script %}

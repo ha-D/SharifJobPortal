@@ -38,11 +38,12 @@ class JobOpportunity(models.Model):
     rate = property(_get_rate)
 
     def __unicode__(self):
-        return mark_safe('<a href="/jobs/' + str(self.id) + '/">' + self.name + '</a>')
+        # return mark_safe('<a href="/jobs/' + str(self.id) + '/">' + self.name + '</a>')
+        return self.name
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, unique=True)
     user = models.ManyToManyField(JobSeeker, related_name = 'skills', blank = True, null = True)
     opportunity = models.ManyToManyField(JobOpportunity, related_name = 'opSkills', blank = True, null = True)
     class Meta:

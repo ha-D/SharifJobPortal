@@ -3,307 +3,318 @@
 {% load staticfiles %}
 
 {% block content-title %}
-تغییر مشخصات شرکت
+تغییر مشخصات
 {% endblock %}
 
 {% block content %}
-<div id="companyinfoform">
-	{% if state == 'success' %}
-		<div class="change success">
-			تغییرات با موفقیت ثبت شد
-		</div>
-	{% endif %}
-	<form method="post" enctype="multipart/form-data">
-		<h3 class="formheader">مشخصات کاربری</h3>
-		<div id="userinfoform" class="ui small form userinfo formpart">
-				{% csrf_token %}
-				<div class="two fields">
-					{{userform.first_name|semfield}}
-					{{userform.last_name|semfield}}
-				</div>
-				<div class="two fields">
-					{{userform.email|semfield}}
-					{{userform.phoneNumber|semfield}}
-				</div>
-				<div class="two fields">
-					{{userform.address|semfield}}
-					{{userform.postalCode|semfield}}
-				</div>
-				<div class="two fields">
-					{{userform.city|semfield}}
-					<div class="small field">
-						<label for="id_image">عکس</label>
-						<input type="file" id="id_image" name="image">
-						{% if user.userprofile.image %}
-							<img class="profilepic" src="/media/{{user.userprofile.image}}">
-						{% else %}
-							<img class="profilepic" src="/static/images/profilepic.png">
-						{% endif %}
-					</div>	
-				</div>	
-		</div>
+<div id="companyinfoform" class="infoform">
+    {% if state == 'success' %}
+        <div class="change success">
+            تغییرات با موفقیت ثبت شد
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data">
+        <h3 class="formheader">مشخصات کاربری</h3>
+        <div id="userinfoform" class="ui small form userinfo formpart">
+                {% csrf_token %}
+                <div class="two fields">
+                    {{userform.first_name|semfield}}
+                    {{userform.last_name|semfield}}
+                </div>
+                <div class="two fields">
+                    {{userform.email|semfield}}
+                    {{userform.phoneNumber|semfield}}
+                </div>
+                <div class="two fields">
+                    {{userform.address|semfield}}
+                    {{userform.postalCode|semfield}}
+                </div>
+                <div class="two fields">
+                    {{userform.city|addclass:"chosen-select"|semfield}}
+                    <div class="small field">
+                        <label for="id_image">عکس</label>
+                        {% if user.userprofile.image %}
+                            <div class="image clear">
+                                <input id="image-clear_id" name="image-clear" type='checkbox'>
+                                <label for="image-clear_id">پاک کردن</label>
+                            </div>
+                        {% endif %}
+                        <input type="file" id="id_image" name="image">
+                        {% if user.userprofile.image %}
+                            <img class="profilepic" src="/media/{{user.userprofile.image}}">
+                        {% else %}
+                            <img class="profilepic" src="/static/images/profilepic.png">
+                        {% endif %}
+                    </div>  
+                </div>  
+        </div>
 
 
-		<h3>مشخصات شرکت</h3>
-		<div class="ui basic small form segment formpart companyinfo">
-				<div class="two fields">
-					{{compform.companyName|semfield}}
-					{{compform.companyType|semfield}}
-				</div>
-				<div class="two fields">
-					{{compform.registrationNumber|semfield}}
-					{{compform.establishDate|semfield}}
-				</div>
-				<div class="two fields">
-					{{compform.webSite|semfield}}
-					{{compform.contactEmail|semfield}}
-				</div>
+        <h3>مشخصات شرکت</h3>
+        <div class="ui basic small form segment formpart companyinfo">
+                <div class="two fields">
+                    {{compform.companyName|semfield}}
+                    {{compform.companyType|addclass:"chosen-select"|semfield}}
+                </div>
+                <div class="two fields">
+                    {{compform.registrationNumber|semfield}}
+                    {{compform.establishDate|semfield}}
+                </div>
+                <div class="two fields">
+                    {{compform.webSite|semfield}}
+                    {{compform.contactEmail|semfield}}
+                </div>
 
-				<button class="ui small blue submit button" type="submit">ثبت</button>
-		</div>
-	</form>
+                <button class="ui small blue submit button" type="submit">ثبت</button>
+        </div>
+    </form>
 
-	<h3>عکس‌های شرکت</h3>
-	<div class="ui basic segment formpart imageupload">
-			<div class="info">
-				عکس‌های شرکت خود را بارگذاری کنید تا کارجویان در صفحه شرکت شماه مشاهده کنند
-			</div>
-			<div class="upload">
-				<form class="uploadform">
-					<input type="file" name="image">
-					<button type="button" class="ui small blue button uploadimage">اضافه</button>
-				</form>
-			</div>
-			<div class="rslides_wrapper">
-				<ul class="rslides">
-					{% for image in images %}
-						<li><i data-image-id="{{image.id}}" class="large icon remove"></i><img src="{{image.image.url}}"></li>
-					{% endfor %}
-				</ul>
-			</div>
-		</div>
-	</div>
+    <h3>عکس‌های شرکت</h3>
+    <div class="ui basic segment formpart imageupload">
+            <div class="info">
+                عکس‌های شرکت خود را بارگذاری کنید تا کارجویان در صفحه شرکت شماه مشاهده کنند
+            </div>
+            <div class="upload">
+                <form class="uploadform">
+                    <input type="file" name="image">
+                    <button type="button" class="ui small blue button uploadimage">اضافه</button>
+                </form>
+            </div>
+            <div class="rslides_wrapper">
+                <ul class="rslides">
+                    {% for image in images %}
+                        <li><i data-image-id="{{image.id}}" class="large icon remove"></i><img src="{{image.image.url}}"></li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
 
-	<h3>صفحه شرکت</h3>
-	<div class="ui basic segment formpart imageupload">
-		<div class="zedit container">
+    <h3>صفحه شرکت</h3>
+    <div class="ui basic segment formpart imageupload">
+        <div class="zedit container">
 
-		</div>
-	</div>	
+        </div>
+    </div>  
 </div>
 {% endblock %}
 
 {% block style %}
-	{{ block.super }}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'markitup/skins/simple/style.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'markitup/sets/markdown/style.css' %}" />
-	<link rel="stylesheet" type="text/css" href="{% static 'css/zedit.css' %}">
-	<style type="text/css">
-		#userpanel #companyinfoform .imageupload {
-			/*border: 1px solid black;*/
-			min-height: 300px;
-		}
+    {{ block.super }}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'markitup/skins/simple/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'markitup/sets/markdown/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/zedit.css' %}">
+    <style type="text/css">
+        #userpanel #companyinfoform .imageupload {
+            /*border: 1px solid black;*/
+            min-height: 300px;
+        }
 
-		#userpanel #companyinfoform .imageupload .info{
-			/*border: 1px solid black;*/
-			width: 370px;
-			padding: 20px;
-			position: absolute;
-		}
+        #userpanel #companyinfoform .imageupload .info{
+            /*border: 1px solid black;*/
+            width: 370px;
+            padding: 20px;
+            position: absolute;
+        }
 
-		#userpanel #companyinfoform .imageupload .upload{
-			/*border: 1px solid black;*/
-			width: 400px;
-			padding: 20px;
-			position: absolute;
-			bottom: 40px;
-		}
+        #userpanel #companyinfoform .imageupload .upload{
+            /*border: 1px solid black;*/
+            width: 400px;
+            padding: 20px;
+            position: absolute;
+            bottom: 40px;
+        }
 
-		#userpanel #companyinfoform .rslides {
-			position: relative;
-			list-style: none;
-			overflow: hidden;
-			width: 300px;
-			padding: 0;
-			margin: 0;
-			float:left;
-		}
+        #userpanel #companyinfoform .rslides {
+            position: relative;
+            list-style: none;
+            overflow: hidden;
+            width: 300px;
+            padding: 0;
+            margin: 0;
+            float:left;
+        }
 
-		#userpanel #companyinfoform .rslides li {
-			-webkit-backface-visibility: hidden;
-			position: absolute;
-			display: none;
-			width: 100%;
-			left: 0;
-			top: 0;
-		}
+        #userpanel #companyinfoform .rslides li {
+            -webkit-backface-visibility: hidden;
+            position: absolute;
+            display: none;
+            width: 100%;
+            left: 0;
+            top: 0;
+        }
 
-		#userpanel #companyinfoform .rslides li:first-child {
-			position: relative;
-			display: block;
-			float: left;
-		}
+        #userpanel #companyinfoform .rslides li:first-child {
+            position: relative;
+            display: block;
+            float: left;
+        }
 
-		#userpanel #companyinfoform .rslides_tabs{
-		 	background: rgba(100,100,0,.25);
-			box-shadow: 0 0 1px rgba(255,255,255,.3), inset 0 0 5px rgba(0,0,0,1.0);
-			-moz-box-shadow: 0 0 1px rgba(255,255,255,.3), inset 0 0 5px rgba(0,0,0,1.0);
-			-webkit-box-shadow: 0 0 1px rgba(255,255,255,.3), inset 0 0 5px rgba(0,0,0,1.0);
-			font-size: 18px;
-			list-style: none;
-			margin: 0 auto 10px;
-			max-width: 540px;
-			padding: 10px 0;
-			text-align: center;
-			width: 300px;
+        #userpanel #companyinfoform .rslides_tabs{
+            background: rgba(100,100,0,.25);
+            box-shadow: 0 0 1px rgba(255,255,255,.3), inset 0 0 5px rgba(0,0,0,1.0);
+            -moz-box-shadow: 0 0 1px rgba(255,255,255,.3), inset 0 0 5px rgba(0,0,0,1.0);
+            -webkit-box-shadow: 0 0 1px rgba(255,255,255,.3), inset 0 0 5px rgba(0,0,0,1.0);
+            font-size: 18px;
+            list-style: none;
+            margin: 0 auto 10px;
+            max-width: 540px;
+            padding: 10px 0;
+            text-align: center;
+            width: 300px;
 
-			clear: both;
-			float: left;
-		}
-		#userpanel #companyinfoform .rslides_tabs li:first-child{
-			margin-left: 0;
-		}
+            clear: both;
+            float: left;
+        }
+        #userpanel #companyinfoform .rslides_tabs li:first-child{
+            margin-left: 0;
+        }
 
-		#userpanel #companyinfoform .rslides_tabs .rslides_here a {
-			background: rgba(255,255,255,.1);
-			color: #fff;
-			font-weight: bold;
-		}
+        #userpanel #companyinfoform .rslides_tabs .rslides_here a {
+            background: rgba(255,255,255,.1);
+            color: #fff;
+            font-weight: bold;
+        }
 
-		#userpanel #companyinfoform .rslides_tabs a {
-			width: auto;
-			line-height: 20px;
-			padding: 9px 20px;
-			height: auto;
-			background: transparent;
-			display: inline;
-			text-decoration: none;
-			color: black;
-		}
+        #userpanel #companyinfoform .rslides_tabs a {
+            width: auto;
+            line-height: 20px;
+            padding: 9px 20px;
+            height: auto;
+            background: transparent;
+            display: inline;
+            text-decoration: none;
+            color: black;
+        }
 
-		#userpanel #companyinfoform .rslides_tabs li{
-		 	display: inline;
-			float: none;
-			margin-right: 1px;
-		}
+        #userpanel #companyinfoform .rslides_tabs li{
+            display: inline;
+            float: none;
+            margin-right: 1px;
+        }
 
-		#userpanel #companyinfoform .rslides img {
-			display: block;
-			height: auto;
-			float: left;
-			width: 100%;
-			border: 0;
-		}
+        #userpanel #companyinfoform .rslides img {
+            display: block;
+            height: auto;
+            float: left;
+            width: 100%;
+            border: 0;
+        }
 
-		#userpanel #companyinfoform .rslides_wrapper {
-			padding: 0px;
-			margin: 0px;
-			/*float: right;*/
-		}
+        #userpanel #companyinfoform .rslides_wrapper {
+            padding: 0px;
+            margin: 0px;
+            /*float: right;*/
+        }
 
-		#userpanel #companyinfoform .rslides .remove.icon {
-			position: absolute;
-			z-index: 100000;
-			top: 10px;
-			left: 6px;
-			color: rgb(100,100,100);
-			cursor: pointer;
-		}
+        #userpanel #companyinfoform .rslides .remove.icon {
+            position: absolute;
+            z-index: 100000;
+            top: 10px;
+            left: 6px;
+            color: rgb(100,100,100);
+            cursor: pointer;
+        }
 
-		#userpanel #companyinfoform .rslides .remove.icon:hover {
-			color: rgb(200,100,0);
-		}
+        #userpanel #companyinfoform .rslides .remove.icon:hover {
+            color: rgb(200,100,0);
+        }
 
-		#userpanel #companyinfoform .rslides .remove.icon:active {
-			color: rgb(200,50,0);
-		}
+        #userpanel #companyinfoform .rslides .remove.icon:active {
+            color: rgb(200,50,0);
+        }
 
-		#userpanel #companyinfoform .imageupload .info {
-			/*float: right;*/
-		}
-	</style>
+        #userpanel #companyinfoform .imageupload .info {
+            /*float: right;*/
+        }
+    </style>
 {% endblock %}
 
 {% block script %}
-	{{ block.super }}
-	<script type="text/javascript" src="{% static 'js/jquery.form.min.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/rslides.js' %}"></script>
-	<script type="text/javascript" src="{% static 'markitup/jquery.markitup.js' %}"></script>
-	<script type="text/javascript" src="{% static 'markitup/sets/markdown/set.js' %}"></script>
-	<script type="text/javascript" src="{% static 'js/zedit.js' %}"></script>
-	<script type="text/javascript">
-		$(function(){
-			function initRSlides(){
-				$('.rslides').responsiveSlides({
-					auto: false,
-					pager: true,
-					speed: 1
-				});
-			}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jquery.form.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/rslides.js' %}"></script>
+    <script type="text/javascript" src="{% static 'markitup/jquery.markitup.js' %}"></script>
+    <script type="text/javascript" src="{% static 'markitup/sets/markdown/set.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/zedit.js' %}"></script>
+    <script type="text/javascript">
+        $(function(){
+            function initRSlides(){
+                $('.rslides').responsiveSlides({
+                    auto: false,
+                    pager: true,
+                    speed: 1
+                });
+            }
 
-			function imageSuccess(data){
-				if(data.result == 'success'){
-					var rslides = $("<ul>").addClass("rslides");
-					for(var i = 0; i < data.images.length; i++){
-						var icon  = $("<i>");
-						icon.attr("data-image-id", data.images[i].id);
-						icon.addClass("large icon remove");
-						var img = $("<img>").attr("src", data.images[i].url);
-						var li = $("<li>").append(icon).append(img);
-						rslides.append(li);
-					}
+            function imageSuccess(data){
+                if(data.result == 'success'){
+                    var rslides = $("<ul>").addClass("rslides");
+                    for(var i = 0; i < data.images.length; i++){
+                        var icon  = $("<i>");
+                        icon.attr("data-image-id", data.images[i].id);
+                        icon.addClass("large icon remove");
+                        var img = $("<img>").attr("src", data.images[i].url);
+                        var li = $("<li>").append(icon).append(img);
+                        rslides.append(li);
+                    }
 
-					$(".rslides_wrapper").html(rslides)
-					initRSlides();
-				} else if(data.result == 'fail'){
-					console.log("Error uploading file: " + data.error)
-				}
-			}
+                    $(".rslides_wrapper").html(rslides)
+                    initRSlides();
+                } else if(data.result == 'fail'){
+                    console.log("Error uploading file: " + data.error)
+                }
+            }
 
-			$('.uploadimage').click(function(){
-				if($(".uploadform input[type='file']").fieldValue() != ''){
-					$('.uploadform').ajaxSubmit({
-						url: '/userpanel/companyinfo/uploadimage/',
-						type: 'post',
-						dataType: 'json',
-						data: {action: 'upload'},
-						success: function(data){
-							imageSuccess(data);
-							$('.uploadform input[type="file"]').clearFields();
-						}
-					})
-				}
-			})
+            $('.uploadimage').click(function(){
+                if($(".uploadform input[type='file']").fieldValue() != ''){
+                    $('.uploadform').ajaxSubmit({
+                        url: '/userpanel/companyinfo/uploadimage/',
+                        type: 'post',
+                        dataType: 'json',
+                        data: {action: 'upload'},
+                        success: function(data){
+                            imageSuccess(data);
+                            $('.uploadform input[type="file"]').clearFields();
+                        }
+                    })
+                }
+            })
 
-			$(".rslides .remove.icon").click(function(){
-				$.ajax({
-					url: '/userpanel/companyinfo/removeimage/' + $(this).attr('data-image-id'),
-					dataType: 'json',
-					success: imageSuccess
-				})
-			})
-
-
-			function changeFocus(){
-				var active = this;
-				$('.formpart').each(function(index){
-					if(this == active){
-						$(this).fadeTo(300, 1.0);
-					}else{
-						$(this).fadeTo(300, 0.5);
-					}
-				})
-
-			}
-			$('.formpart').hover(changeFocus);
+            $(".rslides .remove.icon").click(function(){
+                $.ajax({
+                    url: '/userpanel/companyinfo/removeimage/' + $(this).attr('data-image-id'),
+                    dataType: 'json',
+                    success: imageSuccess
+                })
+            })
 
 
-			initRSlides();
-			$('.zedit.container').zedit({
-				url: '/userpanel/companyinfo/zedit/',
-				showAddForm: true
-			});
-		})
-	</script>
+            function changeFocus(){
+                var active = this;
+                $('.formpart').each(function(index){
+                    if(this == active){
+                        $(this).fadeTo(300, 1.0);
+                    }else{
+                        $(this).fadeTo(300, 0.5);
+                    }
+                })
+
+            }
+            $('.formpart').hover(changeFocus);
+
+
+            initRSlides();
+            $('.zedit.container').zedit({
+                url: '/userpanel/companyinfo/zedit/',
+                showAddForm: true
+            });
+
+            $(".chosen-select").chosen({
+                disable_search_threshold: 10,
+                width: '60%'
+            });
+        })
+    </script>
 {% endblock %}

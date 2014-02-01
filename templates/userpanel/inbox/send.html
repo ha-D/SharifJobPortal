@@ -5,7 +5,11 @@
 	<div class="ui basic segment">
 		<div class="ui form">
             <div class="field">
-                <input id="recipient"type="text" placeholder="گیرنده...">
+            	{% if receiver %}
+            		<input id="recipient"type="text" value="{{receiver}}">
+            	{% else %}
+                	<input id="recipient"type="text" placeholder="گیرنده...">
+                {% endif %}
             </div>
             <div class="field">
 				<input id="subject"  type="text" placeholder="موضوع...">

@@ -1,15 +1,15 @@
-from httplib import HTTPResponse
-import json
-from django.contrib.auth.models import User
-from django.db.models.query_utils import Q
-from django.shortcuts import render_to_response
-from django.views.decorators.csrf import csrf_exempt
-from accounts.models import JobSeeker
-from utils.functions import template, ajax_template, json_response
-from social_network.models import *
-from accounts.decorators import user_required
-from django.http.response import HttpResponse
+from django.contrib.auth.models     import User
+from django.db.models.query_utils   import Q
+from django.shortcuts               import render_to_response
+from django.views.decorators.csrf   import csrf_exempt
+from django.http.response           import HttpResponse
 
+from accounts.models                import JobSeeker
+from utils.functions1                import template, ajax_template, json_response
+from social_network.models          import *
+from accounts.decorators            import user_required
+
+import json
 
 @user_required
 def userpanel_inbox(request):
@@ -19,6 +19,8 @@ def userpanel_inbox(request):
 @user_required
 def userpanel_inbox_list(request):
     messages = request.user.recieved_messages.all()
+    print(request.user)
+    print(messages)
     return template(request, 'userpanel/inbox/list.html', {'inbox': messages})
 
 
@@ -32,7 +34,8 @@ def userpanel_message(request, message_id):
 
 @user_required
 def userpanel_send_message(request):
-    return template(request, 'userpanel/inbox/send.html')
+    receiver = request.GET.get('to', None)
+    return template(request, 'userpanel/inbox/send.html', {'receiver': receiver})
 
 
 @csrf_exempt
@@ -102,5 +105,5 @@ def userpanel_requestFriendShip(request):
     friendShip = FriendShip(jobSeeker1=user1 , jobSeeker2=user2)
     friendShip.save()
     print('friendship successfuly sabt shod :D ')
-    return json_response(({'status' : 'you have successfully invited  "' + user2.full_name() + '"  to be your friend.'}))
+    return json_response(({'status' : 'you have successfully invited  "' + user2.full_name + '"  to be your friend.'}))
 

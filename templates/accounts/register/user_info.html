@@ -66,14 +66,14 @@
             <label>رمزعبور</label>
 
             <div class="ui left labeled icon input">
-                {{form.password}}
+                {{form.password1}}
                 <i class="lock icon"></i>
 
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>
                 </div>
             </div>
-            {% if form.password.errors %}
+            {% if form.password1.errors %}
             <div class="ui red pointing prompt label transition visible">{{form.password.errors.0}}</div>
             {% endif %}
         </div>
@@ -81,7 +81,7 @@
             <label>تکرار رمز عبور</label>
 
             <div class="ui left labeled icon input">
-                {{form.password_repeat}}
+                {{form.password2}}
                 <i class="lock icon"></i>
 
                 <div class="ui corner label">

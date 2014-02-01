@@ -1,12 +1,14 @@
 {% extends "page.html" %}
 {% load staticfiles %}
 
+{% block title %}جستجوی کارجو{% endblock %}
+
 {% block style %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/search.css' %}">
 {% endblock style %}
 
 {% block script %}
-<script type="text/javascript" src="{% static 'js/search.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/search.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'js/search/seeker-search.js' %}"></script>
 
 {% endblock script %}
@@ -145,4 +147,9 @@
 			</div>
 		</div>
 	</div>
+	<form id="postForm" method="post" action="/search/op">
+		<input type="hidden" name="q">
+		<input type="hidden" name="sk">
+	</form>
+	<div style="display:none" id="query">{{query}}</div>
 {% endblock page %}

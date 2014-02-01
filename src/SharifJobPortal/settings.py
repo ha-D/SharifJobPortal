@@ -19,6 +19,8 @@ LOGOUT_REDIRECT_URL = '/home/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 
+APPEND_SLASH = False
+
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
@@ -109,7 +111,7 @@ SECRET_KEY = 'h_ks&)0x%ymuvi&c%4k@(++t2xa4yx0v=@&pj0t=b9)le0buy@'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (

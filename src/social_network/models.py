@@ -27,17 +27,17 @@ class Message(models.Model):
 
 
 class CommentOnOpportunity(models.Model):
-    opportunity = models.ForeignKey(JobOpportunity)
+    opportunity = models.ForeignKey(JobOpportunity, related_name='comments')
     user = models.ForeignKey(JobSeeker)
     body = models.TextField(max_length=2000)
-    time = models.DateTimeField()
+    time = models.DateTimeField(auto_now_add=True)
 
 
 class CommentOnEmployer(models.Model):
-    user = models.ForeignKey(JobSeeker)
-    employer = models.ForeignKey(Employer)
+    user = models.ForeignKey(JobSeeker, related_name='comments_on_employers')
+    employer = models.ForeignKey(Employer, related_name = 'comments')
     body = models.TextField(max_length=2000)
-    time = models.DateTimeField()
+    time = models.DateTimeField(auto_now_add=True)
 
 
 class RateForOpportunity(models.Model):
@@ -135,10 +135,10 @@ class Event_FriendShip(Event):
 
     def summery(self):
         return dict(
-            first = self.friendShip.jobSeeker1.full_name(),
-            second = self.friendShip.jobSeeker2.full_name(),
+            first = self.friendShip.jobSeeker1.full_name,
+            second = self.friendShip.jobSeeker2.full_name,
             type=self.type,
-            text = self.friendShip.jobSeeker1.full_name() + ' donbal mikone faaliataye '  + self.friendShip.jobSeeker2.full_name() + " ro :D ",
+            text = self.friendShip.jobSeeker1.full_name + ' donbal mikone faaliataye '  + self.friendShip.jobSeeker2.full_name + " ro :D ",
             time = self.time
         )
 

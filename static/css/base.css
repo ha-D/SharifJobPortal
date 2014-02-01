@@ -5,11 +5,11 @@ body{
 	background-color: rgb(230, 230, 230);
 }
 
-#portal button{
+#portal button,#home button{
 	font-family: yekan;
 }
 
-#portal input{
+#portal input,#home input{
     font-family: yekan;
 }
 
@@ -107,11 +107,21 @@ body{
 }
 
 
-.ui.form .field input[type='text']:focus{
+.ui.form input[type='text']:focus{
+	border-radius: 0.3125em;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
 	box-shadow: -0.3em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
 }
 
-.ui.form textarea{
+.ui.form .nohigh input[type='text']:focus{
+	border-radius: 0.3125em;
+	border-top-left-radius: 0px;
+	border-bottom-left-radius: 0px;
+	box-shadow: 0em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
+}
+
+.ui.form textarea:focus{
 	box-shadow: -0.3em 0em 0em 0em rgba(0, 0, 0, 0.2) inset;
 }
 
@@ -140,4 +150,135 @@ body{
 
 #searchJob{
 	width: 200px;
+}
+
+#jobLabel{
+	color: white;
+	margin-right: -10px;
+	margin-left: 5px;
+}
+
+.search-type{
+	color:white;
+	display:inline;
+	float:right;
+	margin-left:5px;
+}
+
+#toggleDiv{
+	float:right;
+	margin-top:10px;
+	margin-left:10px;
+}
+
+.clearfix{
+	clear:both;
+}
+  
+select {
+	padding: 4px;
+	min-width: 100px;
+}
+  /******************/
+ /* Skill Chooser  */
+/******************/
+
+.skill.chooser .column {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.skill.chooser .column .item:hover{
+	background-color: rgba(200,200,200,0.6);
+	cursor: pointer;
+}
+
+.skill.chooser .skill.container {
+	height: 270px;
+	overflow-y: auto;
+	margin-right: 3px;
+}
+
+.skill.chooser .left.skill.container {
+	margin-right: 2px;
+}
+
+.skill.chooser .skill.searchbar {
+	width: 100%;
+}
+
+.skill.chooser .skill.searchbar .icon.add{
+	cursor: pointer;
+	color: green;
+}
+
+  /******************/
+ /**** Comments ****/
+/******************/
+
+.commentseg > .right {
+	float: right;
+	/*border: 1px solid black;*/
+	padding: 10px 70px 0px 10px;
+	/*min-height: 200px;*/
+}
+
+.commentseg > .right .columnholder {
+	display: inline;
+	min-height: 200px;
+}
+
+.commentseg > .left {
+	float: right;
+	width: 400px;
+	position: absolute;
+	left: 100px;
+		padding-bottom: 30px;
+}
+
+.commentseg .ui.comments {
+	padding-top: 10px;
+	max-width: 450px;
+}
+
+.commentseg .ui.comments .comment {
+	/*margin-right: 20px;*/
+}
+
+.commentseg .ui.comments .comment .content .text{
+	margin-right: 10px;
+	margin-top: 10px;
+	font-family: nazli;
+}
+
+.commentseg .ui.comments .comment .content .date{
+	font-size: 12px;
+	margin-right: 5px;
+}
+
+.commentseg .ui.comments .comment .content .author{
+	text-decoration: none;
+	color: black;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.commentseg .menu.pagination {
+	margin-top: 50px;
+	/*margin-right: 20px;*/
+} 
+
+.commentseg .menu.pagination .items {
+	padding: 0;
+	margin: 0;
+	display: inline;
+}
+
+
+.commentseg .reply.form .submit.button {
+	margin-top: 10px;
+}
+
+.commentseg .reply.form textarea {
+	font-size: 14px;
 }
