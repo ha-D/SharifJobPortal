@@ -41,7 +41,11 @@ class JobOpportunity(models.Model):
         # return mark_safe('<a href="/jobs/' + str(self.id) + '/">' + self.name + '</a>')
         return self.name
 
-
+class JobOpportunityPage(models.Model):
+    opportunity = models.ForeignKey(JobOpportunity, related_name='pages')
+    title   = models.CharField(max_length = 100)
+    content = models.TextField(null=True, blank=True)
+    
 class Skill(models.Model):
     name = models.CharField(max_length=50, unique=True)
     user = models.ManyToManyField(JobSeeker, related_name = 'skills', blank = True, null = True)

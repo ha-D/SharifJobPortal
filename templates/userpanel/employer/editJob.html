@@ -1,10 +1,6 @@
 {% extends 'userpanel/userpanel.html' %}
 {% load staticfiles %}
-
-{% block script %}
-    {{ block.super }}
-    <script type="text/javascript" src="{% static 'js/jobs.js' %}"></script>
-{% endblock %}
+{% load filters  %}
 
 {% block content %}
     <div class="ui small purple feed raised segment eventlist">
@@ -20,11 +16,8 @@
                     <div class="field">
                         <label>نام:</label>
 
-                        <div class="ui left labeled input">
+                        <div class="ui left labeled icon input">
                             {{ form.name }}
-                            <div class="ui corner label">
-                                <i class="icon asterisk"></i>
-                            </div>
                         </div>
                         {% if form.name.errors %}
                             <div class="ui red pointing prompt label transition visible">{{ form.name.errors.0 }}</div>
@@ -33,16 +26,16 @@
                     <div class="field sex">
                         <label>جنسیت:</label>
                         <div class="wrap">
+                            <div class="ui radio checkbox both">
+                                <input type="radio" name="sex" value="2">
+                                <label><i class="male large icon"></i><i class="female large icon"></i></label>
+                            </div>
                             <div class="ui radio checkbox">
                                 <input type="radio" name="sex" value="0">
                                 <label><i class="male large icon"></i></label>
                             </div>
                             <div class="ui radio checkbox">
                                 <input type="radio" name="sex" value="1">
-                                <label><i class="female large icon"></i></label>
-                            </div>
-                            <div class="ui radio checkbox">
-                                <input type="radio" name="sex" value="2">
                                 <label><i class="female large icon"></i></label>
                             </div>
                             {% if form.sex.errors %}
@@ -57,9 +50,6 @@
 
                         <div class="ui left labeled input">
                             {{ form.baseSalary }}
-                            <div class="ui corner label">
-                                <i class="icon asterisk"></i>
-                            </div>
                         </div>
                         {% if form.baseSalary.errors %}
                             <div class="ui red pointing prompt label transition visible">{{ form.baseSalary.errors.0 }}</div>
@@ -70,34 +60,131 @@
 
                         <div class="ui left labeled input">
                             {{ form.number }}
-                            <div class="ui corner label">
-                                <i class="icon asterisk"></i>
-                            </div>
                         </div>
                         {% if form.number.errors %}
                             <div class="ui red pointing prompt label transition visible">{{ form.number.errors.0 }}</div>
                         {% endif %}
                     </div>
                 </div>
+
                 <div class="two fields">
                     <div class="field">
                         <label>تاریخ اعتبار:</label>
 
                         <div class="ui left labeled input">
                             {{ form.expireDate }}
-                            <div class="ui corner label">
-                                <i class="icon asterisk"></i>
-                            </div>
                         </div>
                         {% if form.expireDate.errors %}
                             <div class="ui red pointing prompt label transition visible">{{ form.expireDate.errors.0 }}</div>
                         {% endif %}
                     </div>
-                    <div class="field">
-                        <div class="ui teal submit button jobs alignleft">ارسال</div>
-                    </div>
                 </div>
+                <div class="field">
+                    <div class="ui teal submit small button jobs alignleft">ثبت</div>
+                </div>
+
+                {% if show_extra %}
+                <div id="extra-options"></div>
+                <div class="extra options">
+                    <h3 class="skill head">مهارت‌ها</h3>
+                    <p class="skill desc">مهارت‌های مورد نیاز برای فرصت شغلی را تعیین کنید</p>
+                    <div class="skill chooser">
+                    </div>
+
+                    <h3 class="zedit head">صفحات توضیح فرصت شغلی</h3>
+                    <div class="zedit container">
+                    </div>
+                    <div class="field">
+                        <a class="ui orange submit small button jobs alignleft" href="/userpanel/jobs/">اتمام</a>
+                    </div>                
+                </div>
+                {% endif %}
+
             </div>
         </form>
     </div>
 {% endblock %}
+
+{% block style %}
+    {{block.super}}
+    <link rel="stylesheet" type="text/css" href="{% static 'markitup/skins/simple/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'markitup/sets/markdown/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/zedit.css' %}">
+    <style type="text/css">
+        .jobsForm {
+            padding: 30px;
+        }
+
+        .jobsForm .extra.options {
+            margin-top: 90px;
+        }
+
+        .jobsForm .extra.options .skill.chooser{
+            margin-right: 20px;
+            margin-top: 30px;
+        }
+        .jobsForm .extra.options .skill.desc{
+            margin-right: 10px;
+        }
+        .jobsForm .extra.options .skill.chooser .skill.container {
+            height: 200px;
+        }
+
+
+        .jobsForm .markItUpContainer {
+            width: 100%;
+        }
+        .jobsForm .extra.options .zedit.head{
+            margin-top: 80px;
+            margin-bottom: 30px;
+        }
+        .jobsForm .extra.options .zedit.add{
+            padding-top: 50px;
+        }
+
+        .jobsForm .extra.options .submit.button {
+            margin-top: 100px;
+            margin-bottom: 50px;
+        }
+
+        .field.sex .wrap {
+            margin-top: 20px;
+            margin-right: 20px;
+        }
+
+        .field.sex .ui.checkbox {
+            margin-left: 18px;
+        }
+
+        .field.sex .ui.checkbox.both .icon {
+            margin: 0px;
+        }
+    </style>
+{% endblock style %}
+
+{% block script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static 'js/jquery.form.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'markitup/jquery.markitup.js' %}"></script>
+    <script type="text/javascript" src="{% static 'markitup/sets/markdown/set.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/jobs.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/zedit.js' %}"></script>
+    <script type="text/javascript">
+    $(function(){
+        {% if show_extra %}
+            $('.zedit.container').zedit({
+                url: '/jobs/opportunity/zedit/{{form.instance.id}}/',
+                showAddForm: true
+            })
+
+            $('.skill.chooser').skills({
+                url: '/jobs/opportunity/skills/{{form.instance.id}}/',
+            })
+        {% endif %}
+
+        {% if scroll_to_extra %}
+            window.location.hash = 'extra-options'
+        {% endif %}
+    })
+    </script>
+{% endblock script %}

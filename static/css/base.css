@@ -212,6 +212,10 @@ select {
 	color: green;
 }
 
+.skill.chooser .divided.skill.list {
+	margin-top: 0px;
+}
+
   /******************/
  /**** Comments ****/
 /******************/
