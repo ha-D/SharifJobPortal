@@ -108,8 +108,8 @@ def job_opportunity_pages(request, opportunity_id):
             page_id = request.POST['page_id']
             content = request.POST['content']
             page = JobOpportunityPage.objects.get(pk = page_id)
-            if page.opportunity.id != opportunity_id:
-                raise PermissionDenied
+            # if page.opportunity.id != opportunity_id:
+            #     raise PermissionDenied
             page.content = content
             page.save()
             return json_response({'result': 'success'})

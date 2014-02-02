@@ -1,7 +1,7 @@
 from django.conf.urls 	import patterns, include, url
 from django.contrib 	import admin
 from django.conf        import settings
-from SharifJobPortal.views import index
+from SharifJobPortal.views import index, home
 from utils.views        import zedit_preview
 from ui_test.views 		import show_template
 from accounts.views     import *
@@ -20,6 +20,7 @@ if settings.DEBUG:
 
 urlpatterns += patterns('',
     url(r'^$', index),
+    url(r'^home/$', home),
     url(r'^zedit/preview/$', zedit_preview),
     url(r'^admin/', include(admin.site.urls)),
 

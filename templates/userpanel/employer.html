@@ -7,7 +7,7 @@
       <img src="{% static 'images/profilepic.png' %}">
     {% endif %}
 	</a>
-	<a href="/userpanel" class="name"><h2>{{user.userprofile.companyName}}</h2></a>
+	<a href="/userpanel" class="name"><h2><a href="/employer/{{user.username}}/">{{user.userprofile.companyName}}</a></h2></a>
 	<div class="clear"></div>
 </div>
 <div class="ui small secondary vertical menu">

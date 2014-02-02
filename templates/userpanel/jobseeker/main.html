@@ -5,6 +5,8 @@
 
 {% block content %}
 <div class="ui relaxed grid">
+	{% if events %}	
+
 	<div class="row">
 		<div class="sixteen wide column">
 			<div class="ui small purple feed raised segment eventlist" style="padding:20px">
@@ -133,6 +135,7 @@
 			</div>
 		</div>
 	</div>
+	{% endif %}
 	<div class="row newsrow">
 		<div class="sixteen wide column">
 			<div class="ui small purple raised segment">
