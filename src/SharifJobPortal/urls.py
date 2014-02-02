@@ -4,8 +4,7 @@ from django.conf        import settings
 from SharifJobPortal.views import index
 from utils.views        import zedit_preview
 from ui_test.views 		import show_template
-from accounts.views     import *
-from jobs.views         import *
+from accounts.views     import profile_employer, profile_jobseeker, profile_employer_comments
 import userpanel_urls
 
 # Uncomment the next two lines to enable the admin:
@@ -29,20 +28,14 @@ urlpatterns += patterns('',
 
     url(r'^search/', include('search.urls')),
     url(r'^jobs/', include('jobs.urls')),
+    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
     
     url(r'^employer/(?P<username>\w+)/', profile_employer),
+    url(r'^comments/employer/(?P<employer_id>\w+)/', profile_employer_comments),
+
     url(r'^user/(?P<username>\w+)/', profile_jobseeker),
-    
-    url(r'^comments/employer/(?P<employer_id>\d+)/', profile_employer_comments),
-    url(r'^rate/employer/(?P<employer_id>\d+)/', profile_employer_rate),
-    url(r'^comments/job/(?P<job_id>\d+)/', job_comment),
-    url(r'^rate/job/(?P<job_id>\d+)/', job_rate),
 
-
-    url(r'^cv/(?P<jobseeker_id>\d+)/', profile_jobseeker_getcv),
-
-    url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-	# url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
-	# url(r'^(?P<template>\w+)/$', show_template),
+	url(r'^ajax/(?P<template>(\w|[/])+)/$', show_template),
+	url(r'^(?P<template>\w+)/$', show_template),
 )
 

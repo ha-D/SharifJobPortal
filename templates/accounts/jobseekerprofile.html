@@ -1,9 +1,6 @@
 {% extends 'page.html' %}
 {% load staticfiles %}
 
-
-
-
 {% block page %}
 	<div class="jobseeker profile">
 		<div class="topseg">
@@ -60,7 +57,7 @@
 					{% endif %}
 				</div>
 				<div class="actions">
-					{% if user.userprofile.is_jobseeker %}
+					{% if user.userprofile and user.userprofile.is_jobseeker %}
 						{% if is_friend %}
 							<div class="ui small labeled icon red cancel friendship button">
 								لغو دوستی
