@@ -7,7 +7,7 @@ from django.views.decorators.csrf   import csrf_exempt
 from django.core.paginator          import Paginator
 from django.core.exceptions         import PermissionDenied
 
-from accounts.decorators            import employer_required
+from accounts.decorators            import *
 from accounts.views                 import userpanel_jobs
 from jobs.forms                     import JobForm
 from jobs.models                    import *
