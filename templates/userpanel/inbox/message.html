@@ -1,5 +1,6 @@
 {% extends 'userpanel/inbox/inbox.html' %}
 {% load filters %}
+{% load date_tags %}
 
 {% block inboxcontent %}
 <div class="ui segment mail">
@@ -11,7 +12,10 @@
 			<span class="from heading">فرستنده:</span> <span class="from">{{message.sender|fullname}}</span>
 		</div>
 		<div>
-			<span class="date heading">تاریخ ارسال:</span> <span class="date">{{message.time}}</span>
+			<span class="date heading">تاریخ ارسال:</span>
+            <span class="date">{% get_jalali_date message.time %}.
+            ساعت {% get_persian_time message.time %}
+            </span>
 		</div>
 	</div>
 

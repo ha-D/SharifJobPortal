@@ -1,5 +1,6 @@
 {% extends 'userpanel/userpanel.html' %}
 {% load staticfiles %}
+{% load date_tags %}
 
 {% block script %}
     {{ block.super }}
@@ -20,7 +21,8 @@
                 <div class="content">
                     <div class="date">
                         <div>
-                        تاریخ اعتبار: {{ i.job.expireDate }}
+                        تاریخ اعتبار:
+                            {% get_jalali_date i.job.expireDate %}
                         </div>
                         <div>
                             <div class="ui buttons">

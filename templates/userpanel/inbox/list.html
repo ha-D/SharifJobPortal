@@ -1,5 +1,6 @@
 {% extends 'userpanel/inbox/inbox.html' %}
 {% load filters %}
+{% load date_tags %}
 
 {% block inboxcontent %}
 <table class="ui table segment attached inbox">
@@ -24,7 +25,9 @@
 
 		<td class="time">
             {% if message.unread %}<b>{% endif %}
-            {{message.time}}
+            {% get_jalali_date message.time %}
+             ساعت
+            {% get_persian_time message.time %}
             {% if message.unread %}</b>{% endif %}
         </td>
 

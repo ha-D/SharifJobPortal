@@ -1,6 +1,9 @@
 from django import template
 from datetime import datetime, timedelta
 from django.utils.safestring import SafeText
+from SharifJobPortal.functions import to_persian_num
+from SharifJobPortal.jDate import miladi2shamsi
+
 register = template.Library()
 
 @register.filter(name='short_time')

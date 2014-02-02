@@ -382,10 +382,8 @@ def profile_employer_comments(request, employer_id):
     def list_comments(page, page_size):
         comments = CommentOnEmployer.objects.filter(employer__id = employer_id).order_by('-time')
         p = Paginator(comments, page_size)
-        print('Page %d   Num Pages %d ' % (page, p.num_pages))
         if page > p.num_pages:
             page = p.num_pages
-            print('in here')
         if page < 0:
             page = 0
         comments = map(comment_to_dict, p.page(page).object_list)

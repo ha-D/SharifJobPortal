@@ -1,5 +1,6 @@
 {% extends "page.html" %}
 {% load staticfiles %}
+{% load date_tags %}
 
 {% block title %}جستجوی کارجو{% endblock %}
 
@@ -89,7 +90,7 @@
 						</div>
 					</div>
 					<div class="five wide column opp-action">
-						<div class="ui green vertical animated button opp-request" >
+						<div class="ui green vertical animated button opp-request" onclick="link('/userpanel/inbox/send/?to={{ op.user.username }}')">
 						  <div class="hidden content" >
 						  	<i class="large mail icon"></i>
 						  </div>
@@ -98,7 +99,7 @@
 						  </div>
 						</div>
 
-						<div class="ui teal button opp-more">
+						<div class="ui teal button opp-more" onclick="link('/user/{{ op.user.username }}')">
 						    صفحه کاربری
 						</div>
 					</div>
@@ -106,7 +107,7 @@
 						<!-- <li>{{op.sex}}</li>
 						<li>{{op.baseSalary}}</li>
 						<li>{{op.number}}</li>
-						<li>{{op.expireDate}}</li>
+						<li>{% get_jalali_date op.expireDate %}</li>
 
 						<li>{{op.user.companyName}}</li>	
 						<li>{{op.user.companyType}}</li>

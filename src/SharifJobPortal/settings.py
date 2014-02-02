@@ -1,6 +1,7 @@
 # Django settings for SharifJobPortal project.
 
 from os.path import dirname, abspath
+from django.conf import global_settings
 
 #from local_settings import BASE_DIR
 
@@ -19,7 +20,7 @@ LOGOUT_REDIRECT_URL = '/home/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 
-APPEND_SLASH = False
+APPEND_SLASH = True
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -114,6 +115,7 @@ TEMPLATE_LOADERS = (
      'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ('django.core.context_processors.request',)
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -145,6 +147,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Portal apps
+    'SharifJobPortal',
     'ui_test',
     'accounts',
     'jobs',

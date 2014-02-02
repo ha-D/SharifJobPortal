@@ -1,29 +1,24 @@
-# Create your views here.
-
-from datetime import datetime
-from django.core.serializers import json
-from django.http.response import HttpResponse
-from accounts.decorators import employer_required
-from accounts.views import userpanel_jobs
-from jobs.forms import JobForm
-from jobs.models import JobOpportunity, JobOffer
-from utils.functions import json_response , template
-
+#coding=utf-8
 
 from datetime                       import datetime
 from django.core.serializers        import json
 from django.http.response           import HttpResponse
 from django.views.decorators.csrf   import csrf_exempt
+from django.core.paginator          import Paginator
 from django.core.exceptions         import PermissionDenied
-from accounts.decorators            import employer_required
+
+from accounts.decorators            import *
 from accounts.views                 import userpanel_jobs
 from jobs.forms                     import JobForm
 from jobs.models                    import *
+from social_network.models          import *
+from social_network.functions       import *
+from utils.functions                import json_response, template
 
-
-
-@employer_required
+@jobseeker_required
 def applyJob(request, jobid):
+    print 'hey'
+    print jobid
     job = JobOpportunity.objects.get(id = jobid)
     user = request.userprofile
     response = {}
@@ -34,7 +29,7 @@ def applyJob(request, jobid):
         response['done'] = False
     return json_response(response)
 
-@employer_required
+@jobseeker_required
 def refuseJob(request, jobid):
     job = JobOpportunity.objects.get(id = jobid)
     user = request.userprofile
@@ -96,10 +91,11 @@ def newJob(request):
         form = JobForm()
     return template(request, 'userpanel/employer/editJob.html', {'form' : form, 'show_extra':show_extra})
 
-@employer_required
 def jobPage(request, jobid):
     job = JobOpportunity.objects.get(id = jobid)
-    return template(request, 'jobs/jobsPage.html', {'job' : job})
+    skills = map(lambda x: x.name, job.opSkills.all())
+    pages = list(job.pages.all())
+    return template(request, 'jobs/jobsPage.html', {'job' : job, 'skills':skills, 'pages':pages})
 
 
 @csrf_exempt
@@ -191,5 +187,74 @@ def job_opportunity_skills(request, opportunity_id):
             skills = opportunity.opSkills.all()
             skills = map(lambda x: x.name, skills)
             return json_response({'result': 'success', 'skills': skills})
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
+
+def comment_to_dict(comment):
+    data =  {
+        'author': comment.user.full_name,
+        'author_url': comment.user.profilePage,
+        'date': 'همین الان',
+        'content': comment.body
+    }
+
+    if comment.user.image:
+        data['image'] =  comment.user.image.url
+    else:
+        data['image'] =  '/static/images/profilepic.png'
+
+    return data
+
+@csrf_exempt
+def job_comment(request, job_id):
+    try:
+        job = JobOpportunity.objects.get(pk = job_id)
+    except:
+        return json_response({'result':'fail', 'error':'job not found'})
+
+    def list_comments(page, page_size):
+        comments = CommentOnOpportunity.objects.filter(opportunity = job).order_by('-time')
+        p = Paginator(comments, page_size)
+        if page > p.num_pages:
+            page = p.num_pages
+        if page < 0:
+            page = 0
+        comments = map(comment_to_dict, p.page(page).object_list)
+        return json_response({'result': 'success', 'page':page, 'pageCount':p.num_pages , 'comments': comments})
+
+    if request.method == 'POST':
+        action = request.POST['action']
+        if action == 'list':
+            page_size = request.POST.get('page_size', 4)
+            page      = int(request.POST.get('page', 1))
+            return list_comments(page, page_size)
+
+        elif action == 'add':
+            page_size = request.POST.get('page_size', 4)
+            body = request.POST['comment']
+            comment  = CommentOnOpportunity.objects.create(opportunity = job, user = request.userprofile, body = body)
+            if request.userprofile.is_jobseeker():
+                Event_CommentOnOpportunity.objects.create(comment=comment, initial_user=request.userprofile)
+
+            return list_comments(1, page_size)
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
+
+@csrf_exempt
+def job_rate(request, job_id):
+    if request.method == 'POST':
+        try:
+            job = JobOpportunity.objects.get(pk = job_id)
+        except:
+            return json_response({'result': 'fail', 'error': 'job does not exist'})
+
+        if request.has_profile and request.userprofile.is_jobseeker():
+            try:
+                rate = int(request.POST['rate'])
+            except:
+                return json_response({'result': 'fail', 'error': 'no rate given'})
+
+            rate_opportunity(request.userprofile, job, rate)
+            return json_response({'result': 'success'})
     else:
         return json_response({'result': 'fail', 'error': 'get not supported'})

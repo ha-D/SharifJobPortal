@@ -22,7 +22,7 @@
                     {{userform.last_name|semfield}}
                 </div>
                 <div class="two fields">
-                    {{userform.email|semfield}}
+                    {{userform.email|addclass:'ltr'|semfield}}
                     {{userform.phoneNumber|semfield}}
                 </div>
                 <div class="two fields">
@@ -61,8 +61,8 @@
                     {{compform.establishDate|semfield}}
                 </div>
                 <div class="two fields">
-                    {{compform.webSite|semfield}}
-                    {{compform.contactEmail|semfield}}
+                    {{compform.webSite|addclass:'ltr'|semfield}}
+                    {{compform.contactEmail|addclass:'ltr'|semfield}}
                 </div>
 
                 <button class="ui small blue submit button" type="submit">ثبت</button>

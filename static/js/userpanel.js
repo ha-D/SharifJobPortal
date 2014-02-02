@@ -10,6 +10,18 @@ $(function(){
 
     $("#sendMail").click(function(){sendEmail()});
 
+    $(window).bind('scroll', function() {
+        if ($("#userpanel").height() - 500 < 0|| $(window).scrollTop() < $("#userpanel").height() - 500) {
+                $('#panelmenu').addClass('fixed');
+                $('#panelmenu').css('top', '');
+        } else {
+            if($('#panelmenu').hasClass('fixed')){
+                $('#panelmenu').css('top', $(window).scrollTop());
+            }
+            $('#panelmenu').removeClass('fixed');
+        }
+    });   
+
     $("#userpanel #friends_search .search").click(function(){searchFriends();});
 
     $(".acceptFriendShip").click(function(e){
@@ -166,7 +178,11 @@ function searchFriends(){
             console.log('gand khord');
             alert('ajax gand khord');
         }
+<<<<<<< HEAD
+    }); 
+=======
     });
 
 
+>>>>>>> setareh
 }

@@ -1,10 +1,14 @@
 {% load staticfiles %}
 {% load filters %}
 <div class="username">
-	<a href="/userpanel" class="avatar">
-		<img src="{% static 'images/hadi.png' %}">
-	</a>
-	<a href="/userpanel" class="name"><h2>{{user|fullname}}</h2></a>
+  <a href="/userpanel" class="avatar">
+    {% if user.userprofile.image %}
+      <img src="/media/{{user.userprofile.image}}">
+    {% else %}
+      <img src="{% static 'images/profilepic.png' %}">
+    {% endif %}
+  </a>
+  <a href="/userpanel" class="name"><h2>{{user|fullname}}</h2></a>
 	<div class="clear"></div>
 </div>
 <div class="ui small secondary vertical menu">
@@ -19,10 +23,6 @@
   <a class="item" page="friends" href="/userpanel/friends/">
     <i class="users icon"></i>
     دوستان
-  </a>
-  <a class="item" page="search" href="/userpanel/search/">
-    <i class="search icon"></i>
-    جستجو
   </a>
   <a class="item" page="profile" href="/userpanel/profile/">
     <i class="user icon"></i> 

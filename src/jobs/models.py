@@ -1,8 +1,7 @@
 #coding=utf-8
-from django.db          import models
-# from accounts.models    import User, Employer, JobSeeker
-from django.utils.safestring import mark_safe
-from accounts.models import Employer, JobSeeker
+from django.db                  import models
+from django.utils.safestring    import mark_safe
+from accounts.models            import Employer, JobSeeker
 import social_network.models
 
 class JobOpportunity(models.Model):
@@ -61,7 +60,7 @@ class Skill(models.Model):
 
 class JobOffer(models.Model):
     jobSeeker = models.ForeignKey(JobSeeker)
-    jobOpportunity = models.ForeignKey(JobOpportunity)
+    jobOpportunity = models.ForeignKey(JobOpportunity, related_name='offers')
     offerDate = models.DateField()
 
     ACCEPTED = 0

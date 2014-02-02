@@ -1,6 +1,10 @@
+.page.container {
+	/*padding-bottom: 30px;*/
+}
+
 #userpanel {
 	/*margin-top: 10px;*/
-	margin-right: 10px;	
+	margin-right: 10px;
 }
 
 #userpanel .username {
@@ -25,8 +29,9 @@
 }
 
 #userpanel .username .avatar img{
+	border-radius: 35%;
 	margin: 0px;
-	width: 2.5em;
+	width: 3.0em;
 }
 
 #userpanel .username .name{
@@ -42,8 +47,12 @@
 
 #userpanel #panelmenu {
 	/*margin-top: 30px;*/
-	position: fixed;
+	position: absolute;
 	z-index: 800;
+}
+
+#userpanel #panelmenu.fixed{
+	position: fixed;
 }
 
 #userpanel .content-title {

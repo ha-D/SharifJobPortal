@@ -1,5 +1,240 @@
 {% extends "page.html" %}
 {% load staticfiles %}
+
+{% block page %}
+	<div class="job profile">
+		<div class="topseg">
+			<div class="right">
+				<div class="job name">
+					{{job.name}}
+					<div class="ui large star rating">
+					  <i class="icon"></i>
+					  <i class="icon"></i>
+					  <i class="icon"></i>
+					  <i class="icon"></i>
+					  <i class="icon"></i>
+					</div>
+				</div>
+				<table class="ui small table info">
+					<tr>
+						<td class="key">شرکت</td> 
+						<td>
+							<a href="{{job.user.profilePage}}">
+								{{job.user.companyName}}
+							</a>
+						</td>
+					</tr>
+					<tr>
+						<td class="key">حقوق پایه</td>
+						<td> {{job.baseSalary}} <small>ریال</small></td>
+					</tr>
+					{% if job.sex != 2 %}
+						<tr>
+							<td class="key">جنسیت کارمند</td> 
+							<td>
+								{% if job.sex == 0 %}
+									مرد
+								{% else %}
+									زن
+								{% endif %}
+							</td>
+						</tr>
+					{% endif %}
+					<tr>
+						<td class="key">تعداد مورد نیاز</td> <td>{{job.number}}</td>
+					</tr>
+					<tr>
+						<td class="key">تاریخ اعتبار</td> <td>{{job.expireDate}}</td>
+					</tr>
+					<tr>
+						<td class="key">مهارت‌ها</td> 
+						<td>
+							{% for skill in skills %}
+								<div class="ui small black skill label">
+									{{skill}}
+								</div>
+							{% endfor %}
+						</td>
+					</tr>
+				</table>
+
+				
+			</div>
+			<div class="slideshow">
+				<div class="actions">
+					<div class="ui large labeled icon green button">
+						درخواست استخدام
+						<i class="icon briefcase"></i>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="bottomseg">
+			<div class="pages">
+				<div class="ui attached tabular menu">
+					{% for page in pages %}
+						<a class="item {{ page.id }} {% if forloop.first %} active {% endif %}" data-page-id="{{ page.id }}">
+							{{ page.title }}
+						</a>
+					{% endfor %}
+				</div>
+				{% for page in pages %}
+					<div class="ui attached bottom segment page {{ page.id }} {% if forloop.first %} active {% endif %}">
+						{{ page.content }}
+					</div>
+				{% endfor %}
+
+			</div>
+			<div class="commentseg">
+				
+			</div>
+		</div>
+{% endblock page %}
+
+{% block script %}
+	<script type="text/javascript" src="{% static 'js/rslides.js' %}"></script>	
+	<script type="text/javascript" src="{% static 'js/jquery.jcarousel.min.js' %}"></script>	
+	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.commentseg').zComment({
+				url: '/comments/job/{{ job.id }}/',
+				pagination: true,
+				addForm: {% if user.userprofile and user.userprofile.is_jobseeker %} true {% else %} {% if  user.userprofile == job.user %} true {% else %} false {% endif %}{% endif %}
+			});
+
+			$('.carousel').carousel();
+
+			$(".rating").rating("set rating", {{ job.rate }});
+			$(".rating").rating({
+				onRate: function(value){
+					$.ajax({
+						url: '/rate/job/{{job.id}}/',
+						type: 'post',
+						data: {rate: value},
+						dataType: 'json',
+						success: function(data){
+							if(data.result == 'success'){
+
+							} else {
+								console.log(data);
+							}
+						}
+					})
+				}
+			});
+			{% if not user.userprofile or user.userprofile.is_employer %}
+				$(".rating").rating('disable');
+			{% endif %}
+
+			$('.profile .menu .item').click(function(){
+				var page_id = $(this).attr('data-page-id');
+				$('.pages .item').removeClass('active');
+				$(this).addClass('active');
+
+				$('.pages .page').removeClass('active');
+				$('.pages .page.' + page_id).addClass('active');
+			})
+		})
+	</script>
+{% endblock script %}
+
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/userpanel.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<style type="text/css">
+		.profile.job {
+			padding: 30px 40px;
+		}
+
+		.profile.job .job.name {
+			padding: 10px;
+			font-size: 36px;
+			font-weight: bold;
+			/*width: 200px;*/
+			/*float: right;*/
+		}
+
+		.profile.job .job.name .rating{
+			margin-top: 5px;
+			margin-right: 25px;
+		}
+
+		.profile.job .info.table{
+			margin-right: 40px;
+			margin-top: 30px;
+			max-width: 420px;
+			/*clear: both;*/
+			/*float: right;*/
+		}
+
+		.profile.job .info.table tr{
+			background-color: transparent;
+		}
+
+		.profile.job .info.table .key{
+			font-weight: bold;
+			min-width: 100px;
+		}
+
+		.profile.job .info.table  a{
+			text-decoration: none;
+		}
+
+		.profile.job .skill.label {
+			margin-bottom: 6px;
+		}
+
+		.profile.job .topseg .right .actions{
+			margin-top: 30px;
+			margin-right: 35px;
+		}
+
+		.profile.job .topseg .right .actions .button{
+			margin-right: 18px;
+		}
+
+		.profile.job .slideshow{
+			margin-left: 40px;
+			/*background-color: transparent;*/
+			position: absolute;
+			top: 120px;
+			left: 160px;
+			/*box-shadow: 0 0 10px;*/
+		}
+
+		.profile.job .slideshow img{
+			width: 380px;
+			height: 250px;
+		}
+
+		.profile.job .bottomseg {
+			clear: both;
+			padding-top: 80px;
+			padding-left: 40px;
+			padding-right: 40px;
+		}
+
+		.profile.job .bottomseg .pages{
+			width: 950px;
+		}
+
+		.profile.job .bottomseg .pages .page{
+			padding: 30px 30px;
+			min-height: 350px;
+			max-height: 500px;
+			overflow-y: auto;
+			display: none;
+		}
+
+		.profile.job .bottomseg .pages .page.active{
+			display: block;
+		}
+
+		.profile.job .bottomseg .commentseg{
+			margin-top: 50px;
+		}
+
+	</style>	
 {% endblock style %}

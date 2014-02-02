@@ -1,7 +1,11 @@
 {% load staticfiles %}
 <div class="username">
-	<a href="/userpanel" class="avatar">
-		<img src="{% static 'images/hadi.png' %}">
+	<a href="/userpanel" class="avatar label">
+    {% if user.userprofile.image %}
+      <img src="/media/{{user.userprofile.image}}">
+    {% else %}
+      <img src="{% static 'images/profilepic.png' %}">
+    {% endif %}
 	</a>
 	<a href="/userpanel" class="name"><h2>{{user.userprofile.companyName}}</h2></a>
 	<div class="clear"></div>
@@ -19,16 +23,8 @@
     <i class="users icon"></i>
     پیشنهاد‌ها
   </a>
-  <a class="item" page="search" href="#search/">
-    <i class="search icon"></i>
-    جستجو
-  </a>
   <a class="item" page="profile" href="/userpanel/profile/">
     <i class="user icon"></i> 
     مشخصات
-  </a>
-  <a class="item" page="settings" href="#settings/">
-    <i class="settings icon"></i> 
-    تنظیمات
   </a>
 </div>
