@@ -18,9 +18,9 @@ from accounts.decorators            import user_required, employer_required, job
 from accounts.models                import CompanyImage, PersonalPage, Employer, JobSeeker
 from accounts.forms                 import *
 from social_network.models          import *
-from social_network.functions1       import friends
+from social_network.functions       import friends
 from jobs.models                    import JobOffer, Skill
-from jobs.functions1                 import request_pending
+from jobs.functions                 import request_pending
 
 from markdown                       import markdown
 
