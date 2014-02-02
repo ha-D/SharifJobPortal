@@ -5,9 +5,11 @@ from django.views.decorators.csrf   import csrf_exempt
 from django.http.response           import HttpResponse
 
 from accounts.models                import JobSeeker
+from social_network.functions import friends
 from utils.functions                import template, ajax_template, json_response
 from social_network.models          import *
 from accounts.decorators            import user_required
+from social_network.functions       import friends
 
 import json
 
@@ -61,38 +63,56 @@ def userpanel_sendEmail(request):
 def userpanel_friends(request):
     friends = [fs.jobSeeker2 for fs in JobSeeker.objects.get(user=request.user).requestedFriendShips.filter(status=FriendShip.ACCEPTED)]
     friends.extend([fs.jobSeeker1 for fs in JobSeeker.objects.get(user=request.user).invitedFriendShips.filter(status=FriendShip.ACCEPTED)])
-    print(friends)
-    return template(request, 'userpanel/friends.html', {'friends': friends})
+
+    pending_friends = [fs.jobSeeker1 for fs in JobSeeker.objects.get(user=request.user).invitedFriendShips.filter(status=FriendShip.PENDING)]
+    print('pending freinds: ')
+    print(pending_friends)
+    return template(request, 'userpanel/friends.html', {'friends': friends , 'pending_friends' : pending_friends})
+
 
 @csrf_exempt
 def userpanel_searchFriend(request):
-    names = (request.POST['name']).split(' ');
-    Event_CommentOnEmployer
+    names = (request.GET['name']).split(' ')
     print(names)
-    friends = set()
+    myfriends = set()
     for name in names:
         query = (Q(user__first_name__contains=name) | Q(user__last_name__contains=name))&~Q(user = request.user)
         retrieved = JobSeeker.objects.filter(query)
-        friends.update(set(retrieved))
+        myfriends.update(set(retrieved))
 
     def getJobSeeker(user1):
         return JobSeeker.objects.get(user = user1)
 
+    # k = [ { 'sa' : 1 } for f in friends]
 
     friendsList = [{'pic': f.image.url ,
                     'name': '%s %s' % (f.user.first_name, f.user.last_name),
                     'id' : f.id ,
-                    'isFriend' : isFriend(getJobSeeker(request.user) , f)}
-                   for f in friends]
+                    'isFriend' : friends(getJobSeeker(request.user) , f)}
+                   for f in list(myfriends)]
     friendsList = sorted(friendsList, key=lambda f: not f['isFriend'])
-    return json_response({'friends' : friendsList})
+    # return json_response({'friends' : friendsList})
+    return HttpResponse(json.dumps({'friends' : friendsList}), content_type="application/json")
 
-def isFriend(user1 , user2):
-    if list(FriendShip.objects.filter(Q(jobSeeker1=user1)& Q(jobSeeker2=user2) & Q(status=FriendShip.ACCEPTED))):
-        return True
-    if list(FriendShip.objects.filter(Q(jobSeeker2=user1)& Q(jobSeeker1=user2) & Q(status=FriendShip.ACCEPTED))):
-        return True
-    return False
+
+@csrf_exempt
+def userpanel_responseToFriendShip(request):
+    print('swer are here')
+    friendID=int(request.POST['friendID'])
+    rstatus = bool(request.POST['accepted'])
+
+
+    offerer = JobSeeker.objects.get(pk = friendID)
+    fs = FriendShip.objects.filter(jobSeeker1 = offerer , jobSeeker2 = JobSeeker.objects.get(pk=request.user.id))[0]
+    if rstatus:
+        fs.status = FriendShip.ACCEPTED
+        # fs.save()
+    else:
+        fs.delete()
+    return HttpResponse(json.dumps({'status':'success' , 'image':offerer.image.url , 'name' : offerer.full_name}), content_type="application/json")
+
+
+
 
 
 @csrf_exempt

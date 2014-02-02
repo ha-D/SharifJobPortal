@@ -6,6 +6,7 @@ from django.contrib.auth.models     import User
 from django.conf                    import settings
 from django.views.decorators.csrf   import csrf_exempt
 
+from utils.functions                import template, json_response, ajax_template
 from shutil                         import copy
 from os                             import remove
 

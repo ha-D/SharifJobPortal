@@ -3,7 +3,7 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from jobs.models import JobOpportunity
+from jobs.models import JobOpportunity, JobOffer
 from accounts.models import *
 from django.contrib.contenttypes.models import ContentType
 from django.db 				import models
@@ -88,6 +88,9 @@ class FriendShip(models.Model):
     )
     status = models.PositiveSmallIntegerField(choices=FRIENDSHIP_STATUS_CHOICES, default=PENDING)
 
+    def __str__(self):
+        return self.jobSeeker1.user.username + " vs " + self.jobSeeker2.user.username
+
 
 class Event(models.Model):
 
@@ -109,6 +112,32 @@ class Event(models.Model):
     type = models.PositiveSmallIntegerField(choices=EVENT_TYPE)
 
 
+class Event_JobOffer(Event):
+    jobOffer = models.ForeignKey(JobOffer)
+
+    def __init__(self , *args , **kwargs):
+        super(Event_CommentOnEmployer , self).__init__(*args , **kwargs)
+        self.type = Event.JOB_OFFER
+
+    def summery(self):
+        if self.jobOffer.state == JobOffer.EMPLOYER_TO_JOBSEEKER:
+            first = self.jobOffer.jobSeeker
+            second = self.jobOffer.jobOpportunity.user
+        else:
+            first = self.jobOffer.jobOpportunity.user
+            second = self.jobOffer.jobSeeker
+        return dict(
+            first = first,
+            second = second,
+            opp = self.jobOffer.jobOpportunity.name,
+            type=self.type,
+            # text = self.comment.user.full_name + 'راحع به  '  + self.comment.employer.companyName + "نظر داد ",
+            time = self.time
+        )
+
+
+
+
 class Event_CommentOnEmployer(Event):
 
     comment = models.ForeignKey(CommentOnEmployer)
@@ -117,6 +146,17 @@ class Event_CommentOnEmployer(Event):
         super(Event_CommentOnEmployer , self).__init__(*args , **kwargs)
         self.type = Event.COMMENT_ON_EMPLOYER
 
+    def summery(self):
+        return dict(
+            user = self.comment.user,
+            opp = self.comment.employer.companyName,
+            mess = self.comment.body ,
+            type=self.type,
+            # text = self.comment.user.full_name + 'راحع به  '  + self.comment.employer.companyName + "نظر داد ",
+            time = self.time
+        )
+
+
 
 class Event_CommentOnOpportunity(Event):
     comment = models.ForeignKey(CommentOnOpportunity)
@@ -124,6 +164,16 @@ class Event_CommentOnOpportunity(Event):
     def __init__(self , *args , **kwargs):
         super(Event_CommentOnOpportunity , self).__init__(*args , **kwargs)
         self.type = Event.COMMENT_ON_JOB
+
+    def summery(self):
+        return dict(
+            user = self.comment.user,
+            opp = self.comment.opportunity.name,
+            type=self.type,
+            mess = self.comment.body,
+            text = self.comment.user.full_name + 'راحع به  '  + self.comment.opportunity.name + "نظر داد ",
+            time = self.time
+        )
 
 
 class Event_FriendShip(Event):
@@ -138,7 +188,8 @@ class Event_FriendShip(Event):
             first = self.friendShip.jobSeeker1.full_name,
             second = self.friendShip.jobSeeker2.full_name,
             type=self.type,
-            text = self.friendShip.jobSeeker1.full_name + ' donbal mikone faaliataye '  + self.friendShip.jobSeeker2.full_name + " ro :D ",
+            # text = self.friendShip.jobSeeker1.full_name + ' فعالیت های  '  + self.friendShip.jobSeeker2.full_name + " را دنبال میکند ",
+            # text = self.friendShip.jobSeeker1.full_name + 'faalayiat haye ' + self.friendShip.jobSeeker2.full_name + " ra donbal mikonad ",
             time = self.time
         )
 

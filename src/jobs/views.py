@@ -190,7 +190,6 @@ def job_opportunity_skills(request, opportunity_id):
     else:
         return json_response({'result': 'fail', 'error': 'get not supported'})
 
-
 def comment_to_dict(comment):
     data =  {
         'author': comment.user.full_name,

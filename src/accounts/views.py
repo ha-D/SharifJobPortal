@@ -1,4 +1,5 @@
 #coding=utf-8
+from _csv import Error
 
 from django.contrib.auth.views 		import login, logout
 from django.shortcuts            	import render, render_to_response
@@ -46,9 +47,14 @@ def userpanel_main(request):
         elif e.type == Event.FRIENDSHIP:
             return Event_FriendShip.objects.get(pk=e.pk)
 
+
+
     if request.userprofile.is_jobseeker():
-        events = Event.objects.all()
-        events = [ getEvent(e).summery() for e in events]
+        js = JobSeeker.objects.get(user = request.user)
+        print(js)
+        events = Event.objects.all().filter(initial_user = js)
+        print(events)
+        events = [getEvent(e).summery() for e in events]
         print(events)
         return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})
     elif request.userprofile.is_employer():
@@ -158,6 +164,18 @@ def userpanel_changecompanyinfo(request):
     context['site_url'] = settings.SITE_URL
 
     return render(request, 'userpanel/employer/changecompanyinfo.html', context)
+
+
+def userpanel_changejobseekerinfo(request):
+    pass
+
+
+@user_required
+def userpanel_changeinfo(request):
+    if request.userprofile.is_employer():
+        return userpanel_changecompanyinfo(request)
+    else:
+        return userpanel_changejobseekerinfo(request)
 
 @csrf_exempt
 def userpanel_changecompanyinfo_uploadimage(request):

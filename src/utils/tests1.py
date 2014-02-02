@@ -1,5 +1,3 @@
-__author__ = 'Setareh'
-
 from django.http 				import HttpResponse
 from django.shortcuts 			import render_to_response
 from django.template.context 	import RequestContext
@@ -15,7 +13,7 @@ def json_response(response):
 
 def ajax_template(request, address, context ={}):
     return json_response({
-        "result": 1,
-        "data": render_to_string(address, RequestContext(request, context))
+    "result": 1,
+    "data": render_to_string(address, RequestContext(request, context))
     })
 

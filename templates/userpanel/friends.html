@@ -1,8 +1,86 @@
 {% extends 'userpanel/userpanel.html' %}
 {% load staticfiles %}
+{% load filters %}
 
 {% block content %}
+    <div id="friends">
 
+        <div class="ui top attached inverted red header">
+        دوستان
+        </div >
+        <div id="friends_list" class="ui segment">
+            {%  for friend in pending_friends %}
+                <div class="ui segment borderless">
+                    <img class="rounded ui image" src={{friend.image.url}}>
+
+                    <div class="ui pointing label">
+                        {{ friend.user|fullname }}
+                    </div>
+{#                    <div _id="{{ friend.id }}" class="mini red circular ui button acceptFriendShip">#}
+{#                          قبول دوستی#}
+{#                    </div>#}
+                    <i _id="{{ friend.id }}" class="large add sign icon acceptFriendShip"></i>
+                    <i _id="{{ friend.id }}" class="large remove circle icon rejectFriendShip"></i>
+
+
+
+                </div>
+            {% endfor %}
+            <br>
+
+{% comment %}
+            if ( friends[i].isFriend == false){
+            $("<div _id=" + friends[i].id + " class='mini red circular ui button'>دعوت به دوستی</div>").appendTo($("#friends_search .segment").last()).click(
+            function(event){
+            sendFriendShipRequest(event.target.getAttribute('_id'));
+            });
+            }
+{% endcomment %}
+
+
+
+
+            {%  for friend in friends %}
+                <div class="ui segment borderless">
+                    <img class="rounded ui image" src={{friend.image.url}}>
+
+                    <div class="ui pointing label">
+                        {{ friend.user|fullname }}
+                    </div>
+                </div>
+            {% endfor %}
+            {%  for friend in friends %}
+                <div class="ui segment borderless">
+                    <img class="rounded ui image" src={{friend.image.url}}>
+
+                    <div class="ui pointing label">
+                        {{ friend.user|fullname }}
+                    </div>
+                </div>
+            {% endfor %}
+            {%  for friend in friends %}
+                <div class="ui segment borderless">
+                    <img class="rounded ui image" src={{friend.image.url}}>
+
+                    <div class="ui pointing label">
+                        {{ friend.user|fullname }}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        <div id="friends_search" class="ui segment">
+            <div class="mini ui icon input searchbar">
+                <input type="text" name="name" placeholder="دوستان خود را بیابید...">
+                <i class="red inverted search icon"></i>
+            </div>
+
+
+        </div>
+
+
+
+
+    </div>
 
 
 {% endblock %}
