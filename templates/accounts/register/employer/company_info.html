@@ -1,3 +1,4 @@
+{% load filters %}
 <div class="ui form basicinfo visible">
     {% csrf_token %}
     <div class="two fields">
@@ -112,7 +113,7 @@
         <div class="field">
             <label>آردس الکترونیکی شرکت</label>
             <div class="ui left labeled icon input">
-                {{form.contactEmail}}
+                {{form.contactEmail|addclass:'ltr'}}
                 <!-- <i class="mail icon"></i> -->
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>
@@ -125,7 +126,7 @@
         <div class="field">
             <label>سایت شرکت</label>
             <div class="ui left labeled icon input">
-                {{form.webSite}}
+                {{form.webSite|addclass:'ltr'}}
                 <!-- <i class="mail icon"></i> -->
                 <div class="ui corner label">
                     <i class="icon asterisk"></i>

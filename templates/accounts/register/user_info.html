@@ -1,3 +1,4 @@
+{% load filters %}
 <div class="ui form basicinfo visible">
     {% csrf_token %}
     <div class="two fields">
@@ -49,7 +50,7 @@
             <label>آدرس الکترونیکی</label>
 
             <div class="ui left labeled icon input">
-                {{form.email}}
+                {{form.email|addclass:'ltr'}}
                 <i class="mail icon"></i>
 
                 <div class="ui corner label">
@@ -92,19 +93,7 @@
     </div>
     <div class="two fields">
         <div class="field">
- <!--            <label>جنسیت:</label>
 
-            <div class="ui radio checkbox">
-                <input type="radio" name="sex" value="0">
-                <label><i class="male large icon"></i></label>
-            </div>
-            <div class="ui radio checkbox">
-                <input type="radio" name="sex" value="1">
-                <label><i class="female large icon"></i></label>
-            </div>
-            {% if form.sex.errors %}
-            <div class="ui red pointing prompt label transition visible">{{form.sex.errors.0}}</div>
-            {% endif %} -->
         </div>
         <div class="field">
             <div class="ui teal next button basicinfo alignleft">ادامه</div>

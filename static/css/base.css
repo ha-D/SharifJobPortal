@@ -5,6 +5,10 @@ body{
 	background-color: rgb(230, 230, 230);
 }
 
+#portal .ltr{
+	direction: ltr;
+}
+
 #portal button,#home button{
 	font-family: yekan;
 }
