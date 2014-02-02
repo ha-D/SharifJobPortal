@@ -1,12 +1,13 @@
 {% extends 'userpanel/userpanel.html' %}
 {% load staticfiles %}
 {% load filters %}
+{% load date_tags %}
 
 {% block content %}
 <div class="ui relaxed grid">
 	<div class="row">
-		<div class="eight wide column">
-			<div class="ui small purple feed raised segment eventlist">
+		<div class="sixteen wide column">
+			<div class="ui small purple feed raised segment eventlist" style="padding:20px">
 			  <h4 class="ui header">
 			    فعالیت‌ها
 			  </h4>
@@ -19,7 +20,9 @@
                             </div>
                             <div class="content">
                                 <div class="date">
-                                    {{ event.time }}
+                                    {% get_jalali_date event.time %}
+                                    ساعت
+                                    {% get_persian_time event.time %}
                                 </div>
                                 <div class="summary">
 <a> {{ event.user }} </a> راحع به  <a>  {{ event.opp }} </a> نظر داده است
@@ -36,7 +39,9 @@
                             </div>
                             <div class="content">
                                 <div class="date">
-                                    {{ event.time }}
+                                    {% get_jalali_date event.time %}
+                                    ساعت
+                                    {% get_persian_time event.time %}
                                 </div>
                                 <div class="summary">
                                     <a> {{ event.user }} </a> راحع به  <a>  {{ event.opp }} </a> نظر داده است
@@ -54,7 +59,9 @@
                             </div>
                             <div class="content">
                                 <div class="date">
-                                  {{ event.time }}
+                                  {% get_jalali_date event.time %}
+                                    ساعت
+                                    {% get_persian_time event.time %}
                                 </div>
                                 <div class="summary">
                                     <a>{{ event.first}}</a> فعالیت های <a>{{ event.second }} را دنبال میکند </a>
@@ -66,7 +73,9 @@
                             </div>
                             <div class="content">
                                 <div class="date">
-                                    {{ event.time }}
+                                    {% get_jalali_date event.time %}
+                                    ساعت
+                                    {% get_persian_time event.time %}
                                 </div>
                                 <div class="summary">
                                     <a>{{ event.first}}</a>
@@ -87,7 +96,9 @@
                             </div>
                             <div class="content">
                                 <div class="date">
-                                    {{ event.date }}
+                                    {% get_jalali_date event.time %}
+                                    ساعت
+                                    {% get_persian_time event.time %}
                                 </div>
                                 <div class="summary">
                                     مهارت
@@ -119,56 +130,6 @@
 {#                </div>#}
 
 
-			</div>
-		</div>
-		<div class="eight wide column">
-			<div class="ui small purple feed raised segment eventlist">
-			  <h4 class="ui header">
-			    فعالیت‌ها
-			  </h4>
-			  <div class="ui divider"> </div>
-				  <div class="event">
-				     <div class="label">
-						  <i class="users icon"></i>
-						</div>
-				    <div class="content">
-				      <div class="date">
-				        چند لحظه پیش
-				      </div>
-				      <div class="summary">
-				         <a>حسام باقری‌نژاد</a> فعالیت‌های شما را دنبال می‌کند
-				      </div>
-				    </div>
-				  </div>
-				  <div class="event">
-				    <div class="label">
-				      <i class="comment icon"></i>
-				    </div>
-				    <div class="content">
-				      <div class="date">
-				        ۳ روز پیش
-				      </div>
-				      <div class="summary">
-				        به فرصت شغلی <a> برنامه نویس پایتون </a> نظر دادید
-				      </div>
-				      <div class="extra text">
-							این جا استخدام نشید، خیلی بده!!!				     
-				      </div>
-				    </div>
-				  </div>
-				  <div class="event">
-				    <div class="label">
-				      <i class="wrench icon"></i>
-				    </div>
-				    <div class="content">
-				      <div class="date">
-				        یک هفته پیش
-				      </div>
-				      <div class="summary">
-						برنامه نویسی Django به مهارت‌های شما اضافه شد		        
-				      </div>
-				    </div>
-				  </div>
 			</div>
 		</div>
 	</div>
@@ -219,4 +180,5 @@
 
 	</div>
 </div>
+
 {% endblock %}

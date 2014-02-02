@@ -116,6 +116,8 @@ def userpanel_responseToFriendShip(request):
     fs = fs[0]
     if rstatus:
         fs.status = FriendShip.ACCEPTED
+        Event_FriendShip.create(initial_user = request.userprofile, friendShip=fs)
+        Event_FriendShip.create(initial_user = offerer, friendShip=fs)
         fs.save()
     else:
         fs.delete()

@@ -52,7 +52,7 @@ def userpanel_main(request):
     if request.userprofile.is_jobseeker():
         js = JobSeeker.objects.get(user = request.user)
         print(js)
-        events = Event.objects.all().filter(initial_user = js) # event haye khodesh
+        events = Event.objects.all().filter(initial_user = js)[:6] # event haye khodesh
 
         # friends = set([fs.jobSeeker2 for fs in js.requestedFriendShips.filter(status=FriendShip.ACCEPTED)])
         # friends.update(set(([fs.jobSeeker1 for fs in js.invitedFriendShips.filter(status=FriendShip.ACCEPTED)])))

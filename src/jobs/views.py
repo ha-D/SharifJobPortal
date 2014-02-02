@@ -47,6 +47,7 @@ def acceptOffer(request, offerid):
     offer.state = 0
     offer.offerDate = datetime.now()
     offer.save()
+    Event_JobOffer.create(initial_user=offer.jobSeeker, jobOffer=offer)
     return json_response({})
 
 @employer_required
