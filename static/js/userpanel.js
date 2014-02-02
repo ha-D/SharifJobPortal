@@ -39,6 +39,7 @@ $(function(){
 
 function response_to_FriendShip(ee , friendId , fstatus){
     console.log('inja seda zade shod???');
+    console.log(fstatus);
     var ajaxData = {
         "friendID" : friendId,
         "accepted" : fstatus
@@ -61,7 +62,7 @@ function response_to_FriendShip(ee , friendId , fstatus){
                     $("<div class = 'ui segment borderless'></div>").appendTo($("#friends_list"));
                     $("<img class= 'rounded ui image' src=" + data.image + ">").appendTo($("#friends_list .segment").last());
                     $("<div class='ui pointing label'>" + data.name + "</div>").appendTo($("#friends_list .segment").last());
-
+                    $("<i _id=" + data.id + "class=large remove circle icon rejectFriendShip></i>").appendTo($("#friends_list .segment").last());
                 }
 
 
@@ -178,11 +179,7 @@ function searchFriends(){
             console.log('gand khord');
             alert('ajax gand khord');
         }
-<<<<<<< HEAD
-    }); 
-=======
     });
 
 
->>>>>>> setareh
 }
