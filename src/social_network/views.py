@@ -100,14 +100,23 @@ def userpanel_searchFriend(request):
 def userpanel_responseToFriendShip(request):
     print('swer are here')
     friendID=int(request.POST['friendID'])
-    rstatus = bool(request.POST['accepted'])
+    rstatus = request.POST['accepted']
+    print(rstatus)
+    print(request.POST['accepted'])
+    if rstatus == 'false':
+        rstatus = False
+    else:
+        rstatus = True
 
-
+    print(friendID )
+    print(rstatus)
     offerer = JobSeeker.objects.get(pk = friendID)
-    fs = FriendShip.objects.filter(jobSeeker1 = offerer , jobSeeker2 = JobSeeker.objects.get(pk=request.user.id))[0]
+    fs = list(FriendShip.objects.filter(jobSeeker1 = offerer , jobSeeker2 = JobSeeker.objects.get(pk=request.user.id)))
+    fs.extend(FriendShip.objects.filter(jobSeeker2 = offerer , jobSeeker1 = JobSeeker.objects.get(pk=request.user.id)))
+    fs = fs[0]
     if rstatus:
         fs.status = FriendShip.ACCEPTED
-        # fs.save()
+        fs.save()
     else:
         fs.delete()
     return HttpResponse(json.dumps({'status':'success' , 'image':offerer.image.url , 'name' : offerer.full_name}), content_type="application/json")

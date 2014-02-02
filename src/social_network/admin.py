@@ -10,4 +10,7 @@ admin.site.register(FriendShip)
 admin.site.register(Event_CommentOnEmployer)
 admin.site.register(Event_CommentOnOpportunity)
 admin.site.register(Event_FriendShip)
+admin.site.register(Event_AddSkill)
+admin.site.register(Event_JobOffer)
+
 

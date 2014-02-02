@@ -3,7 +3,7 @@
 from django.db import models
 
 from django.contrib.auth.models import User
-from jobs.models import JobOpportunity, JobOffer
+from jobs.models import JobOpportunity, JobOffer, Skill
 from accounts.models import *
 from django.contrib.contenttypes.models import ContentType
 from django.db 				import models
@@ -102,14 +102,19 @@ class Event(models.Model):
     FRIENDSHIP = 2
     JOB_OFFER = 3
     JOB_ACCEPT = 4
+    ADD_SKILL = 5
     EVENT_TYPE = (
         (COMMENT_ON_EMPLOYER, 'نظر به کارفرما'),
         (COMMENT_ON_JOB, 'نظر به فرصت شغلی'),
         (FRIENDSHIP, 'دوست شدن'),
         (JOB_OFFER, 'درخواست فرصت شغلی'),
         (JOB_ACCEPT, 'قبول فرصت شغلی'),
+        (ADD_SKILL, 'اضافه شدن مهارت'),
     )
     type = models.PositiveSmallIntegerField(choices=EVENT_TYPE)
+
+    class Meta:
+        ordering = ('-time',)
 
 
 class Event_JobOffer(Event):
@@ -135,8 +140,18 @@ class Event_JobOffer(Event):
             time = self.time
         )
 
+class Event_AddSkill(Event):
+    skill = models.ForeignKey(Skill)
+    def __init__(self , *args , **kwargs):
+        super(Event_CommentOnEmployer , self).__init__(*args , **kwargs)
+        self.type = Event.ADD_SKILL
 
-
+    def summery(self):
+        return dict(
+            user = self.initial_user,
+            skill = self.skill.name,
+            time = self.time
+        )
 
 class Event_CommentOnEmployer(Event):
 
