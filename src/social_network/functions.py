@@ -12,3 +12,5 @@ def friends(jobseeker1, jobseeker2):
     if list(FriendShip.objects.filter(Q(jobSeeker2=jobseeker1)& Q(jobSeeker1=jobseeker2) & Q(status=FriendShip.ACCEPTED))):
         return True
     return False
+
+
