@@ -1,5 +1,6 @@
 {% extends 'userpanel/userpanel.html' %}
 {% load staticfiles %}
+{% load date_tags %}
 
 {% block script %}
     {{ block.super }}
@@ -21,7 +22,7 @@
                 <div class="content">
                     <div class="date">
                         <div>
-                            {{ o.date }}
+                            {% get_jalali_date o.date %}
                         </div>
                         {% ifequal o.state 2 %}
                             <div id="refuseButton{{ o.jobOpportunity.id }}" class="ui tiny red button"
@@ -71,7 +72,7 @@
                     <div class="content">
                         <div class="date">
                             <div>
-                                {{ o.date }}
+                                {% get_jalali_date o.date %}
                             </div>
                             <div id="bothButtons{{ o.id }}" class="ui buttons" {% ifnotequal o.state 2 %}style="display: none"{% endifnotequal %}>
                                 <div class="ui positive button" onclick="acceptOffer({{ o.id }})">قبول</div>

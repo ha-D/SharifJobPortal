@@ -15,9 +15,11 @@ class UserProfile(models.Model):
     address = models.CharField(max_length=300, verbose_name="آدرس")
     postalCode = models.CharField(max_length=15, verbose_name="کد پستی")
     phoneNumber = models.CharField(max_length=15, verbose_name="شماره تلفن")
-    image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس")
+    image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس", default="noimage.jpg")
     city = models.ForeignKey(City, verbose_name="شهر")
+
     profilePage = models.CharField(max_length=20, null=True, blank=True)
+
     user = models.OneToOneField(User , unique=True)
 
     def _username(self):
@@ -166,7 +168,7 @@ class PersonalPage(models.Model):
 
 class CompanyImage(models.Model):
     employer = models.ForeignKey(Employer, related_name="images")
-    image = models.ImageField(upload_to='employer_pics/')
+    image = models.ImageField(upload_to='employer_pics/', default='noimage.jpg')
 
 class Record(models.Model):
     user = models.ForeignKey(User)

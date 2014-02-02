@@ -19,7 +19,7 @@ LOGOUT_REDIRECT_URL = '/home/'
 LOGIN_URL = '/accounts/login/'
 LOGOUT_URL = '/accounts/logout/'
 
-APPEND_SLASH = False
+APPEND_SLASH = True
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -145,6 +145,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # Portal apps
+    'SharifJobPortal',
     'ui_test',
     'accounts',
     'jobs',

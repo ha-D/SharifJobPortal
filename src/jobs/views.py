@@ -15,8 +15,10 @@ from social_network.models          import *
 from social_network.functions       import *
 from utils.functions                import json_response, template
 
-@employer_required
+@jobseeker_required
 def applyJob(request, jobid):
+    print 'hey'
+    print jobid
     job = JobOpportunity.objects.get(id = jobid)
     user = request.userprofile
     response = {}
@@ -27,7 +29,7 @@ def applyJob(request, jobid):
         response['done'] = False
     return json_response(response)
 
-@employer_required
+@jobseeker_required
 def refuseJob(request, jobid):
     job = JobOpportunity.objects.get(id = jobid)
     user = request.userprofile
