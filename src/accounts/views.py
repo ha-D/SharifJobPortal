@@ -47,8 +47,13 @@ def userpanel_main(request):
         elif e.type == Event.FRIENDSHIP:
             return Event_FriendShip.objects.get(pk=e.pk)
 
+
+
     if request.userprofile.is_jobseeker():
-        events = Event.objects.all()
+        js = JobSeeker.objects.get(user = request.user)
+        print(js)
+        events = Event.objects.all().filter(initial_user = js)
+        print(events)
         events = [getEvent(e).summery() for e in events]
         print(events)
         return template(request, 'userpanel/jobseeker/main.html' , {'events' :events})

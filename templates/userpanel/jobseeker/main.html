@@ -14,7 +14,40 @@
 			    {% for event in events  %}
                     <div class id="event">
                         {%  if event.type == 0 %} {# type = comment on employer #}
+                            <div class="label">
+                                <i class="comment icon"></i>
+                            </div>
+                            <div class="content">
+                                <div class="date">
+                                    {{ event.time }}
+                                </div>
+                                <div class="summary">
+<a> {{ event.user }} </a> راحع به  <a>  {{ event.opp }} </a> نظر داده است
+                                </div>
+                                <div class="extra text">
+                                    {{ event.mess }}
+                                </div>
+                            </div>
+
+
                         {% elif event.type == 1 %} {# type = cooment on oppurtunity #}
+                            <div class="label">
+                                <i class="comment icon"></i>
+                            </div>
+                            <div class="content">
+                                <div class="date">
+                                    {{ event.time }}
+                                </div>
+                                <div class="summary">
+                                    <a> {{ event.user }} </a> راحع به  <a>  {{ event.opp }} </a> نظر داده است
+                                </div>
+                                <div class="extra text">
+                                    {{ event.mess }}
+                                </div>
+                            </div>
+
+
+
                         {% elif event.type == 2%} {#  type = friendShip #}
                             <div class="label">
                              <i class="users icon"></i>

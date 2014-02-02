@@ -11,7 +11,58 @@ $(function(){
     $("#sendMail").click(function(){sendEmail()});
 
     $("#userpanel #friends_search .search").click(function(){searchFriends();});
+
+    $(".acceptFriendShip").click(function(e){
+       var friendId = $(this).attr("_id");
+        response_to_FriendShip(e.target , friendId , true);
+    });
+
+    $(".rejectFriendShip").click(function(e){
+        var friendId = $(this).attr("_id");
+        response_to_FriendShip(e.target , friendId , false);
+    });
+
+
 })
+
+function response_to_FriendShip(ee , friendId , fstatus){
+    console.log('inja seda zade shod???');
+    var ajaxData = {
+        "friendID" : friendId,
+        "accepted" : fstatus
+    };
+    $.ajax({
+        url : "responseToFriendShip",
+        type : 'post',
+        dataType : 'json',
+        data : ajaxData,
+        success : function(data, status, xhr) {
+            if (data.result == 0) {
+                // Request error
+                console.log("error");
+            } else {
+                console.log('success');
+                ee.parentElement.remove();
+
+
+                if (fstatus==true){
+                    $("<div class = 'ui segment borderless'></div>").appendTo($("#friends_list"));
+                    $("<img class= 'rounded ui image' src=" + data.image + ">").appendTo($("#friends_list .segment").last());
+                    $("<div class='ui pointing label'>" + data.name + "</div>").appendTo($("#friends_list .segment").last());
+
+                }
+
+
+            }
+        },
+        error: function(){
+            console.log('error in response to friendShip function');
+        }
+    });
+
+
+
+}
 
 function sendEmail(){
     console.log('sending email...');
@@ -84,7 +135,7 @@ function searchFriends(){
     };
     $.ajax({
         url : "search",
-        type : 'post',
+        type : 'get',
         dataType : 'json',
         data : ajaxData,
         success : function(data, status, xhr) {

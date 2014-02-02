@@ -14,7 +14,10 @@ urlpatterns = patterns('',
 	url(r'^friends/$', userpanel_friends),
 	url(r'friends/search$', userpanel_searchFriend),
 	url(r'friends/requestFriendShip$' , userpanel_requestFriendShip),
-                       
+	# url(r'friends/requestFriendShip11$' , userpanel_requestFriendShip),
+    url(r'friends/responseToFriendShip' , userpanel_responseToFriendShip),
+
+
 	url(r'^jobs/$', userpanel_jobs),
 	url(r'^offers/$', userpanel_offers),
 
