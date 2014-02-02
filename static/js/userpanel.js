@@ -120,7 +120,7 @@ function sendFriendShipRequest(invited_user){
 
     };
     $.ajax({
-        url : "requestFriendShip",
+        url : "/userpanel/friends/requestFriendShip",
         type : 'post',
         dataType : 'json',
         data : ajaxData,
@@ -129,7 +129,6 @@ function sendFriendShipRequest(invited_user){
                 // Request error
                 console.log("error");
             } else {
-                alert(data.status)
             }
         },
         error: function(){
@@ -178,11 +177,6 @@ function searchFriends(){
             console.log('gand khord');
             alert('ajax gand khord');
         }
-<<<<<<< HEAD
+
     }); 
-=======
-    });
-
-
->>>>>>> setareh
 }

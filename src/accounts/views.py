@@ -456,8 +456,12 @@ def profile_jobseeker(request, username):
     elif request.userprofile.is_jobseeker():
         context['is_friend'] = friends(request.userprofile, jobseeker)
 
+    if request.has_profile:
+            context['is_friend_pending'] = FriendShip.objects.filter(jobSeeker1=request.userprofile, jobSeeker2=jobseeker).exists()
+
     # CV Access:
-    context['cv_access'] = check_cv_access(request, jobseeker)
+    if jobseeker.cv:
+        context['cv_access'] = check_cv_access(request, jobseeker)
 
     skills = jobseeker.skills.all()
     skills = map(lambda x: x.name, skills)

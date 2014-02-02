@@ -65,10 +65,17 @@
 								<i class="icon users"></i>
 							</div>
 						{% else %}
+							{% if is_friend_pending %}
+								<div class="ui small labeled icon purple cancel friendship button">
+								لغو درخواست
+								<i class="icon users"></i>
+							</div>	
+							{% else %}
 							<div class="ui small labeled icon green request friendship button">
 								درخواست دوستی
 								<i class="icon users"></i>
 							</div>
+							{% endif %}
 						{% endif %}
 					{% endif %}
 					<a class="ui small labeled icon red button" href="/userpanel/inbox/send/?to={{profile.username}}">
@@ -103,6 +110,7 @@
 	<script type="text/javascript" src="{% static 'js/rslides.js' %}"></script>	
 	<script type="text/javascript" src="{% static 'js/jquery.jcarousel.min.js' %}"></script>	
 	<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+	<script type="text/javascript" src="{% static 'js/userpanel.js' %}"></script>
 	<script type="text/javascript">
 		$(function(){
 
@@ -113,7 +121,18 @@
 
 				$('.pages .page').removeClass('active');
 				$('.pages .page.' + page_id).addClass('active');
-			})
+			});
+
+			$('.request.friendship.button').click(function(){
+				console.log("HERE");
+				sendFriendShipRequest({{ profile.id }}); 
+				window.location.reload();
+			});
+			$('.cancel.friendship.button').click(function(){
+				console.log("HERE");
+				response_to_FriendShip({parentElement: {remove:function(){}}},{{ profile.id }}, false); 
+				window.location.reload();
+			});
 		})
 	</script>
 {% endblock script %}

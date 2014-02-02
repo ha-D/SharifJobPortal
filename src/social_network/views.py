@@ -75,6 +75,7 @@ def userpanel_searchFriend(request):
     names = (request.GET['name']).split(' ')
     print(names)
     myfriends = set()
+    print("HELOELEL")
     for name in names:
         query = (Q(user__first_name__contains=name) | Q(user__last_name__contains=name))&~Q(user = request.user)
         retrieved = JobSeeker.objects.filter(query)
