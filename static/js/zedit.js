@@ -57,7 +57,7 @@ $.fn.zedit = function(){
 
 		if(zedit.options.showAddForm !== false){
 			var addDiv = $('<div>').addClass('zedit add');
-			addDiv.append($('<div>').addClass('message').html('برای اضافه کردن صفحه جدید نام آن را واردن کنید'));
+			addDiv.append($('<div>').addClass('message').html('برای اضافه کردن صفحه جدید نام آن را وارد کنید'));
 
 			var input = $('<input>').attr('type', 'text').attr('placeholder', 'نام صفحه جدید');
 			var button = $('<div>').addClass('ui small blue button').html('اضافه');

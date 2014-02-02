@@ -21,7 +21,7 @@ class CompanyImageUploadForm(forms.ModelForm):
 
 class ChangeUserInfoForm(forms.ModelForm):
 	first_name = forms.CharField(max_length = 100, label="نام")
-	last_name = forms.CharField(max_length = 100, label="نام خواندوادگی")
+	last_name = forms.CharField(max_length = 100, label="نام خانوادگی")
 	email = forms.EmailField(label="آدرس الکترونیکی")
 
 	class Meta:
@@ -73,7 +73,7 @@ class RegisterUserForm(forms.ModelForm):
 
 		placeholders = {
 			'first_name': 'نام',
-			'last_name':  'نام خواندوادگی',
+			'last_name':  'نام خانوادگی',
 			'username':   'نام کاربری',
 			'email':	  'آدرس الکترونیکی',
 			'password':	  'رمز عبور',

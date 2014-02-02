@@ -1,6 +1,6 @@
 {% extends 'page.html' %}
 {% load staticfiles %}
-
+{% load date_tags %}
 
 {% block style %}
 	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
@@ -99,7 +99,7 @@
 						<td class="key">جنسیت</td> <td>{{profile.sex_name}}</td>
 					</tr>
 					<tr>
-						<td class="key">تاریخ تولد</td> <td>{{profile.birthDate}}</td>
+						<td class="key">تاریخ تولد</td> <td>{% get_jalali_date profile.birthDate %}</td>
 					</tr>
 					<tr>
 						<td class="key">وضعیت کاری</td> <td>{{profile.job_status_name}}</td>

@@ -1,5 +1,6 @@
 {% extends "page.html" %}
 {% load staticfiles %}
+{% load date_tags %}
 
 {% block title %}جستجوی فرصت شغلی{% endblock %}
 
@@ -8,7 +9,7 @@
 {% endblock style %}
 
 {% block script %}
-<!-- <script type="text/javascript" src="{% static 'js/search.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'js/jobs.js' %}"></script>
 {% if user.is_authenticated %}
 <script type="text/javascript" src="{% static 'js/search/user-search.js' %}"></script>
 {% else %}
@@ -99,16 +100,16 @@
 						  <i class="icon"></i>
 						  <i class="icon"></i>
 						</div>
-						<!-- <div id = "refuseButton{{ op.id }}" onclick="refuseJob({{ op.id }})" class="ui red vertical animated button opp-request" style="{% if op.id not in appliedfor %}display: none{% endif %}">
+                        {% if user.is_authenticated and op not in appliedFor %}
+						<div id = "refuseButton{{ op.id }}" onclick="refuseJob({{ op.id }})" class="ui red vertical animated button opp-request" style="{% if op not in pending %}display: none{% endif %}">
 						  <div class="hidden content">
 						  	<i class="large remove icon"></i>
 						  </div>
 						  <div class="visible content">
 						    لغو درخواست
 						  </div>
-						</div> -->
-						{% if user.is_authenticated %}
-						<div id = "applyButton{{ op.id }}" class="ui green vertical animated button opp-request" style="{% if op.id in appliedfor %}display: none{% endif %}">
+						</div>
+						<div id = "applyButton{{ op.id }}" onclick="applyJob({{ op.id }})" class="ui green vertical animated button opp-request" style="{% if op in pending %}display: none{% endif %}">
 						  <div class="hidden content" >
 						  	<i class="large mail icon"></i>
 						  </div>
@@ -118,7 +119,7 @@
 						</div>
 						{% endif %}
 
-						<div class="ui teal button opp-more" {% if not user.is_authenticated %} style="margin-top: 20px" {% endif %}>
+						<div class="ui teal button opp-more" {% if not user.is_authenticated or op in appliedFor %} style="margin-top: 20px" {% endif %}>
 						    اطلاعات کامل
 						</div>
 					</div>
@@ -126,7 +127,7 @@
 						<li>{{op.sex}}</li>
 						<li>{{op.baseSalary}}</li>
 						<li>{{op.number}}</li>
-						<li>{{op.expireDate}}</li>
+						<li>{% get_jalali_date op.expireDate %}</li>
 
 						<li>{{op.user.companyName}}</li>	
 						<li>{{op.user.companyType}}</li>

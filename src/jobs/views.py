@@ -2,14 +2,16 @@
 from datetime import datetime
 from django.core.serializers import json
 from django.http.response import HttpResponse
-from accounts.decorators import employer_required
+from accounts.decorators import employer_required, jobseeker_required
 from accounts.views import userpanel_jobs
 from jobs.forms import JobForm
 from jobs.models import JobOpportunity, JobOffer
 from utils.functions import json_response, template
 
-@employer_required
+@jobseeker_required
 def applyJob(request, jobid):
+    print 'hey'
+    print jobid
     job = JobOpportunity.objects.get(id = jobid)
     user = request.userprofile
     response = {}
@@ -20,7 +22,7 @@ def applyJob(request, jobid):
         response['done'] = False
     return json_response(response)
 
-@employer_required
+@jobseeker_required
 def refuseJob(request, jobid):
     job = JobOpportunity.objects.get(id = jobid)
     user = request.userprofile
