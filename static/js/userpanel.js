@@ -10,6 +10,17 @@ $(function(){
 
     $("#sendMail").click(function(){sendEmail()});
 
+    $(window).bind('scroll', function() {
+        if ($("#userpanel").height() - 500 < 0|| $(window).scrollTop() < $("#userpanel").height() - 500) {
+                $('#panelmenu').addClass('fixed');
+                $('#panelmenu').css('top', '');
+        } else {
+            if($('#panelmenu').hasClass('fixed')){
+                $('#panelmenu').css('top', $(window).scrollTop());
+            }
+            $('#panelmenu').removeClass('fixed');
+        }
+    });   
 })
 
 function sendEmail(){
@@ -42,6 +53,5 @@ function sendEmail(){
             console.log('gand khord');
 
         }
-    });
-
+    }); 
 }

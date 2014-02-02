@@ -1,10 +1,11 @@
 {% load staticfiles %}
 {% load filters %}
 <div class="username">
-	<a href="/userpanel" class="avatar">
-		<img src="{% static 'images/hadi.png' %}">
-	</a>
-	<a href="/userpanel" class="name"><h2>{{user|fullname}}</h2></a>
+    {% if user.userprofile.image %}
+      <img src="{{user.userprofile.image}}">
+    {% else %}
+      <img src="{% static 'images/profilepic.png' %}">
+    {% endif %}
 	<div class="clear"></div>
 </div>
 <div class="ui small secondary vertical menu">

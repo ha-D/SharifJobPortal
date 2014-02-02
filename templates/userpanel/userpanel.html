@@ -12,7 +12,7 @@
 
 {% block page %}
 	<div id="userpanel">
-		<div id="panelmenu">
+		<div id="panelmenu" class="fixed">
 			{% block panelmenu %}
 				{% if user.userprofile.is_jobseeker %}
 					{% include 'userpanel/jobseeker.html' %}

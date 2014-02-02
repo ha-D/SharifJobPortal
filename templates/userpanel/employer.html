@@ -1,7 +1,11 @@
 {% load staticfiles %}
 <div class="username">
-	<a href="/userpanel" class="avatar">
-		<img src="{% static 'images/hadi.png' %}">
+	<a href="/userpanel" class="avatar label">
+    {% if user.userprofile.image %}
+      <img src="{{user.userprofile.image}}">
+    {% else %}
+      <img src="{% static 'images/profilepic.png' %}">
+    {% endif %}
 	</a>
 	<a href="/userpanel" class="name"><h2>{{user.userprofile.companyName}}</h2></a>
 	<div class="clear"></div>
