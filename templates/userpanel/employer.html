@@ -2,7 +2,7 @@
 <div class="username">
 	<a href="/userpanel" class="avatar label">
     {% if user.userprofile.image %}
-      <img src="{{user.userprofile.image}}">
+      <img src="/media/{{user.userprofile.image}}">
     {% else %}
       <img src="{% static 'images/profilepic.png' %}">
     {% endif %}
@@ -26,9 +26,5 @@
   <a class="item" page="profile" href="/userpanel/profile/">
     <i class="user icon"></i> 
     مشخصات
-  </a>
-  <a class="item" page="settings" href="#settings/">
-    <i class="settings icon"></i> 
-    تنظیمات
   </a>
 </div>

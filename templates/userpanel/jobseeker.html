@@ -3,7 +3,7 @@
 <div class="username">
   <a href="/userpanel" class="avatar">
     {% if user.userprofile.image %}
-      <img src="{{user.userprofile.image}}">
+      <img src="/media/{{user.userprofile.image}}">
     {% else %}
       <img src="{% static 'images/profilepic.png' %}">
     {% endif %}

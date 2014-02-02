@@ -1,6 +1,7 @@
 # Django settings for SharifJobPortal project.
 
 from os.path import dirname, abspath
+from django.conf import global_settings
 
 #from local_settings import BASE_DIR
 
@@ -114,6 +115,7 @@ TEMPLATE_LOADERS = (
      'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + ('django.core.context_processors.request',)
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
