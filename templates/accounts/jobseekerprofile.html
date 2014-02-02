@@ -125,13 +125,16 @@
 
 			$('.request.friendship.button').click(function(){
 				console.log("HERE");
-				sendFriendShipRequest({{ profile.id }}); 
-				window.location.reload();
+				sendFriendShipRequest({{ profile.id }}, function(){
+					window.location.reload();
+				}); 
 			});
 			$('.cancel.friendship.button').click(function(){
 				console.log("HERE");
-				response_to_FriendShip({parentElement: {remove:function(){}}},{{ profile.id }}, false); 
-				window.location.reload();
+				response_to_FriendShip({parentElement: {remove:function(){}}},{{ profile.id }}, false, function(){
+					
+					window.location.reload();
+				}); 
 			});
 		})
 	</script>

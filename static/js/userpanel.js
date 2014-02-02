@@ -37,7 +37,7 @@ $(function(){
 
 })
 
-function response_to_FriendShip(ee , friendId , fstatus){
+function response_to_FriendShip(ee , friendId , fstatus, done){
     console.log('inja seda zade shod???');
     console.log(fstatus);
     var ajaxData = {
@@ -45,7 +45,7 @@ function response_to_FriendShip(ee , friendId , fstatus){
         "accepted" : fstatus
     };
     $.ajax({
-        url : "responseToFriendShip",
+        url : "/userpanel/friends/responseToFriendShip",
         type : 'post',
         dataType : 'json',
         data : ajaxData,
@@ -67,6 +67,8 @@ function response_to_FriendShip(ee , friendId , fstatus){
 
 
             }
+            if(done)
+                done();
         },
         error: function(){
             console.log('error in response to friendShip function');
@@ -113,7 +115,7 @@ function sendEmail(){
 
 }
 
-function sendFriendShipRequest(invited_user){
+function sendFriendShipRequest(invited_user, done){
     console.log('invited user is ' + invited_user)
 
     var ajaxData = {
@@ -131,6 +133,8 @@ function sendFriendShipRequest(invited_user){
                 console.log("error");
             } else {
             }
+            if(done)
+                done();
         },
         error: function(){
             console.log('gand khord');
