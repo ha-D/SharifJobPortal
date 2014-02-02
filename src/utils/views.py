@@ -1,5 +1,5 @@
 from django.views.decorators.csrf   import csrf_exempt
-from utils.functions1 	import json_response
+from utils.functions 	import json_response
 from markdown import markdown
 
 

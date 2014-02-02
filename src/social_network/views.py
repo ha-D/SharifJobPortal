@@ -5,7 +5,7 @@ from django.views.decorators.csrf   import csrf_exempt
 from django.http.response           import HttpResponse
 
 from accounts.models                import JobSeeker
-from utils.functions1                import template, ajax_template, json_response
+from utils.functions                import template, ajax_template, json_response
 from social_network.models          import *
 from accounts.decorators            import user_required
 

@@ -17,7 +17,7 @@ class UserProfile(models.Model):
     phoneNumber = models.CharField(max_length=15, verbose_name="شماره تلفن")
     image = models.ImageField(null = True, blank = True, upload_to="avatar", verbose_name="عکس")
     city = models.ForeignKey(City, verbose_name="شهر")
-    profilePage = models.URLField(unique=True, null=True, blank=True)
+    profilePage = models.CharField(max_length=20, null=True, blank=True)
     user = models.OneToOneField(User , unique=True)
 
     def _username(self):

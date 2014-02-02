@@ -2,90 +2,7 @@
 {% load staticfiles %}
 
 
-{% block style %}
-	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
-	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
-	<style type="text/css">
-		.profile.jobseeker {
-			padding: 30px 40px;
-		}
 
-		.profile.jobseeker .name {
-			padding: 10px;
-			font-size: 40px;
-			font-weight: bold;
-			/*width: 200px;*/
-			/*float: right;*/
-		}
-
-
-		.profile.jobseeker .info.table{
-			margin-right: 40px;
-			margin-top: 30px;
-			max-width: 400px;
-			/*clear: both;*/
-			/*float: right;*/
-		}
-
-		.profile.jobseeker .info.table tr{
-			background-color: white;
-		}
-
-		.profile.jobseeker .info.table .key{
-			font-weight: bold;
-		}
-
-		.profile.jobseeker .topseg .actions{
-			margin-top: 30px;
-		}
-
-		.profile.jobseeker .topseg .actions .button{
-			width: 48%;
-		}
-
-		.profile.jobseeker .topseg .left {
-			margin-left: 40px;
-			background-color: transparent;
-			position: absolute;
-			top: 80px;
-			left: 80px;
-		}
-
-		.profile.jobseeker .topseg .left .profilepic {
-			box-shadow: 0 0 10px;
-		}
-
-		.profile.jobseeker .profilepic img{
-			width: 380px;
-			height: 250px;
-		}
-
-		.profile.jobseeker .bottomseg {
-			clear: both;
-			padding-top: 110px;
-			padding-left: 40px;
-			padding-right: 40px;
-		}
-
-		.profile.jobseeker .bottomseg .pages{
-			width: 950px;
-		}
-
-		.profile.jobseeker .bottomseg .pages .page{
-			padding: 30px 30px;
-			min-height: 350px;
-			max-height: 500px;
-			overflow-y: auto;
-			display: none;
-		}
-
-		.profile.jobseeker .bottomseg .pages .page.active{
-			display: block;
-		}
-
-	</style>	
-{% endblock style %}
 
 {% block page %}
 	<div class="jobseeker profile">
@@ -114,7 +31,9 @@
 						<td class="key">مهارت‌ها</td> 
 						<td>
 							{% for skill in skills %}
-								{{skill}}
+								<div class="ui small black skill label">
+									{{skill}}
+								</div>
 							{% endfor %}
 						</td>
 					</tr>
@@ -122,10 +41,10 @@
 					<tr>
 						<td class="key">کارنامک کاری</td>
 						<td>
-							<div class="ui tiny labeled icon blue button">
+							<a class="ui tiny labeled icon blue button" href="/cv/{{profile.id}}/">
 								دریافت کارنامک
 								<i class="icon text file outline"></i>
-							</div>
+							</a>
 						</td>
 					</tr>
 					{% endif %}
@@ -134,7 +53,11 @@
 			</div>
 			<div class="left">
 				<div class="profilepic">
-					<img src="/media/{{profile.image}}">
+					{% if  profile.image %}
+						<img src="/media/{{profile.image}}">
+					{% else %}
+						<img src="/static/images/profilepic.png">
+					{% endif %}
 				</div>
 				<div class="actions">
 					{% if user.userprofile.is_jobseeker %}
@@ -196,3 +119,108 @@
 		})
 	</script>
 {% endblock script %}
+
+{% block style %}
+	<link rel="stylesheet" type="text/css" href="{% static 'css/rslides.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/jcarousel.basic.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+	<style type="text/css">
+		.profile.jobseeker {
+			padding: 30px 40px;
+		}
+
+		.profile .table.info {
+			background-color: transparent;
+		}
+
+		.profile .table.info tr{
+			/*background-color: transparent;*/
+		}
+
+		.profile.jobseeker .name {
+			padding: 10px;
+			font-size: 40px;
+			font-weight: bold;
+			/*width: 200px;*/
+			/*float: right;*/
+		}
+
+
+		.profile.jobseeker .info.table{
+			margin-right: 40px;
+			margin-top: 30px;
+			max-width: 400px;
+			/*clear: both;*/
+			/*float: right;*/
+		}
+
+		.profile.jobseeker .info.table tr{
+			background-color: transparent;
+		}
+
+		.profile.jobseeker .info.table .key{
+			font-weight: bold;
+		}
+
+		.profile.jobseeker .topseg .actions{
+			margin-top: 30px;
+		}
+
+		.profile.jobseeker .topseg .actions .button{
+			width: 48%;
+		}
+
+		.profile.jobseeker .topseg .left {
+			margin-left: 40px;
+			background-color: transparent;
+			position: absolute;
+			top: 80px;
+			left: 80px;
+		}
+
+		.profile.jobseeker .topseg .left .profilepic {
+			box-shadow: 0 0 10px;
+		}
+
+		.profile.jobseeker .profilepic{
+			width: 380px;
+			height: 250px;
+			text-align: center;
+			vertical-align: center;
+		}
+
+		.profile.jobseeker .profilepic img{
+		/*	width: 380px;
+			height: 250px;*/
+			margin: auto;
+		}
+
+		.profile.jobseeker .bottomseg {
+			clear: both;
+			padding-top: 110px;
+			padding-left: 40px;
+			padding-right: 40px;
+		}
+
+		.profile.jobseeker .bottomseg .pages{
+			width: 950px;
+		}
+
+		.profile.jobseeker .bottomseg .pages .page{
+			padding: 30px 30px;
+			min-height: 350px;
+			max-height: 500px;
+			overflow-y: auto;
+			display: none;
+		}
+
+		.profile.jobseeker .bottomseg .pages .page.active{
+			display: block;
+		}
+
+		.profile.jobseeker .skill.label {
+			margin-bottom: 6px;
+		}
+
+	</style>	
+{% endblock style %}

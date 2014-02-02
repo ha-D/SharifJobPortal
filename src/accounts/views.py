@@ -12,13 +12,14 @@ from django.utils.safestring        import SafeText
 from django.core.paginator          import Paginator
 from django.core.exceptions         import PermissionDenied
 from django.conf 					import settings
+from django.views.static            import serve
 
-from utils.functions1                import template, json_response, ajax_template
+from utils.functions                import template, json_response, ajax_template
 from accounts.decorators            import user_required, employer_required, jobseeker_required
 from accounts.models                import CompanyImage, PersonalPage, Employer, JobSeeker
 from accounts.forms                 import *
 from social_network.models          import *
-from social_network.functions       import friends
+from social_network.functions       import *
 from jobs.models                    import JobOffer, Skill
 from jobs.functions                 import request_pending
 
@@ -323,13 +324,38 @@ def userpanel_changejobseekerinfo_skills(request):
 ####################################
 
 def comment_to_dict(comment):
-    return {
+    data =  {
         'author': comment.user.full_name,
         'author_url': comment.user.profilePage,
-        'image': comment.user.image.url,
         'date': 'همین الان',
         'content': comment.body
     }
+
+    if comment.user.image:
+        data['image'] =  comment.user.image.url
+    else:
+        data['image'] =  '/static/images/profilepic.png'
+
+    return data
+
+@csrf_exempt
+def profile_employer_rate(request, employer_id):
+    if request.method == 'POST':
+        try:
+            employer = Employer.objects.get(pk = employer_id)
+        except:
+            return json_response({'result': 'fail', 'error': 'employer does not exist'})
+
+        if request.has_profile and request.userprofile.is_jobseeker():
+            try:
+                rate = int(request.POST['rate'])
+            except:
+                return json_response({'result': 'fail', 'error': 'no rate given'})
+
+            rate_employer(request.userprofile, employer, rate)
+            return json_response({'result': 'success'})
+    else:
+        return json_response({'result': 'fail', 'error': 'get not supported'})
 
 def profile_employer(request, username):
     employer = Employer.objects.get(user__username = username)
@@ -355,16 +381,17 @@ def profile_employer_comments(request, employer_id):
     if request.method == 'POST':
         action = request.POST['action']
         if action == 'list':
-            page_size = request.POST.get('page_size', 5)
+            page_size = request.POST.get('page_size', 4)
             page      = int(request.POST.get('page', 1))
             return list_comments(page, page_size)
 
         elif action == 'add':
-            page_size = request.POST.get('page_size', 5)
+            page_size = request.POST.get('page_size', 4)
             body = request.POST['comment']
             employer = Employer.objects.get(pk = employer_id)
             comment  = CommentOnEmployer.objects.create(employer = employer, user = request.userprofile, body = body)
-            Event_CommentOnEmployer.create(comment=comment)
+            if request.userprofile.is_jobseeker():
+                Event_CommentOnEmployer.objects.create(comment=comment, initial_user=request.userprofile)
 
             return list_comments(1, page_size)
     else:
@@ -439,3 +466,18 @@ def profile_jobseeker(request, username):
     context['pages'] = pages
 
     return render(request, 'accounts/jobseekerprofile.html', context)
+
+def profile_jobseeker_getcv(request, jobseeker_id):
+    try:
+        jobseeker = JobSeeker.objects.get(pk=jobseeker_id)
+    except:
+        raise Http404
+
+    if check_cv_access(request, jobseeker):
+        print(jobseeker.cv.url)
+        # Dirty Fix
+        return serve(request, document_root=settings.MEDIA_ROOT, path=jobseeker.cv.url[7:])
+    else:
+        raise PermissionDenied
+
+

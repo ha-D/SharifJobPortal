@@ -3,6 +3,10 @@
 from django						import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms 	import UserCreationForm
+from django.conf 				import settings
+
+from uuid 						import uuid1
+
 from accounts.models 			import JobSeeker, Employer, UserProfile, CompanyImage
 
 class ChangeJobseekerInfoForm(forms.ModelForm):
@@ -103,27 +107,30 @@ class JobSeekerRegisterProfileForm(forms.ModelForm):
 
 		return jobseeker
 
+
 class JobSeekerRegisterWorkForm(forms.ModelForm):
 	class Meta:
 		model = JobSeeker
 		fields = ['job_status', 'cv']
 
+	def save_file(self, filename):
+		with open(settings.MEDIA_ROOT + 'cv/%s' % filename, 'wb+') as destination:
+			for chunk in self.cleaned_data['cv'].chunks():
+				destination.write(chunk)
+
 	def save(self, commit = False):
 		jobseeker = super(JobSeekerRegisterWorkForm, self).save(commit = False)
 		
-		# jobseeker.job_status = newseeker.job_status
-		# jobseeker.cv = newseeker.cv
-
-		if commit:
-			jobseeker.save()
-
+		filename = str(uuid1())[:8] + '.pdf'
+		self.save_file(filename)
+		jobseeker.cv_filename = filename
+	
 		return jobseeker
 
 class RegisterFinalForm(forms.Form):
 	terms = forms.BooleanField()
 
-	def save(self):
-		# Anything but None should do
+	def save(self, commit=False):
 		return True
 
 class EmployerRegisterProfileForm(forms.ModelForm):
@@ -135,7 +142,7 @@ class EmployerRegisterProfileForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
 		super(EmployerRegisterProfileForm, self).__init__(*args, **kwargs)
 
-	def save(self):
-		employer = super(EmployerRegisterProfileForm, self).save(commit = False)
+	# def save(self):
+	# 	employer = super(EmployerRegisterProfileForm, self).save(commit = False)
 
-		return employer
+	# 	return employer

@@ -1,7 +1,7 @@
 from django.contrib.auth.views  import redirect_to_login
 from django.http                import Http404
 from accounts.models            import Employer, JobSeeker
-from utils.functions1            import json_response
+from utils.functions            import json_response
 from django.conf                import settings
 
 def user_required(function):

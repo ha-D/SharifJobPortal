@@ -109,13 +109,29 @@
 			$('.commentseg').zComment({
 				url: '/comments/employer/{{ profile.id }}/',
 				pagination: true,
-				addForm: {% if user.userprofile and user.userprofile.is_jobseeker %} true {% else %} false {% endif %}
+				addForm: {% if user.userprofile and user.userprofile.is_jobseeker %} true {% else %} {% if  user.userprofile == profile %} true {% else %} false {% endif %}{% endif %}
 			});
 
 			$('.carousel').carousel();
 
 			$(".rating").rating("set rating", {{ profile.rate }});
-			$(".rating").rating();
+			$(".rating").rating({
+				onRate: function(value){
+					$.ajax({
+						url: '/rate/employer/{{profile.id}}/',
+						type: 'post',
+						data: {rate: value},
+						dataType: 'json',
+						success: function(data){
+							if(data.result == 'success'){
+
+							} else {
+								console.log(data);
+							}
+						}
+					})
+				}
+			});
 			{% if not user.userprofile or user.userprofile.is_employer %}
 				$(".rating").rating('disable');
 			{% endif %}
@@ -163,7 +179,7 @@
 		}
 
 		.profile.employer .info.table tr{
-			background-color: white;
+			background-color: transparent;
 		}
 
 		.profile.employer .info.table .key{

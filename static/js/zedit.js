@@ -19,7 +19,7 @@ $.fn.zedit = function(){
 
 		var buttonsDiv = $("<div>").addClass("zedit buttons");
 		buttonsDiv.append($("<div>").addClass("zedit ui tiny green save button").html("دخیره تغییرات"));
-		buttonsDiv.append($("<div>").addClass("zedit ui tiny blue preview button").html("نمایش"));
+		buttonsDiv.append($("<div>").addClass("zedit ui tiny teal preview button").html("نمایش"));
 		buttonsDiv.append($("<div>").addClass("zedit status"));
 
 		markup.markItUp(mySettings);
@@ -60,7 +60,7 @@ $.fn.zedit = function(){
 			addDiv.append($('<div>').addClass('message').html('برای اضافه کردن صفحه جدید نام آن را واردن کنید'));
 
 			var input = $('<input>').attr('type', 'text').attr('placeholder', 'نام صفحه جدید');
-			var button = $('<div>').addClass('ui small blue button').html('اضافه');
+			var button = $('<div>').addClass('ui small teal button').html('اضافه');
 			addDiv.append($('<div>').addClass('ui  input').append(input)).append(button);
 
 			zedit.append(addDiv);
