@@ -46,10 +46,13 @@ initHeader = function(){
 		}
 	});
 
-    if ($('#searchType').attr('class').indexOf('disabled') < 0
+
+    if (!($('#searchType').hasClass('disabled') < 0)
         && $('#searchType').attr('name') == '0' ){
         $('#searchTypeDiv').checkbox('enable');
     }
+
+
 };
 
 
